@@ -7,12 +7,13 @@ import { Button } from '@/src/components/ui/Button';
 import { Card } from '@/src/components/ui/Card';
 import { ProBadge } from '@/src/components/ui/ProBadge';
 import { useEntitlements } from '@/src/hooks/useEntitlements';
-import { restorePurchases } from '@/src/lib/purchases';
+import { useRevenueCat } from '@/src/hooks/useRevenueCat';
 import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
 
 export default function SubscriptionScreen() {
   const theme = useAppTheme();
   const { isPro } = useEntitlements();
+  const revenueCat = useRevenueCat();
 
   return (
     <Screen>
@@ -25,8 +26,22 @@ export default function SubscriptionScreen() {
         <AppText variant="bodyEmph">Entitlement</AppText>
         <AppText muted>{isPro ? 'pro aktiv' : 'pro nicht aktiv'}</AppText>
       </Card>
+      {revenueCat.message || revenueCat.error ? (
+        <Card style={{ borderColor: revenueCat.error ? theme.danger : theme.success }}>
+          <AppText variant="bodyEmph" style={{ color: revenueCat.error ? theme.danger : theme.success }}>{revenueCat.error ? 'Hinweis' : 'Status'}</AppText>
+          <AppText muted>{revenueCat.error ?? revenueCat.message}</AppText>
+        </Card>
+      ) : null}
+      <Card>
+        <AppText variant="bodyEmph">Offering</AppText>
+        <AppText muted>
+          {revenueCat.isConfigured
+            ? `${revenueCat.packages.length} Paket(e) geladen${revenueCat.currentOfferingId ? ` · ${revenueCat.currentOfferingId}` : ''}`
+            : 'RevenueCat API-Keys fehlen in der lokalen Umgebung.'}
+        </AppText>
+      </Card>
       <Button label="Paywall ansehen" icon="workspace-premium" onPress={() => router.push('/modal/paywall')} />
-      <Button label="Kaeufe wiederherstellen" icon="restore" variant="secondary" onPress={() => restorePurchases()} />
+      <Button label={revenueCat.isRestoring ? 'Wiederherstellen...' : 'Kaeufe wiederherstellen'} icon="restore" variant="secondary" disabled={revenueCat.isWorking} onPress={() => void revenueCat.restore()} />
     </Screen>
   );
 }

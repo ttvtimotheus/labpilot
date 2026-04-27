@@ -9,6 +9,7 @@ import { Card } from '@/src/components/ui/Card';
 import { TextField } from '@/src/components/ui/TextField';
 import { useTimerStore } from '@/src/features/timer/store';
 import { useAuth } from '@/src/lib/auth/AuthProvider';
+import { saveTimerTemplateLocal } from '@/src/lib/db/localPersistence';
 import { areaLabels, spacing, useAppTheme } from '@/src/lib/theme/tokens';
 import type { Bereich } from '@/src/types/domain';
 
@@ -36,7 +37,8 @@ export default function NewTimerScreen() {
       return;
     }
 
-    addTemplate({ name: name.trim(), durationSeconds, bereich, userId });
+    const template = addTemplate({ name: name.trim(), durationSeconds, bereich, userId });
+    void saveTimerTemplateLocal(template);
     if (startNow) {
       await startCustomTimer({ name: name.trim(), durationSeconds, bereich });
     }

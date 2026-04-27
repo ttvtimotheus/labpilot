@@ -4,15 +4,18 @@ import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { AppIcon } from '@/src/components/ui/AppIcon';
+import { usePreferencesStore } from '@/src/features/settings/preferences.store';
 import { useAuth } from '@/src/lib/auth/AuthProvider';
 import { useAppTheme } from '@/src/lib/theme/tokens';
 
 export default function TabLayout() {
   const theme = useAppTheme();
   const { isReady, isSignedIn } = useAuth();
+  const onboardingCompleted = usePreferencesStore((state) => state.onboardingCompleted);
 
   if (!isReady) return null;
   if (!isSignedIn) return <Redirect href="/(auth)/welcome" />;
+  if (!onboardingCompleted) return <Redirect href="/onboarding" />;
 
   if (Platform.OS === 'ios') {
     return (

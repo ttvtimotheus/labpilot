@@ -10,4 +10,9 @@ describe('calculateCfu', () => {
   it('guards against invalid plated volume', () => {
     expect(calculateCfu(42, 1000, 0)).toBe(0);
   });
+
+  it('rounds fractional results and handles empty counts', () => {
+    expect(calculateCfu(0, 1000, 0.1)).toBe(0);
+    expect(calculateCfu(1, 3, 2)).toBe(2);
+  });
 });

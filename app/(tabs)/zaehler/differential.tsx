@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useState } from 'react';
 
+import { ExportMessageCard } from '@/src/components/domain/ExportMessageCard';
 import { Screen } from '@/src/components/layout/Screen';
 import { Section } from '@/src/components/layout/Section';
 import { AppText } from '@/src/components/ui/AppText';
@@ -11,16 +12,27 @@ import { NumericDisplay } from '@/src/components/ui/NumericDisplay';
 import { TextField } from '@/src/components/ui/TextField';
 import { useDifferentialStore } from '@/src/features/zaehler/differential.store';
 import { useHaptics } from '@/src/hooks/useHaptics';
+import { usePdfExport } from '@/src/hooks/usePdfExport';
+import { useAuth } from '@/src/lib/auth/AuthProvider';
+import { saveDifferentialCountLocal } from '@/src/lib/db/localPersistence';
+import { shareDifferentialCountPdf } from '@/src/lib/export/pdf';
 import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
+import type { DifferentialCountSnapshot } from '@/src/types/domain';
 
 export default function DifferentialScreen() {
   const theme = useAppTheme();
   const haptics = useHaptics();
+  const { userId } = useAuth();
   const [name, setName] = useState('');
+  const { exportPdf, isExporting, message } = usePdfExport();
   const { cells, savedCounts, target, increment, decrement, reset, saveCurrent, setTarget } = useDifferentialStore();
   const total = cells.reduce((sum, cell) => sum + cell.count, 0);
   const done = total >= target;
   const latestCounts = savedCounts.slice(0, 3);
+
+  async function exportCount(count: DifferentialCountSnapshot) {
+    await exportPdf(() => shareDifferentialCountPdf(count));
+  }
 
   return (
     <Screen>
@@ -67,6 +79,7 @@ export default function DifferentialScreen() {
             const saved = saveCurrent(name);
             if (saved) {
               haptics.success();
+              void saveDifferentialCountLocal(userId, saved);
               setName('');
             }
           }}
@@ -75,13 +88,16 @@ export default function DifferentialScreen() {
       </View>
       {latestCounts.length ? (
         <Section title="Letzte Zaehlungen">
+          <ExportMessageCard message={message} />
           {latestCounts.map((count) => (
             <ListRow
               key={count.id}
-              icon="history"
+              icon="picture-as-pdf"
               title={count.name ?? 'Differentialzaehlung'}
-              subtitle={`${count.totalCells}/${count.target} Zellen · ${new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(count.createdAt))}`}
+              subtitle={`${count.totalCells}/${count.target} Zellen · ${new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(count.createdAt))} · ${isExporting ? 'Export laeuft' : 'PDF exportieren'}`}
               accentColor={theme.area.haema}
+              onPress={() => void exportCount(count)}
+              disabled={isExporting}
             />
           ))}
         </Section>

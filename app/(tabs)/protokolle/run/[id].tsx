@@ -12,6 +12,8 @@ import { TextField } from '@/src/components/ui/TextField';
 import { getProtokoll } from '@/src/features/protokolle/data';
 import { useProtokollRunStore } from '@/src/features/protokolle/store';
 import { useTimerStore } from '@/src/features/timer/store';
+import { useAuth } from '@/src/lib/auth/AuthProvider';
+import { saveProtokollRunLocal } from '@/src/lib/db/localPersistence';
 import { spacing } from '@/src/lib/theme/tokens';
 import { formatDuration } from '@/src/lib/utils/time';
 
@@ -22,6 +24,7 @@ export default function RunProtokollScreen() {
   const [index, setIndex] = useState(0);
   const [notes, setNotes] = useState('');
   const [completedRunId, setCompletedRunId] = useState<string | null>(null);
+  const { userId } = useAuth();
   const startCustomTimer = useTimerStore((state) => state.startCustomTimer);
   const completeRun = useProtokollRunStore((state) => state.completeRun);
   const step = protokoll?.steps[index];
@@ -63,6 +66,7 @@ export default function RunProtokollScreen() {
   function finishRun() {
     if (!protokoll) return;
     const run = completeRun({ protokoll, startedAt, notes });
+    void saveProtokollRunLocal(userId, run);
     setCompletedRunId(run.id);
   }
 

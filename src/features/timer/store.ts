@@ -2,9 +2,10 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { cancelNotification, scheduleTimerNotification } from '@/src/lib/notifications';
-import { createId } from '@/src/lib/utils/id';
+import { prependLimited } from '@/src/lib/utils/collections';
 import { zustandStorage } from '@/src/lib/storage/zustand';
-import type { ActiveTimer, Bereich, TimerTemplate } from '@/src/types/domain';
+import { buildActiveTimer, buildTimerRun, createTimerTemplate } from '@/src/features/timer/model';
+import type { ActiveTimer, Bereich, TimerRun, TimerTemplate } from '@/src/types/domain';
 
 const now = new Date().toISOString();
 
@@ -47,29 +48,15 @@ export const defaultTimerTemplates: TimerTemplate[] = [
 interface TimerStore {
   templates: TimerTemplate[];
   activeTimers: ActiveTimer[];
-  addTemplate: (input: { name: string; durationSeconds: number; bereich: Bereich; description?: string; userId: string }) => void;
+  completedRuns: TimerRun[];
+  addTemplate: (input: { name: string; durationSeconds: number; bereich: Bereich; description?: string; userId: string }) => TimerTemplate;
   removeTemplate: (id: string) => void;
   startTimer: (template: TimerTemplate) => Promise<ActiveTimer>;
   startCustomTimer: (input: { name: string; durationSeconds: number; bereich: Bereich }) => Promise<ActiveTimer>;
-  cancelTimer: (id: string) => Promise<void>;
-  completeTimer: (id: string) => Promise<void>;
+  cancelTimer: (id: string) => Promise<TimerRun | null>;
+  completeTimer: (id: string) => Promise<TimerRun | null>;
+  clearHistory: () => void;
   resetAll: () => Promise<void>;
-}
-
-function buildActiveTimer(input: { templateId?: string; name: string; durationSeconds: number; bereich: Bereich; notificationId?: string }): ActiveTimer {
-  const startedAt = new Date();
-  const endsAt = new Date(startedAt.getTime() + input.durationSeconds * 1000);
-
-  return {
-    id: createId('timer'),
-    templateId: input.templateId,
-    name: input.name,
-    durationSeconds: input.durationSeconds,
-    startedAt: startedAt.toISOString(),
-    endsAt: endsAt.toISOString(),
-    bereich: input.bereich,
-    notificationId: input.notificationId,
-  };
 }
 
 export const useTimerStore = create<TimerStore>()(
@@ -77,17 +64,11 @@ export const useTimerStore = create<TimerStore>()(
     (set, get) => ({
       templates: defaultTimerTemplates,
       activeTimers: [],
+      completedRuns: [],
       addTemplate: ({ userId, ...input }) => {
-        const timestamp = new Date().toISOString();
-        const template: TimerTemplate = {
-          ...input,
-          userId,
-          id: createId('template'),
-          isPublic: false,
-          createdAt: timestamp,
-          updatedAt: timestamp,
-        };
+        const template = createTimerTemplate({ ...input, userId });
         set((state) => ({ templates: [template, ...state.templates] }));
+        return template;
       },
       removeTemplate: (id) => set((state) => ({ templates: state.templates.filter((template) => template.id !== id) })),
       startTimer: async (template) => {
@@ -111,13 +92,24 @@ export const useTimerStore = create<TimerStore>()(
       cancelTimer: async (id) => {
         const timer = get().activeTimers.find((candidate) => candidate.id === id);
         await cancelNotification(timer?.notificationId);
-        set((state) => ({ activeTimers: state.activeTimers.filter((candidate) => candidate.id !== id) }));
+        const run = timer ? buildTimerRun(timer, true) : null;
+        set((state) => ({
+          activeTimers: state.activeTimers.filter((candidate) => candidate.id !== id),
+          completedRuns: run ? prependLimited(run, state.completedRuns) : state.completedRuns,
+        }));
+        return run;
       },
       completeTimer: async (id) => {
         const timer = get().activeTimers.find((candidate) => candidate.id === id);
         await cancelNotification(timer?.notificationId);
-        set((state) => ({ activeTimers: state.activeTimers.filter((candidate) => candidate.id !== id) }));
+        const run = timer ? buildTimerRun(timer, false) : null;
+        set((state) => ({
+          activeTimers: state.activeTimers.filter((candidate) => candidate.id !== id),
+          completedRuns: run ? prependLimited(run, state.completedRuns) : state.completedRuns,
+        }));
+        return run;
       },
+      clearHistory: () => set({ completedRuns: [] }),
       resetAll: async () => {
         await Promise.all(get().activeTimers.map((timer) => cancelNotification(timer.notificationId)));
         set({ activeTimers: [] });
@@ -126,7 +118,7 @@ export const useTimerStore = create<TimerStore>()(
     {
       name: 'labpilot.timer-store',
       storage: createJSONStorage(() => zustandStorage),
-      partialize: (state) => ({ templates: state.templates, activeTimers: state.activeTimers }),
+      partialize: (state) => ({ templates: state.templates, activeTimers: state.activeTimers, completedRuns: state.completedRuns }),
     },
   ),
 );

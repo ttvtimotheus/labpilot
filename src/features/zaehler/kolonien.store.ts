@@ -2,7 +2,8 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { zustandStorage } from '@/src/lib/storage/zustand';
-import { createId } from '@/src/lib/utils/id';
+import { decrementCountById, incrementCountById, prependLimited } from '@/src/lib/utils/collections';
+import { createKolonieCountSnapshot } from '@/src/features/zaehler/snapshots';
 import type { KolonieCategory, KolonieCountSnapshot } from '@/src/types/domain';
 import { calculateCfu } from '@/src/features/zaehler/cfu';
 
@@ -25,6 +26,7 @@ interface KolonieStore {
   decrement: (id: string) => void;
   saveCurrent: (name?: string) => KolonieCountSnapshot | null;
   removeSavedCount: (id: string) => void;
+  clearSavedCounts: () => void;
   reset: () => void;
   setDilutionFactor: (value: number) => void;
   setPlatedVolumeMl: (value: number) => void;
@@ -39,36 +41,23 @@ export const useKolonieStore = create<KolonieStore>()(
       platedVolumeMl: 0.1,
       increment: (id) =>
         set((state) => ({
-          categories: state.categories.map((category) =>
-            category.id === id ? { ...category, count: category.count + 1 } : category,
-          ),
+          categories: incrementCountById(state.categories, id),
         })),
       decrement: (id) =>
         set((state) => ({
-          categories: state.categories.map((category) =>
-            category.id === id ? { ...category, count: Math.max(0, category.count - 1) } : category,
-          ),
+          categories: decrementCountById(state.categories, id),
         })),
       saveCurrent: (name) => {
         let snapshot: KolonieCountSnapshot | null = null;
         set((state) => {
-          const totalColonies = state.categories.reduce((sum, category) => sum + category.count, 0);
-          if (!totalColonies) return state;
-          snapshot = {
-            id: createId('kolonie_count'),
-            name: name?.trim() || undefined,
-            categories: state.categories,
-            dilutionFactor: state.dilutionFactor,
-            platedVolumeMl: state.platedVolumeMl,
-            totalColonies,
-            totalCfu: calculateCfu(totalColonies, state.dilutionFactor, state.platedVolumeMl),
-            createdAt: new Date().toISOString(),
-          };
-          return { savedCounts: [snapshot, ...state.savedCounts].slice(0, 100) };
+          snapshot = createKolonieCountSnapshot({ name, categories: state.categories, dilutionFactor: state.dilutionFactor, platedVolumeMl: state.platedVolumeMl });
+          if (!snapshot) return state;
+          return { savedCounts: prependLimited(snapshot, state.savedCounts) };
         });
         return snapshot;
       },
       removeSavedCount: (id) => set((state) => ({ savedCounts: state.savedCounts.filter((count) => count.id !== id) })),
+      clearSavedCounts: () => set({ savedCounts: [] }),
       reset: () => set({ categories: defaultKolonieCategories }),
       setDilutionFactor: (value) => set({ dilutionFactor: Math.max(1, value) }),
       setPlatedVolumeMl: (value) => set({ platedVolumeMl: Math.max(0.01, value) }),

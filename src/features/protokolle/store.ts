@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import { addProtokollRunToHistory, createProtokollRun } from '@/src/features/protokolle/run';
 import { zustandStorage } from '@/src/lib/storage/zustand';
-import { createId } from '@/src/lib/utils/id';
 import type { Protokoll, ProtokollRun } from '@/src/types/domain';
 
 interface ProtokollRunStore {
@@ -17,15 +17,8 @@ export const useProtokollRunStore = create<ProtokollRunStore>()(
     (set) => ({
       completedRuns: [],
       completeRun: ({ protokoll, startedAt, notes }) => {
-        const run: ProtokollRun = {
-          id: createId('protokoll_run'),
-          protokollId: protokoll.id,
-          protokollSnapshot: protokoll,
-          startedAt,
-          completedAt: new Date().toISOString(),
-          notes: notes?.trim() || undefined,
-        };
-        set((state) => ({ completedRuns: [run, ...state.completedRuns].slice(0, 100) }));
+        const run = createProtokollRun({ protokoll, startedAt, notes });
+        set((state) => ({ completedRuns: addProtokollRunToHistory(run, state.completedRuns) }));
         return run;
       },
       removeRun: (id) => set((state) => ({ completedRuns: state.completedRuns.filter((run) => run.id !== id) })),

@@ -1,6 +1,7 @@
 import { StyleSheet, View, Pressable } from 'react-native';
 import { useState } from 'react';
 
+import { ExportMessageCard } from '@/src/components/domain/ExportMessageCard';
 import { Screen } from '@/src/components/layout/Screen';
 import { Section } from '@/src/components/layout/Section';
 import { AppText } from '@/src/components/ui/AppText';
@@ -12,16 +13,27 @@ import { TextField } from '@/src/components/ui/TextField';
 import { calculateCfu } from '@/src/features/zaehler/cfu';
 import { useKolonieStore } from '@/src/features/zaehler/kolonien.store';
 import { useHaptics } from '@/src/hooks/useHaptics';
+import { usePdfExport } from '@/src/hooks/usePdfExport';
+import { useAuth } from '@/src/lib/auth/AuthProvider';
+import { saveKolonieCountLocal } from '@/src/lib/db/localPersistence';
+import { shareKolonieCountPdf } from '@/src/lib/export/pdf';
 import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
+import type { KolonieCountSnapshot } from '@/src/types/domain';
 
 export default function KolonienScreen() {
   const theme = useAppTheme();
   const haptics = useHaptics();
+  const { userId } = useAuth();
   const [name, setName] = useState('');
+  const { exportPdf, isExporting, message } = usePdfExport();
   const { categories, savedCounts, dilutionFactor, platedVolumeMl, increment, decrement, reset, saveCurrent, setDilutionFactor, setPlatedVolumeMl } = useKolonieStore();
   const total = categories.reduce((sum, category) => sum + category.count, 0);
   const cfu = calculateCfu(total, dilutionFactor, platedVolumeMl);
   const latestCounts = savedCounts.slice(0, 3);
+
+  async function exportCount(count: KolonieCountSnapshot) {
+    await exportPdf(() => shareKolonieCountPdf(count));
+  }
 
   return (
     <Screen>
@@ -65,6 +77,7 @@ export default function KolonienScreen() {
             const saved = saveCurrent(name);
             if (saved) {
               haptics.success();
+              void saveKolonieCountLocal(userId, saved);
               setName('');
             }
           }}
@@ -73,13 +86,16 @@ export default function KolonienScreen() {
       </View>
       {latestCounts.length ? (
         <Section title="Letzte Zaehlungen">
+          <ExportMessageCard message={message} />
           {latestCounts.map((count) => (
             <ListRow
               key={count.id}
-              icon="history"
+              icon="picture-as-pdf"
               title={count.name ?? 'Kolonienzaehlung'}
-              subtitle={`${count.totalColonies} Kolonien · ${new Intl.NumberFormat('de-DE').format(count.totalCfu)} CFU/ml`}
+              subtitle={`${count.totalColonies} Kolonien · ${new Intl.NumberFormat('de-DE').format(count.totalCfu)} CFU/ml · ${isExporting ? 'Export laeuft' : 'PDF exportieren'}`}
               accentColor={theme.area.mibi}
+              onPress={() => void exportCount(count)}
+              disabled={isExporting}
             />
           ))}
         </Section>

@@ -33,6 +33,10 @@ export default function WissenScreen() {
         <ListRow icon="water-drop" title="Verduennungsrechner" subtitle="C1 x V1 = C2 x V2" onPress={() => router.push('/(tabs)/wissen/tools/verduennung')} />
         <ListRow icon="swap-horiz" title="Einheiten-Konverter" subtitle="mg/dl, mmol/l und einfache Laborumrechnungen" onPress={() => router.push('/(tabs)/wissen/tools/einheiten')} />
       </Section>
+      <Section title="Referenzen">
+        <ListRow icon="fact-check" title="Normalwerte" subtitle="Haematologie und klinische Chemie als lokaler Datensatz" onPress={() => router.push('/(tabs)/wissen/referenzen/normalwerte')} />
+        <ListRow icon="biotech" title="Naehrmedien" subtitle="Kurzuebersicht haeufiger mikrobiologischer Medien" onPress={() => router.push('/(tabs)/wissen/referenzen/naehrmedien')} />
+      </Section>
     </Screen>
   );
 }

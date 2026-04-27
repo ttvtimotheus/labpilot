@@ -35,6 +35,17 @@ export interface ActiveTimer {
   cancelled?: boolean;
 }
 
+export interface TimerRun {
+  id: string;
+  templateId?: string;
+  name: string;
+  durationSeconds: number;
+  startedAt: string;
+  completedAt: string;
+  bereich: Bereich;
+  cancelled: boolean;
+}
+
 export interface ProtocolStep {
   id: string;
   name: string;

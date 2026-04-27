@@ -9,12 +9,15 @@ import { EmptyState } from '@/src/components/ui/EmptyState';
 import { NumericDisplay } from '@/src/components/ui/NumericDisplay';
 import { useTimerStore } from '@/src/features/timer/store';
 import { useNow } from '@/src/hooks/useNow';
+import { useAuth } from '@/src/lib/auth/AuthProvider';
+import { saveTimerRunLocal } from '@/src/lib/db/localPersistence';
 import { areaLabels, spacing, useAppTheme } from '@/src/lib/theme/tokens';
 import { formatDuration, getRemainingSeconds } from '@/src/lib/utils/time';
 
 export default function ActiveTimerScreen() {
   useNow();
   const theme = useAppTheme();
+  const { userId } = useAuth();
   const { id } = useLocalSearchParams<{ id: string }>();
   const timer = useTimerStore((state) => state.activeTimers.find((candidate) => candidate.id === id));
   const cancelTimer = useTimerStore((state) => state.cancelTimer);
@@ -42,8 +45,8 @@ export default function ActiveTimerScreen() {
       </Card>
       {remaining === 0 ? <AppText variant="bodyEmph" style={{ color: theme.success }}>Timer ist fertig.</AppText> : null}
       <View style={styles.actions}>
-        <Button label="Abschliessen" icon="check" fullWidth onPress={async () => { await completeTimer(timer.id); router.back(); }} />
-        <Button label="Abbrechen" icon="close" variant="destructive" fullWidth onPress={async () => { await cancelTimer(timer.id); router.back(); }} />
+        <Button label="Abschliessen" icon="check" fullWidth onPress={async () => { const run = await completeTimer(timer.id); if (run) await saveTimerRunLocal(userId, run); router.back(); }} />
+        <Button label="Abbrechen" icon="close" variant="destructive" fullWidth onPress={async () => { const run = await cancelTimer(timer.id); if (run) await saveTimerRunLocal(userId, run); router.back(); }} />
       </View>
     </Screen>
   );

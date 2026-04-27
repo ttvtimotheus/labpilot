@@ -8,6 +8,8 @@ export default function WissenLayout() {
       <Stack.Screen name="[bereich]/[topic]" options={{ title: 'Detail' }} />
       <Stack.Screen name="tools/verduennung" options={{ title: 'Verduennung' }} />
       <Stack.Screen name="tools/einheiten" options={{ title: 'Einheiten' }} />
+      <Stack.Screen name="referenzen/normalwerte" options={{ title: 'Normalwerte' }} />
+      <Stack.Screen name="referenzen/naehrmedien" options={{ title: 'Naehrmedien' }} />
     </Stack>
   );
 }

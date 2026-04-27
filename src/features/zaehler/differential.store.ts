@@ -2,11 +2,12 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { zustandStorage } from '@/src/lib/storage/zustand';
-import { createId } from '@/src/lib/utils/id';
+import { decrementCountById, incrementCountById, prependLimited, sumCounts } from '@/src/lib/utils/collections';
+import { createDifferentialCountSnapshot } from '@/src/features/zaehler/snapshots';
 import type { DifferentialCell, DifferentialCountSnapshot } from '@/src/types/domain';
 
 export const defaultDifferentialCells: DifferentialCell[] = [
-  { id: 'neutro', label: 'Segmentkernige Neutrophile', shortLabel: 'Neu', count: 0 },
+  { id: 'neutro', label: 'Segmentkernige Neutrophile', shortLabel: 'Seg', count: 0 },
   { id: 'stab', label: 'Stabkernige Neutrophile', shortLabel: 'Stab', count: 0 },
   { id: 'lympho', label: 'Lymphozyten', shortLabel: 'Lym', count: 0 },
   { id: 'mono', label: 'Monozyten', shortLabel: 'Mon', count: 0 },
@@ -23,6 +24,7 @@ interface DifferentialStore {
   decrement: (id: string) => void;
   saveCurrent: (name?: string) => DifferentialCountSnapshot | null;
   removeSavedCount: (id: string) => void;
+  clearSavedCounts: () => void;
   reset: () => void;
   setTarget: (target: number) => void;
 }
@@ -35,34 +37,27 @@ export const useDifferentialStore = create<DifferentialStore>()(
       target: 100,
       increment: (id) =>
         set((state) => {
-          const total = state.cells.reduce((sum, cell) => sum + cell.count, 0);
+          const total = sumCounts(state.cells);
           if (total >= state.target) return state;
           return {
-            cells: state.cells.map((cell) => (cell.id === id ? { ...cell, count: cell.count + 1 } : cell)),
+            cells: incrementCountById(state.cells, id),
           };
         }),
       decrement: (id) =>
         set((state) => ({
-          cells: state.cells.map((cell) => (cell.id === id ? { ...cell, count: Math.max(0, cell.count - 1) } : cell)),
+          cells: decrementCountById(state.cells, id),
         })),
       saveCurrent: (name) => {
         let snapshot: DifferentialCountSnapshot | null = null;
         set((state) => {
-          const totalCells = state.cells.reduce((sum, cell) => sum + cell.count, 0);
-          if (!totalCells) return state;
-          snapshot = {
-            id: createId('differential_count'),
-            name: name?.trim() || undefined,
-            cells: state.cells,
-            totalCells,
-            target: state.target,
-            createdAt: new Date().toISOString(),
-          };
-          return { savedCounts: [snapshot, ...state.savedCounts].slice(0, 100) };
+          snapshot = createDifferentialCountSnapshot({ name, cells: state.cells, target: state.target });
+          if (!snapshot) return state;
+          return { savedCounts: prependLimited(snapshot, state.savedCounts) };
         });
         return snapshot;
       },
       removeSavedCount: (id) => set((state) => ({ savedCounts: state.savedCounts.filter((count) => count.id !== id) })),
+      clearSavedCounts: () => set({ savedCounts: [] }),
       reset: () => set({ cells: defaultDifferentialCells }),
       setTarget: (target) => set({ target: Math.max(20, target) }),
     }),

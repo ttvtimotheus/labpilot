@@ -22,6 +22,7 @@ export function ListRow({ icon, title, subtitle, trailing, accentColor, disabled
     <Pressable
       accessibilityRole={canPress ? 'button' : undefined}
       accessibilityLabel={props.accessibilityLabel ?? title}
+      accessibilityState={{ ...props.accessibilityState, disabled: !canPress }}
       disabled={!canPress}
       {...props}
       style={({ pressed }) => [

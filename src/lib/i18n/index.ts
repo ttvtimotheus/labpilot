@@ -2,9 +2,10 @@ import { createInstance } from 'i18next';
 import * as Localization from 'expo-localization';
 import { initReactI18next } from 'react-i18next';
 
+import { readLanguagePreference } from '@/src/features/settings/preferences.store';
 import { resources } from '@/src/lib/i18n/resources';
 
-const locale = Localization.getLocales()[0]?.languageCode ?? 'de';
+const locale = readLanguagePreference() ?? Localization.getLocales()[0]?.languageCode ?? 'de';
 const i18n = createInstance();
 
 i18n.use(initReactI18next).init({

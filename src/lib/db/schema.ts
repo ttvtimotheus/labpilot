@@ -14,6 +14,22 @@ export const timerTemplates = sqliteTable('timer_templates', {
   pendingDelete: integer('pending_delete', { mode: 'boolean' }).default(false),
 });
 
+export const timerRuns = sqliteTable('timer_runs', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull(),
+  templateId: text('template_id'),
+  name: text('name').notNull(),
+  durationSeconds: integer('duration_seconds').notNull(),
+  bereich: text('bereich').notNull(),
+  startedAt: integer('started_at', { mode: 'timestamp' }),
+  completedAt: integer('completed_at', { mode: 'timestamp' }),
+  cancelled: integer('cancelled', { mode: 'boolean' }).default(false),
+  createdAt: integer('created_at', { mode: 'timestamp' }),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }),
+  syncedAt: integer('synced_at', { mode: 'timestamp' }),
+  pendingDelete: integer('pending_delete', { mode: 'boolean' }).default(false),
+});
+
 export const protokolle = sqliteTable('protokolle', {
   id: text('id').primaryKey(),
   userId: text('user_id'),
@@ -23,6 +39,20 @@ export const protokolle = sqliteTable('protokolle', {
   stepsJson: text('steps_json').notNull(),
   source: text('source'),
   isPublic: integer('is_public', { mode: 'boolean' }).default(false),
+  createdAt: integer('created_at', { mode: 'timestamp' }),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }),
+  syncedAt: integer('synced_at', { mode: 'timestamp' }),
+  pendingDelete: integer('pending_delete', { mode: 'boolean' }).default(false),
+});
+
+export const protokollRuns = sqliteTable('protokoll_runs', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull(),
+  protokollId: text('protokoll_id'),
+  protokollSnapshotJson: text('protokoll_snapshot_json').notNull(),
+  startedAt: integer('started_at', { mode: 'timestamp' }),
+  completedAt: integer('completed_at', { mode: 'timestamp' }),
+  notes: text('notes'),
   createdAt: integer('created_at', { mode: 'timestamp' }),
   updatedAt: integer('updated_at', { mode: 'timestamp' }),
   syncedAt: integer('synced_at', { mode: 'timestamp' }),

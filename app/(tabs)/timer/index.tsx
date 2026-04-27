@@ -18,6 +18,7 @@ export default function TimerScreen() {
   const theme = useAppTheme();
   const templates = useTimerStore((state) => state.templates);
   const activeTimers = useTimerStore((state) => state.activeTimers);
+  const completedRuns = useTimerStore((state) => state.completedRuns.slice(0, 5));
   const startTimer = useTimerStore((state) => state.startTimer);
 
   return (
@@ -45,6 +46,20 @@ export default function TimerScreen() {
           />
         ))}
       </Section>
+
+      {completedRuns.length ? (
+        <Section title="Letzte Timerlaeufe">
+          {completedRuns.map((run) => (
+            <ListRow
+              key={run.id}
+              icon={run.cancelled ? 'timer-off' : 'check-circle'}
+              title={run.name}
+              subtitle={`${run.cancelled ? 'Abgebrochen' : 'Abgeschlossen'} · ${formatDuration(run.durationSeconds)} · ${new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(run.completedAt))}`}
+              accentColor={run.cancelled ? theme.foregroundSubtle : theme.area[run.bereich]}
+            />
+          ))}
+        </Section>
+      ) : null}
     </Screen>
   );
 }

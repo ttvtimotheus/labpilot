@@ -32,6 +32,7 @@ export function Button({ label, variant = 'primary', icon, fullWidth, disabled, 
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={props.accessibilityLabel ?? label}
+      accessibilityState={{ ...props.accessibilityState, disabled: Boolean(disabled) }}
       disabled={disabled}
       {...props}
       style={({ pressed }) => [

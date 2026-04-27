@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { calculateDilution, convertLabUnit, labUnitConversions, parseDecimal, parsePositiveDecimal } from '@/src/features/wissen/calculations';
+import { calculateDilution, convertLabUnit, formatLabNumber, labUnitConversions, parseDecimal, parsePositiveDecimal } from '@/src/features/wissen/calculations';
 
 describe('wissen calculations', () => {
   it('parses German decimal input', () => {
@@ -23,5 +23,9 @@ describe('wissen calculations', () => {
     expect(glucose).toBeDefined();
     expect(convertLabUnit(glucose!, 90, 'to-target')).toBeCloseTo(4.99, 2);
     expect(convertLabUnit(glucose!, 5, 'to-source')).toBeCloseTo(90.09, 2);
+  });
+
+  it('formats lab numbers with German separators', () => {
+    expect(formatLabNumber(1234.567)).toBe('1.234,57');
   });
 });

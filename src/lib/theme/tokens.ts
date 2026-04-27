@@ -1,5 +1,4 @@
-import { useColorScheme } from 'react-native';
-
+import { useResolvedColorScheme } from '@/src/features/settings/preferences.store';
 import type { Bereich } from '@/src/types/domain';
 
 export const areaLabels: Record<Bereich, string> = {
@@ -108,6 +107,6 @@ export const typography = {
 } as const;
 
 export function useAppTheme() {
-  const scheme = useColorScheme();
+  const scheme = useResolvedColorScheme();
   return scheme === 'dark' ? darkTheme : lightTheme;
 }

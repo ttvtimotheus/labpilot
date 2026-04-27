@@ -23,7 +23,7 @@ create table public.profiles (
 );
 
 create table public.timer_templates (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key default gen_random_uuid()::text,
   user_id uuid references auth.users(id) on delete cascade,
   name text not null,
   duration_seconds integer not null check (duration_seconds > 0),
@@ -35,11 +35,12 @@ create table public.timer_templates (
 );
 
 create table public.timer_runs (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key default gen_random_uuid()::text,
   user_id uuid references auth.users(id) on delete cascade,
-  template_id uuid references public.timer_templates(id) on delete set null,
+  template_id text references public.timer_templates(id) on delete set null,
   name text not null,
   duration_seconds integer not null,
+  bereich text not null check (bereich in ('mibi','haema','chemie','histo','general','learn')),
   started_at timestamptz not null,
   completed_at timestamptz,
   cancelled boolean default false,
@@ -48,7 +49,7 @@ create table public.timer_runs (
 );
 
 create table public.protokolle (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key default gen_random_uuid()::text,
   user_id uuid references auth.users(id) on delete cascade,
   name text not null,
   bereich text not null check (bereich in ('mibi','haema','chemie','histo','general','learn')),
@@ -61,9 +62,9 @@ create table public.protokolle (
 );
 
 create table public.protokoll_runs (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key default gen_random_uuid()::text,
   user_id uuid references auth.users(id) on delete cascade,
-  protokoll_id uuid references public.protokolle(id) on delete set null,
+  protokoll_id text references public.protokolle(id) on delete set null,
   protokoll_snapshot jsonb not null,
   started_at timestamptz not null,
   completed_at timestamptz,
@@ -73,7 +74,7 @@ create table public.protokoll_runs (
 );
 
 create table public.kolonie_counts (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key default gen_random_uuid()::text,
   user_id uuid references auth.users(id) on delete cascade,
   name text,
   patient_id_local text,
@@ -88,7 +89,7 @@ create table public.kolonie_counts (
 );
 
 create table public.differential_counts (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key default gen_random_uuid()::text,
   user_id uuid references auth.users(id) on delete cascade,
   name text,
   patient_id_local text,

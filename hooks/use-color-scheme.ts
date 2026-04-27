@@ -1,1 +1,1 @@
-export { useColorScheme } from 'react-native';
+export { useResolvedColorScheme as useColorScheme } from '@/src/features/settings/preferences.store';

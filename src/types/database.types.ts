@@ -14,7 +14,8 @@ type OwnedRow = {
   updated_at: string | null;
 };
 
-type PublicOwnedRow = OwnedRow & {
+type PublicOwnedRow = Omit<OwnedRow, 'user_id'> & {
+  user_id: string | null;
   is_public: boolean | null;
 };
 
@@ -40,6 +41,7 @@ export interface Database {
         template_id: string | null;
         name: string;
         duration_seconds: number;
+        bereich: string;
         started_at: string;
         completed_at: string | null;
         cancelled: boolean | null;
