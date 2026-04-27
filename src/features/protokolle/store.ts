@@ -3,6 +3,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { addProtokollRunToHistory, createProtokollRun } from '@/src/features/protokolle/run';
 import { zustandStorage } from '@/src/lib/storage/zustand';
+import { mergeById } from '@/src/lib/utils/collections';
 import type { Protokoll, ProtokollRun } from '@/src/types/domain';
 
 interface ProtokollRunStore {
@@ -10,6 +11,7 @@ interface ProtokollRunStore {
   completeRun: (input: { protokoll: Protokoll; startedAt: string; notes?: string }) => ProtokollRun;
   removeRun: (id: string) => void;
   clearRuns: () => void;
+  hydrateLocalRuns: (runs: ProtokollRun[]) => void;
 }
 
 export const useProtokollRunStore = create<ProtokollRunStore>()(
@@ -23,6 +25,7 @@ export const useProtokollRunStore = create<ProtokollRunStore>()(
       },
       removeRun: (id) => set((state) => ({ completedRuns: state.completedRuns.filter((run) => run.id !== id) })),
       clearRuns: () => set({ completedRuns: [] }),
+      hydrateLocalRuns: (runs) => set((state) => ({ completedRuns: mergeById(runs, state.completedRuns, 100) })),
     }),
     {
       name: 'labpilot.protokoll-runs',

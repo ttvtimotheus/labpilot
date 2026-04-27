@@ -1,5 +1,1062 @@
-[
-  { "id": "cba", "name": "Columbia-Blutagar", "use": "Basisnaermedium fuer viele aerobe Bakterien", "bereich": "mibi" },
-  { "id": "mc", "name": "MacConkey-Agar", "use": "Selektiv- und Differenzierungsmedium fuer gramnegative Staebchen", "bereich": "mibi" },
-  { "id": "sab", "name": "Sabouraud-Agar", "use": "Pilze und Hefen", "bereich": "mibi" }
-]
+{
+  "$schema": "./labpilot.naehrmedien.schema.json",
+  "description": "Mikrobiologische Nährmedien – Übersicht für die MTL-Ausbildung und das Routine-Labor.",
+  "disclaimer": "Angaben dienen Lern- und Übungszwecken. Hersteller- und herstellungsspezifische Abweichungen möglich. Verbindliche Information immer aus der jeweiligen Packungsbeilage / dem Laborhandbuch.",
+  "categories": {
+    "universal": "Universal- / Basisnährmedien",
+    "selektiv": "Selektivmedien",
+    "differential": "Differential- / Indikatormedien",
+    "selektiv_differential": "Selektiv- und Differentialmedien",
+    "anreicherung": "Anreicherungsmedien (flüssig)",
+    "transport": "Transportmedien",
+    "pilze": "Mykologie / Pilzmedien",
+    "mykobakterien": "Mykobakterien-Medien",
+    "anaerob": "Anaerobier-Medien",
+    "spezial": "Spezial-/Identifizierungsmedien",
+    "chromogen": "Chromogene Medien"
+  },
+  "medien": [
+    {
+      "id": "cba",
+      "name": "Columbia-Blutagar (CBA)",
+      "use": "Universal-/Basisnährmedium für viele aerobe und fakultativ anaerobe Bakterien; Beurteilung von Hämolyseverhalten",
+      "bereich": "mibi",
+      "category": "universal",
+      "selectivity": "nicht selektiv",
+      "indicator": "Schaferythrozyten (5-7%) zur Hämolyse-Beurteilung",
+      "incubation": "35-37 °C, 18-24 h, aerob (oder mit 5% CO2)",
+      "color": "Rot, opak (Schafblut)",
+      "key_reactions": [
+        "α-Hämolyse: grünlicher Hof (vergrünend, z.B. S. pneumoniae, viridans-Streptokokken)",
+        "β-Hämolyse: klarer, durchscheinender Hof (z.B. S. pyogenes, S. aureus)",
+        "γ-Hämolyse: keine Hämolyse"
+      ],
+      "wachstum": ["Staphylokokken", "Streptokokken", "Enterokokken", "Enterobacterales", "Pseudomonas spp.", "Listeria"],
+      "kein_wachstum_oder_schwach": ["fastidious-Keime ohne Zusätze (z.B. Haemophilus auf reinem CBA)"],
+      "tipps": "CBA ist Standard-Erstplatte fast jeder mikrobiologischen Probe. Hämolyse erst nach 24 h beurteilen."
+    },
+    {
+      "id": "kochblut",
+      "name": "Kochblut-Agar (Schokoladenagar)",
+      "use": "Anzucht anspruchsvoller (fastidious) Keime; insbesondere Haemophilus, Neisseria gonorrhoeae, N. meningitidis",
+      "bereich": "mibi",
+      "category": "universal",
+      "selectivity": "nicht selektiv",
+      "indicator": "keiner",
+      "incubation": "35-37 °C, 24-48 h, 5% CO2 (Kerzen-Topf oder Brutschrank)",
+      "color": "Schokoladenbraun (durch Erhitzen lysiertes Blut, Freisetzung von Faktor X und V)",
+      "key_reactions": ["keine Hämolyse-Beurteilung möglich (Erys schon zerstört)"],
+      "wachstum": ["Haemophilus influenzae", "Neisseria gonorrhoeae", "Neisseria meningitidis", "Streptococcus pneumoniae"],
+      "tipps": "Bei Verdacht auf Meningitis, Otitis, Genitalabstrich (Gonokokken) immer mitanlegen. Haemophilus zeigt Ammen-Phänomen mit S. aureus auf CBA."
+    },
+    {
+      "id": "mc",
+      "name": "MacConkey-Agar (MCA)",
+      "use": "Selektiv- und Differentialmedium für gramnegative Stäbchen; Differenzierung Laktose-positiv / Laktose-negativ",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "selektiv für gramnegative Stäbchen (Gallensalze + Kristallviolett hemmen grampositive)",
+      "indicator": "Laktose + Neutralrot pH-Indikator",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Rosa-bräunlich, transparent",
+      "key_reactions": [
+        "Laktose-positiv (E. coli, Klebsiella, Enterobacter): pinke bis rote Kolonien, oft mit Gallensalz-Niederschlag",
+        "Laktose-negativ (Salmonella, Shigella, Proteus, Pseudomonas): farblose / blassgelbe Kolonien",
+        "Klebsiella: oft schleimig-mukoid"
+      ],
+      "wachstum": ["E. coli", "Klebsiella", "Enterobacter", "Salmonella", "Shigella", "Proteus", "Pseudomonas aeruginosa"],
+      "kein_wachstum_oder_schwach": ["grampositive Bakterien", "Neisseria", "Haemophilus"],
+      "tipps": "Standardplatte für Stuhl, Urin, Wundabstriche. Proteus schwärmt auf MacConkey nicht (Vorteil ggü. CBA)."
+    },
+    {
+      "id": "endo",
+      "name": "Endo-Agar",
+      "use": "Selektivmedium für Enterobacterales, klassische Trinkwasser- und Stuhldiagnostik",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "selektiv für gramnegative (Fuchsin-Sulfit hemmt grampositive)",
+      "indicator": "Laktose + Fuchsin/Sulfit",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Blassrosa, durchscheinend",
+      "key_reactions": [
+        "E. coli: rote Kolonien mit metallischem grünen Glanz (Fuchsin-Niederschlag)",
+        "Laktose-positiv: rosa-rot",
+        "Laktose-negativ: farblos"
+      ],
+      "wachstum": ["E. coli (Goldglanz)", "Klebsiella", "Enterobacter", "Salmonella", "Shigella"],
+      "tipps": "Klassisches Medium für die Coli-Diagnostik in der Wasserhygiene."
+    },
+    {
+      "id": "klig",
+      "name": "Kligler-Eisen-Agar / Triple Sugar Iron (TSI)",
+      "use": "Bunte Reihe / Differenzierung Enterobacterales: Glukose-/Laktose-/H2S-Verhalten, Gasbildung",
+      "bereich": "mibi",
+      "category": "differential",
+      "selectivity": "nicht selektiv",
+      "indicator": "Phenolrot pH-Indikator + Eisen(II)-Sulfat (für H2S)",
+      "incubation": "35-37 °C, 18-24 h, aerob (Schrägagar mit Stich)",
+      "color": "Rot",
+      "key_reactions": [
+        "Schräge gelb / Tiefe gelb = Glukose + Laktose fermentiert (z.B. E. coli)",
+        "Schräge rot / Tiefe gelb = nur Glukose fermentiert (z.B. Salmonella, Shigella)",
+        "Schräge rot / Tiefe rot = keine Fermentation (z.B. Pseudomonas)",
+        "Schwarze Verfärbung = H2S-Bildung (z.B. Salmonella, Proteus)",
+        "Risse / Anhebung = Gasbildung"
+      ],
+      "tipps": "Klassiker der bunten Reihe. TSI hat zusätzlich Saccharose."
+    },
+    {
+      "id": "ssl",
+      "name": "Salmonella-Shigella-Agar (SS)",
+      "use": "Selektivmedium für Salmonella und Shigella aus Stuhlproben",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "stark selektiv (Gallensalze, Citrate, Brillantgrün hemmen grampositive und viele Coliforme)",
+      "indicator": "Laktose + Neutralrot, Eisen(III) (H2S)",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Rot-orange",
+      "key_reactions": [
+        "Salmonella: farblos mit schwarzem Zentrum (H2S-positiv)",
+        "Shigella: farblos, klein",
+        "Lactose-positive: rot"
+      ],
+      "wachstum": ["Salmonella", "Shigella"],
+      "kein_wachstum_oder_schwach": ["grampositive Keime", "viele kommensale Coliforme"],
+      "tipps": "Hochselektiv – kann auch Salmonellen-Subspezies hemmen, daher zusätzlich XLD oder Hektoen empfohlen."
+    },
+    {
+      "id": "xld",
+      "name": "Xylose-Lysin-Desoxycholat-Agar (XLD)",
+      "use": "Selektiv- und Differentialmedium für Salmonella und Shigella in Stuhl",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Desoxycholat hemmt grampositive",
+      "indicator": "Phenolrot, Lysin, Xylose, Eisenthiosulfat",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Hell-pink, leicht rot",
+      "key_reactions": [
+        "Salmonella: rote Kolonien mit schwarzem Zentrum (H2S+)",
+        "Shigella: rote, transluzente Kolonien (kein H2S)",
+        "E. coli, Coliforme: gelbe Kolonien (Xylose-Fermentation)"
+      ],
+      "tipps": "Sensitiver als SS-Agar, gehört in die Stuhl-Routine."
+    },
+    {
+      "id": "hektoen",
+      "name": "Hektoen-Enteric-Agar (HE)",
+      "use": "Selektivmedium für enteropathogene Salmonella und Shigella",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Gallensalze + Bromthymolblau hemmen grampositive",
+      "indicator": "Laktose, Saccharose, Salicin + Bromthymolblau / Säurefuchsin, Eisen(III) für H2S",
+      "incubation": "35-37 °C, 24 h, aerob",
+      "color": "Grün",
+      "key_reactions": [
+        "Salmonella: blaugrüne Kolonien mit schwarzem Zentrum (H2S)",
+        "Shigella: grünliche Kolonien ohne Zentrum",
+        "Lactose-positive: gelb-orange"
+      ],
+      "tipps": "Wird oft parallel zu XLD verwendet."
+    },
+    {
+      "id": "cin",
+      "name": "Cefsulodin-Irgasan-Novobiocin-Agar (CIN / Yersinia-Selektivagar)",
+      "use": "Selektivmedium für Yersinia enterocolitica (Stuhl)",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Cefsulodin + Irgasan + Novobiocin hemmen Begleitflora",
+      "indicator": "Mannit + Neutralrot",
+      "incubation": "30 °C (!), 24-48 h, aerob",
+      "color": "Bernsteinfarben",
+      "key_reactions": [
+        "Yersinia: kleine Kolonien mit rotem Zentrum und farblosem Rand ('Bull's Eye' / Stiernauge)"
+      ],
+      "tipps": "Niedrigere Inkubationstemperatur (30 °C) ist entscheidend – Yersinia ist psychrotroph."
+    },
+    {
+      "id": "skirrow",
+      "name": "Skirrow-Agar",
+      "use": "Selektivmedium für Campylobacter (Stuhl)",
+      "bereich": "mibi",
+      "category": "selektiv",
+      "selectivity": "Vancomycin + Polymyxin B + Trimethoprim hemmen Begleitflora",
+      "indicator": "keiner",
+      "incubation": "42 °C, 48-72 h, mikroaerophil (5% O2, 10% CO2, 85% N2)",
+      "color": "Hellbraun",
+      "wachstum": ["Campylobacter jejuni", "Campylobacter coli"],
+      "tipps": "Mikroaerophiles Milieu zwingend, sonst kein Wachstum. 42 °C selektiert weiter."
+    },
+    {
+      "id": "bcye",
+      "name": "BCYE-Agar (Buffered Charcoal Yeast Extract)",
+      "use": "Anzucht von Legionella (Wasser, Sputum, BAL)",
+      "bereich": "mibi",
+      "category": "spezial",
+      "selectivity": "mit Antibiotika-Zusatz selektiv (Cycloheximid, Polymyxin, Vancomycin)",
+      "indicator": "L-Cystein + Eisenpyrophosphat (Wachstumsfaktoren)",
+      "incubation": "35-37 °C, 3-10 Tage, aerob, hohe Luftfeuchtigkeit",
+      "color": "Schwarzgrau (durch Aktivkohle)",
+      "wachstum": ["Legionella spp."],
+      "tipps": "Kontrolle: kein Wachstum auf CBA (Legionella braucht L-Cystein zwingend)."
+    },
+    {
+      "id": "tcbs",
+      "name": "TCBS-Agar (Thiosulfat-Citrat-Bilesalt-Saccharose)",
+      "use": "Selektivmedium für Vibrio (insbesondere V. cholerae)",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "stark selektiv (alkalischer pH, Gallensalze, Citrat)",
+      "indicator": "Saccharose + Bromthymolblau",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Grün",
+      "key_reactions": [
+        "V. cholerae: gelbe Kolonien (Saccharose-positiv)",
+        "V. parahaemolyticus: blaugrüne Kolonien (Saccharose-negativ)"
+      ],
+      "tipps": "TCBS akzeptiert keine Disk-Diffusion (alkalisch), Resistenztests immer auf Folgemedium."
+    },
+    {
+      "id": "tsa",
+      "name": "Trypticase-Soja-Agar (TSA / CASO)",
+      "use": "Universal-Nährmedium ohne Blut; Anzucht Standardflora, Resistenztests, Subkulturen",
+      "bereich": "mibi",
+      "category": "universal",
+      "selectivity": "nicht selektiv",
+      "indicator": "keiner",
+      "incubation": "35-37 °C, 24 h, aerob",
+      "color": "Bernsteinfarben, klar",
+      "tipps": "Häufig als Schräg- oder Stichkultur für Stammhaltung. Keine Hämolyse-Beurteilung."
+    },
+    {
+      "id": "muellerhinton",
+      "name": "Müller-Hinton-Agar (MHA)",
+      "use": "Standard-Antibiogramm (Disk-Diffusion nach EUCAST/CLSI), Resistenzbestimmung",
+      "bereich": "mibi",
+      "category": "spezial",
+      "selectivity": "nicht selektiv",
+      "indicator": "keiner",
+      "incubation": "35 ± 1 °C, 16-20 h, aerob",
+      "color": "Hellbraun, klar",
+      "tipps": "Wachstum erst, dann Hemmhof messen. Für anspruchsvolle Keime (Strep, Haemophilus) MHA mit Blut bzw. MHF (Fastidious-Variante).",
+      "wachstum": ["Enterobacterales", "Pseudomonas", "Staphylokokken", "Enterokokken"]
+    },
+    {
+      "id": "muellerhinton_blut",
+      "name": "Müller-Hinton-Agar mit Blut (MHA-F)",
+      "use": "Antibiogramm anspruchsvoller Keime (Streptokokken, Haemophilus, Listeria, Pasteurella, Moraxella)",
+      "bereich": "mibi",
+      "category": "spezial",
+      "selectivity": "nicht selektiv",
+      "indicator": "keiner",
+      "incubation": "35 °C, 16-20 h, 5% CO2",
+      "color": "Rotbraun",
+      "tipps": "EUCAST schreibt MHF speziell für Strepto und Haemophilus vor."
+    },
+    {
+      "id": "csa",
+      "name": "Columbia-CNA-Agar",
+      "use": "Selektivmedium für grampositive Kokken (Strepto, Stapylo, Entero); Unterdrückung gramnegativer Begleitflora",
+      "bereich": "mibi",
+      "category": "selektiv",
+      "selectivity": "Colistin + Nalidixinsäure hemmen gramnegative",
+      "indicator": "Schafblut zur Hämolyse-Beurteilung",
+      "incubation": "35-37 °C, 24-48 h, aerob (5% CO2 möglich)",
+      "color": "Rot",
+      "wachstum": ["Streptokokken", "Staphylokokken", "Enterokokken"],
+      "tipps": "Nützlich bei Mischflora-Proben (Wundabstriche, Atemwege)."
+    },
+    {
+      "id": "chapman",
+      "name": "Chapman-Agar / Mannit-Salz-Agar (MSA)",
+      "use": "Selektiv- und Differentialmedium für Staphylococcus, Differenzierung S. aureus",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "7,5% NaCl hemmt fast alle Nicht-Halophilen",
+      "indicator": "Mannit + Phenolrot",
+      "incubation": "35-37 °C, 24-48 h, aerob",
+      "color": "Rot-pink",
+      "key_reactions": [
+        "S. aureus: gelbe Kolonien mit gelbem Hof (Mannit-positiv)",
+        "andere Staph (z.B. epidermidis): rosa-rot (Mannit-negativ)"
+      ],
+      "tipps": "Identitätssicherung S. aureus: Koagulase-Test im Anschluss."
+    },
+    {
+      "id": "baird_parker",
+      "name": "Baird-Parker-Agar",
+      "use": "Selektivmedium für S. aureus (insbesondere in Lebensmitteln)",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Lithiumchlorid + Tellurit hemmen Begleitflora",
+      "indicator": "Eigelbemulsion, Tellurit",
+      "incubation": "35-37 °C, 24-48 h, aerob",
+      "color": "Hellgrau",
+      "key_reactions": [
+        "S. aureus: schwarze, glänzende Kolonien mit klarem Hof (Lipasen + Lecithinase + Tellurit-Reduktion)"
+      ],
+      "tipps": "Lebensmittel-Mikrobiologie."
+    },
+    {
+      "id": "kanamycin",
+      "name": "Kanamycin-Vancomycin-Blut-Agar (KV-Blut)",
+      "use": "Selektivmedium für gramnegative Anaerobier (Bacteroides, Prevotella) aus Mischkulturen",
+      "bereich": "mibi",
+      "category": "anaerob",
+      "selectivity": "Kanamycin + Vancomycin hemmen aerobe und grampositive Anaerobier",
+      "indicator": "Schafblut",
+      "incubation": "35-37 °C, 48 h, anaerob",
+      "color": "Rot",
+      "wachstum": ["Bacteroides fragilis", "Prevotella spp.", "Porphyromonas spp."]
+    },
+    {
+      "id": "schaedler",
+      "name": "Schaedler-Agar",
+      "use": "Universalmedium für Anaerobier",
+      "bereich": "mibi",
+      "category": "anaerob",
+      "selectivity": "nicht selektiv",
+      "indicator": "Schafblut, Hämin, Vitamin K",
+      "incubation": "35-37 °C, 48-72 h, anaerob",
+      "color": "Dunkelrot",
+      "wachstum": ["Bacteroides", "Clostridium", "Fusobacterium", "Peptostreptococcus", "Actinomyces"]
+    },
+    {
+      "id": "anaerob_blut",
+      "name": "Anaerobier-Blutagar (z.B. Brucella mit Hämin/Vit K)",
+      "use": "Universalmedium für strikte Anaerobier; Erstanzucht aus klinischen Proben",
+      "bereich": "mibi",
+      "category": "anaerob",
+      "selectivity": "nicht selektiv",
+      "indicator": "Schafblut",
+      "incubation": "35-37 °C, 48-72 h, anaerob (Anaerobier-Topf, Beutel oder Box)",
+      "color": "Rot",
+      "tipps": "Bei Verdacht auf Anaerobier (Abszess, tiefe Wunde, Bisswunde) immer parallel zur aeroben Bebrütung anlegen."
+    },
+    {
+      "id": "ccfa",
+      "name": "CCFA / CCEY-Agar (Cycloserin-Cefoxitin-Fructose / Egg Yolk)",
+      "use": "Selektivmedium für Clostridium difficile (Stuhl)",
+      "bereich": "mibi",
+      "category": "anaerob",
+      "selectivity": "Cycloserin + Cefoxitin hemmen Begleitflora",
+      "indicator": "Fructose + Neutralrot, ggf. Eigelb",
+      "incubation": "35-37 °C, 24-48 h, anaerob",
+      "color": "Rosa",
+      "key_reactions": [
+        "C. difficile: gelb-grüne Fluoreszenz unter UV (Wood-Lampe), bröckelige flache Kolonien, charakteristischer Geruch (Pferdestall)"
+      ],
+      "tipps": "Wood-Lampe (366 nm) hilft enorm. Heute meist GDH/Toxin-EIA + PCR statt Kultur."
+    },
+    {
+      "id": "loewenstein",
+      "name": "Löwenstein-Jensen-Medium (LJ)",
+      "use": "Klassisches Festmedium für Mykobakterien (M. tuberculosis, NTM)",
+      "bereich": "mibi",
+      "category": "mykobakterien",
+      "selectivity": "Malachitgrün hemmt Begleitflora; lange Bebrütung",
+      "indicator": "keiner direkt; Beurteilung nach Koloniemorphologie und Pigmentierung",
+      "incubation": "35-37 °C, bis zu 8 Wochen (!), aerob",
+      "color": "Grünlich",
+      "wachstum": ["M. tuberculosis (cremig, blumenkohlartig, ca. 3-4 Wochen)", "M. avium-Komplex", "andere NTM"],
+      "tipps": "Heute meist parallel mit Flüssigkultur (MGIT) – schneller. Chromogene NTM können pigmentiert sein."
+    },
+    {
+      "id": "mgit",
+      "name": "MGIT (Mycobacteria Growth Indicator Tube)",
+      "use": "Flüssigkultur für Mykobakterien mit fluoreszenz-basierter Detektion (BACTEC-System)",
+      "bereich": "mibi",
+      "category": "mykobakterien",
+      "selectivity": "PANTA-Antibiotikum-Mix",
+      "indicator": "Sauerstoff-Quenching-Fluoreszenz (Wachstum verbraucht O2 → Fluoreszenz)",
+      "incubation": "37 °C, automatisierte Detektion, bis 6 Wochen",
+      "color": "Tube mit Sensor",
+      "tipps": "Schneller als LJ (5-14 Tage typisch), aber teurer und automatisiert."
+    },
+    {
+      "id": "stonebrink",
+      "name": "Stonebrink-Medium",
+      "use": "Anzucht von M. bovis (Pyruvat statt Glycerin)",
+      "bereich": "mibi",
+      "category": "mykobakterien",
+      "selectivity": "Malachitgrün",
+      "indicator": "keiner",
+      "incubation": "35-37 °C, mehrere Wochen",
+      "color": "Grünlich",
+      "tipps": "M. bovis bevorzugt Pyruvat, wächst auf LJ schlecht. Veterinärmedizin."
+    },
+    {
+      "id": "sab",
+      "name": "Sabouraud-Glukose-Agar (SDA)",
+      "use": "Universalmedium für Pilze (Hefen und Schimmel)",
+      "bereich": "mibi",
+      "category": "pilze",
+      "selectivity": "saurer pH (~5,6) und hohe Glukose hemmen die meisten Bakterien",
+      "indicator": "keiner",
+      "incubation": "25-30 °C (Schimmel) oder 35-37 °C (Hefen), 2-7 Tage bzw. bis 4 Wochen",
+      "color": "Bernsteinfarben",
+      "wachstum": ["Candida spp.", "Aspergillus", "Dermatophyten", "Cryptococcus"],
+      "tipps": "Standard-Erstplatte für jede mykologische Probe. Mit Chloramphenicol/Gentamicin als CS- oder CSC-Variante zur Bakterienunterdrückung."
+    },
+    {
+      "id": "candida_chrom",
+      "name": "Chromogen-Candida-Agar (z.B. CHROMagar Candida)",
+      "use": "Schnelle Spezies-Differenzierung pathogener Candida",
+      "bereich": "mibi",
+      "category": "chromogen",
+      "selectivity": "mäßig selektiv",
+      "indicator": "chromogene Substrate für speziesspezifische Enzyme",
+      "incubation": "35-37 °C, 24-48 h, aerob",
+      "color": "Hellbeige",
+      "key_reactions": [
+        "C. albicans: hellgrün",
+        "C. tropicalis: blaumetallisch / dunkelblau",
+        "C. krusei: rosa, rauh, ausgefranst",
+        "C. glabrata: rosa-violett, glatt"
+      ],
+      "tipps": "Für Routinediagnostik in vielen Laboren Standard."
+    },
+    {
+      "id": "kimmig",
+      "name": "Kimmig-Agar",
+      "use": "Anzucht von Dermatophyten (Hautpilze) – mit erweitertem Hemmstoffspektrum",
+      "bereich": "mibi",
+      "category": "pilze",
+      "selectivity": "Cycloheximid + Antibiotika unterdrücken Bakterien und Schimmelpilze",
+      "indicator": "keiner",
+      "incubation": "25-30 °C, bis 4 Wochen",
+      "color": "Bernsteinfarben",
+      "wachstum": ["Trichophyton", "Microsporum", "Epidermophyton"],
+      "tipps": "Cycloheximid hemmt Saprophyten, daher Mykosefälle deutlich besser zu beurteilen."
+    },
+    {
+      "id": "dtm",
+      "name": "DTM (Dermatophyten-Test-Medium)",
+      "use": "Schnelldiagnostik für Dermatophyten (Praxis-/Bedside-Diagnostik)",
+      "bereich": "mibi",
+      "category": "pilze",
+      "selectivity": "Antibiotika + Cycloheximid",
+      "indicator": "Phenolrot pH-Indikator",
+      "incubation": "25-30 °C, bis 14 Tage",
+      "color": "Gelb",
+      "key_reactions": [
+        "Dermatophyten: deutlicher Farbumschlag gelb → rot (alkalisch durch Eiweißabbau)",
+        "Schimmel/Saprophyten: meist kein Umschlag oder erst sehr spät"
+      ],
+      "tipps": "Veterinärmedizin und ambulante Diagnostik."
+    },
+    {
+      "id": "potato_dextrose",
+      "name": "Kartoffel-Dextrose-Agar (PDA)",
+      "use": "Anzucht und Sporulation von Schimmelpilzen für die mikroskopische Identifikation",
+      "bereich": "mibi",
+      "category": "pilze",
+      "selectivity": "nicht selektiv",
+      "indicator": "keiner",
+      "incubation": "25-28 °C, 5-14 Tage",
+      "color": "Bernsteinfarben",
+      "tipps": "Fördert Sporenbildung – wichtig für mikroskopische Differenzierung (Aspergillus, Penicillium, Fusarium)."
+    },
+    {
+      "id": "malt_extract",
+      "name": "Malzextrakt-Agar (MEA)",
+      "use": "Anzucht und Differenzierung von Schimmelpilzen",
+      "bereich": "mibi",
+      "category": "pilze",
+      "selectivity": "nicht selektiv",
+      "indicator": "keiner",
+      "incubation": "25 °C, 5-14 Tage",
+      "color": "Bernsteinfarben",
+      "tipps": "Standard für die mykologische Identifikation, oft parallel zu PDA."
+    },
+    {
+      "id": "uriselect",
+      "name": "UriSelect / CLED-Chromogen / Brilliance UTI",
+      "use": "Differential-Chromogenmedium für Urinkulturen, schnelle Speziesidentifikation häufiger Uropathogene",
+      "bereich": "mibi",
+      "category": "chromogen",
+      "selectivity": "mäßig selektiv (in der Brilliance-Variante)",
+      "indicator": "chromogene Substrate für β-Glucuronidase, β-Galactosidase u.a.",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Hell",
+      "key_reactions": [
+        "E. coli: dunkelpink/rot",
+        "KESC-Gruppe (Klebsiella, Enterobacter): metallblau-grün",
+        "Proteus: hellbraun/sandfarben mit schwärmungsfreier Kolonie",
+        "Enterococcus: kleine türkise Kolonien",
+        "S. aureus: hellgelb-orange"
+      ],
+      "tipps": "Schnelle Vorab-Identifikation, ersetzt aber keine Bestätigung."
+    },
+    {
+      "id": "cled",
+      "name": "CLED-Agar (Cystin-Lactose-Electrolyte-Deficient)",
+      "use": "Universalmedium für Urinkulturen; verhindert Schwärmen von Proteus",
+      "bereich": "mibi",
+      "category": "differential",
+      "selectivity": "nicht selektiv",
+      "indicator": "Lactose + Bromthymolblau",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Grün",
+      "key_reactions": [
+        "Lactose-positiv: gelb",
+        "Lactose-negativ: blaugrün",
+        "Proteus: bildet keine Schwärme (elektrolytarm)"
+      ],
+      "tipps": "Klassisches Urinmedium, oft kombiniert mit MacConkey."
+    },
+    {
+      "id": "uti_cps",
+      "name": "CPS-Chromogen (BioMérieux, Urinkultur)",
+      "use": "Chromogenes Differentialmedium für Urinkulturen",
+      "bereich": "mibi",
+      "category": "chromogen",
+      "selectivity": "mäßig selektiv",
+      "indicator": "chromogene Substrate",
+      "incubation": "35-37 °C, 24 h",
+      "color": "Hellrosa",
+      "key_reactions": [
+        "E. coli: rosa-rot",
+        "KESC: blaugrün",
+        "Enterococcus: türkis",
+        "Proteus: braun, kein Schwärmen"
+      ]
+    },
+    {
+      "id": "mrsa_chrom",
+      "name": "Chromogen-MRSA-Agar (z.B. CHROMagar MRSA, MRSA Brilliance)",
+      "use": "Schnellnachweis von Methicillin-resistenten S. aureus (Screening-Abstriche)",
+      "bereich": "mibi",
+      "category": "chromogen",
+      "selectivity": "Cefoxitin oder Oxacillin selektioniert MRSA",
+      "indicator": "chromogene Substrate für S. aureus-spezifische Enzyme",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Hellrot",
+      "key_reactions": [
+        "MRSA: definierte Farbgebung (z.B. mauve / pink / dunkelrosa je nach Hersteller)"
+      ],
+      "tipps": "Standard fürs Aufnahme-Screening in Krankenhäusern."
+    },
+    {
+      "id": "vre_chrom",
+      "name": "Chromogen-VRE-Agar (z.B. CHROMagar VRE, Brilliance VRE)",
+      "use": "Schnellnachweis Vancomycin-resistenter Enterokokken",
+      "bereich": "mibi",
+      "category": "chromogen",
+      "selectivity": "Vancomycin",
+      "indicator": "chromogen, speziesspezifisch (E. faecium ggü. E. faecalis)",
+      "incubation": "35-37 °C, 18-48 h, aerob",
+      "color": "Hellbeige",
+      "key_reactions": [
+        "E. faecium VRE: violett / pink",
+        "E. faecalis VRE: blau-grün"
+      ]
+    },
+    {
+      "id": "esbl_chrom",
+      "name": "Chromogen-ESBL-/CRE-Agar (z.B. CHROMagar ESBL, KPC)",
+      "use": "Screening multiresistenter gramnegativer Stäbchen (ESBL, Carbapenemase-Bildner)",
+      "bereich": "mibi",
+      "category": "chromogen",
+      "selectivity": "Cephalosporin- oder Carbapenem-Zusatz",
+      "indicator": "chromogen für Speziesdifferenzierung",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Hellgelb",
+      "key_reactions": [
+        "E. coli: rosa",
+        "Klebsiella/Enterobacter: blaumetallisch",
+        "Proteus: hellbraun"
+      ]
+    },
+    {
+      "id": "thayermartin",
+      "name": "Thayer-Martin-Agar (Modified Thayer-Martin / GC-Selektiv)",
+      "use": "Selektivmedium für Neisseria gonorrhoeae und N. meningitidis (Genitalabstriche, Liquor)",
+      "bereich": "mibi",
+      "category": "selektiv",
+      "selectivity": "Vancomycin + Colistin + Nystatin + Trimethoprim (VCNT) hemmen Begleitflora",
+      "indicator": "keiner; Schokoladenagar-Basis",
+      "incubation": "35-37 °C, 24-72 h, 5% CO2",
+      "color": "Schokoladenbraun",
+      "wachstum": ["Neisseria gonorrhoeae", "Neisseria meningitidis"],
+      "tipps": "Modified-Variante (MTM) zusätzlich mit Trimethoprim gegen Proteus."
+    },
+    {
+      "id": "boronet",
+      "name": "Bordet-Gengou-Agar / Regan-Lowe",
+      "use": "Anzucht von Bordetella pertussis (Keuchhusten)",
+      "bereich": "mibi",
+      "category": "spezial",
+      "selectivity": "Cephalexin",
+      "indicator": "Pferdeblut, Aktivkohle, Stärke",
+      "incubation": "35-37 °C, 5-7 Tage, aerob, hohe Luftfeuchtigkeit",
+      "color": "Dunkelgrau",
+      "wachstum": ["Bordetella pertussis (kleine, perlmuttartige Kolonien – 'Quecksilbertropfen')"],
+      "tipps": "PCR ist heute Standardmethode; Kultur sehr langsam und aufwendig."
+    },
+    {
+      "id": "buffered_charcoal",
+      "name": "Buffered-Charcoal-Yeast-Extract mit Zusätzen (BCYEα)",
+      "use": "Variante des BCYE für besonders schwierige Legionella-Anzucht",
+      "bereich": "mibi",
+      "category": "spezial",
+      "selectivity": "selektiv mit Antibiotika-Zusatz",
+      "indicator": "L-Cystein, α-Ketoglutarat",
+      "incubation": "35-37 °C, 3-10 Tage",
+      "color": "Schwarzgrau"
+    },
+    {
+      "id": "loeffler",
+      "name": "Löffler-Serum-Medium",
+      "use": "Anzucht von Corynebacterium diphtheriae (Diphtherie)",
+      "bereich": "mibi",
+      "category": "spezial",
+      "selectivity": "nicht selektiv, Wachstumsförderung für anspruchsvolle Keime",
+      "indicator": "keiner",
+      "incubation": "35-37 °C, 12-24 h, aerob",
+      "color": "Hellgelb",
+      "wachstum": ["Corynebacterium diphtheriae", "andere Coryneforme"],
+      "tipps": "Wird für die anschließende Färbung mit Neisser zur Polkörperchen-Darstellung verwendet."
+    },
+    {
+      "id": "tinsdale",
+      "name": "Tinsdale-Agar / Clauberg",
+      "use": "Selektiv- und Differentialmedium für Corynebacterium diphtheriae",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Tellurit hemmt Begleitflora",
+      "indicator": "Tellurit + Cystein",
+      "incubation": "35-37 °C, 48 h, aerob",
+      "color": "Hellbraun",
+      "key_reactions": [
+        "C. diphtheriae: schwarze Kolonien mit braunem Hof (Cystinase-Aktivität)"
+      ]
+    },
+    {
+      "id": "selenit",
+      "name": "Selenit-Anreicherungsbouillon",
+      "use": "Anreicherung von Salmonella aus Stuhl und Lebensmitteln",
+      "bereich": "mibi",
+      "category": "anreicherung",
+      "selectivity": "Selenit unterdrückt Coliforme und grampositive",
+      "indicator": "keiner",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Klar bis leicht gelblich (Lösung)",
+      "tipps": "Nach Anreicherung Subkultur auf XLD/SS/Hektoen-Agar."
+    },
+    {
+      "id": "tetra",
+      "name": "Tetrathionat-Bouillon (Müller-Kauffmann)",
+      "use": "Anreicherung Salmonella (Lebensmittel, Stuhl)",
+      "bereich": "mibi",
+      "category": "anreicherung",
+      "selectivity": "Tetrathionat + Galle + Brilliantgrün",
+      "indicator": "keiner",
+      "incubation": "35-43 °C, 24 h",
+      "color": "Klar",
+      "tipps": "43 °C-Variante (Müller-Kauffmann) selektioniert besonders gut Salmonella enterica."
+    },
+    {
+      "id": "ape_bouillon",
+      "name": "Alkalisches Peptonwasser (APW)",
+      "use": "Anreicherung von Vibrio cholerae",
+      "bereich": "mibi",
+      "category": "anreicherung",
+      "selectivity": "alkalischer pH 8,4-8,6",
+      "indicator": "keiner",
+      "incubation": "35-37 °C, 6-8 h, aerob",
+      "color": "Klar",
+      "tipps": "Nach Anreicherung Subkultur auf TCBS-Agar."
+    },
+    {
+      "id": "rappaport",
+      "name": "Rappaport-Vassiliadis-Bouillon (RVS)",
+      "use": "Anreicherung Salmonella (insbesondere Lebensmittel)",
+      "bereich": "mibi",
+      "category": "anreicherung",
+      "selectivity": "MgCl2 + Malachitgrün, niedriger pH",
+      "indicator": "keiner",
+      "incubation": "41,5 °C, 24 h",
+      "color": "Blaugrün",
+      "tipps": "Sensitiver als Selenit für viele Salmonella-Serovaren."
+    },
+    {
+      "id": "blood_culture_bottle",
+      "name": "Blutkulturflaschen (aerob/anaerob, BACTEC, BacT/ALERT)",
+      "use": "Anreicherungsmedium für Bakterien und Hefen aus Blut bei V.a. Sepsis",
+      "bereich": "mibi",
+      "category": "anreicherung",
+      "selectivity": "nicht selektiv; Resin/SPS bindet Antibiotika und Komplement",
+      "indicator": "Sensor (CO2-/pH-Indikator)",
+      "incubation": "35-37 °C, automatisierte Detektion (typ. 5-7 Tage, bis 14 Tage bei V.a. anspruchsvolle Erreger)",
+      "color": "Flaschen variabel je Hersteller",
+      "tipps": "Aerobe + Anaerobe Flasche pro Set, bei Kindern Pediatric. Befüllung 8-10 ml pro Flasche bei Erwachsenen entscheidend."
+    },
+    {
+      "id": "amies",
+      "name": "Amies-Transportmedium (mit/ohne Aktivkohle)",
+      "use": "Transport von Abstrichen (Wunden, Rachen, Genital, Stuhl)",
+      "bereich": "mibi",
+      "category": "transport",
+      "selectivity": "nicht selektiv",
+      "indicator": "keiner",
+      "incubation": "Transport bei Raumtemperatur, schnellstmöglich verarbeiten",
+      "color": "Klar/grau",
+      "tipps": "Aktivkohle absorbiert toxische Metabolite – wichtig bei Gonokokken-Abstrichen."
+    },
+    {
+      "id": "stuart",
+      "name": "Stuart-Transportmedium",
+      "use": "Transport empfindlicher Erreger (Gonokokken, Anaerobier)",
+      "bereich": "mibi",
+      "category": "transport",
+      "selectivity": "nicht selektiv",
+      "indicator": "keiner",
+      "incubation": "Raumtemperatur",
+      "color": "Hellblau (oft mit Methylenblau)",
+      "tipps": "Heute oft durch ESwab abgelöst (flüssiges Amies)."
+    },
+    {
+      "id": "cary_blair",
+      "name": "Cary-Blair-Transportmedium",
+      "use": "Stuhl-Transport für Enteropathogene (Salmonella, Shigella, Campylobacter, Vibrio)",
+      "bereich": "mibi",
+      "category": "transport",
+      "selectivity": "nicht selektiv",
+      "indicator": "keiner",
+      "incubation": "Raumtemperatur, kühl bevorzugt",
+      "color": "Klar/leicht trüb"
+    },
+    {
+      "id": "vtm",
+      "name": "Virus-Transportmedium (VTM / UTM)",
+      "use": "Transport viraler Abstrichproben (Atemwege, COVID-19, Influenza)",
+      "bereich": "mibi",
+      "category": "transport",
+      "selectivity": "Antibiotika hemmen Bakterienwachstum (Pilze ggf. auch)",
+      "indicator": "keiner",
+      "incubation": "Kühlung empfohlen (2-8 °C)",
+      "color": "Klar bis rosa (Phenolrot in manchen)",
+      "tipps": "Nicht für bakterielle Kultur geeignet."
+    },
+    {
+      "id": "muller",
+      "name": "Mueller-Kauffmann-Tetrathionat-Novobiocin (MKTTn)",
+      "use": "Selektive Anreicherung Salmonella in Lebensmitteln (DIN/ISO 6579)",
+      "bereich": "mibi",
+      "category": "anreicherung",
+      "selectivity": "Novobiocin + Tetrathionat + Galle",
+      "indicator": "keiner",
+      "incubation": "37 °C, 24 h",
+      "color": "Klar"
+    },
+    {
+      "id": "vrbg",
+      "name": "VRBG (Violet-Red-Bile-Glucose)",
+      "use": "Quantitative Bestimmung der Enterobacterales in Lebensmitteln",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Gallensalze + Kristallviolett",
+      "indicator": "Glukose + Neutralrot",
+      "incubation": "35-37 °C, 24 h",
+      "color": "Rot",
+      "key_reactions": [
+        "Enterobacterales: rote Kolonien mit Hof"
+      ]
+    },
+    {
+      "id": "vrbl",
+      "name": "VRBL (Violet-Red-Bile-Lactose)",
+      "use": "Nachweis Coliformer in Wasser/Lebensmitteln",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Galle + Kristallviolett",
+      "indicator": "Lactose + Neutralrot",
+      "incubation": "35-37 °C, 24 h",
+      "color": "Rot",
+      "key_reactions": ["Coliforme: rote Kolonien"]
+    },
+    {
+      "id": "edward",
+      "name": "Edwards-Agar (Strepto-Selektiv)",
+      "use": "Selektivmedium für Streptokokken aus Mastitis-Milchproben (Veterinär)",
+      "bereich": "mibi",
+      "category": "selektiv",
+      "selectivity": "Kristallviolett + Thallium hemmen gramnegative",
+      "indicator": "Aesculin",
+      "incubation": "35-37 °C, 24 h",
+      "color": "Blau",
+      "tipps": "Spezifisch für Veterinärdiagnostik."
+    },
+    {
+      "id": "listeria_chrom",
+      "name": "ALOA / RAPID'L.mono / Listeria-Chromogen",
+      "use": "Selektiv- und Differential-Chromogenmedium für Listeria monocytogenes (Lebensmittel)",
+      "bereich": "mibi",
+      "category": "chromogen",
+      "selectivity": "Polymyxin, Ceftazidim, Nalidixinsäure, Cycloheximid",
+      "indicator": "X-Glucosid (β-Glucosidase) + Lecithin (PI-PLC)",
+      "incubation": "35-37 °C, 24-48 h, aerob",
+      "color": "Hellbeige",
+      "key_reactions": [
+        "L. monocytogenes: blaugrüne Kolonien mit weißem Hof (PI-PLC-positiv)",
+        "andere Listerien: blaugrün ohne Hof"
+      ]
+    },
+    {
+      "id": "palcam",
+      "name": "PALCAM-Agar (Listeria-Selektiv)",
+      "use": "Selektivmedium für Listeria spp.",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Polymyxin + Acriflavin + Ceftazidim",
+      "indicator": "Aesculin + Eisen + Mannit + Phenolrot",
+      "incubation": "35-37 °C, 24-48 h, aerob",
+      "color": "Olivgrün",
+      "key_reactions": [
+        "Listeria: schwarze Kolonien mit Hof (Aesculin-Spaltung)"
+      ]
+    },
+    {
+      "id": "blr",
+      "name": "Brillantgrün-Phenolrot-Lactose-Saccharose-Agar (BPLS)",
+      "use": "Selektivmedium für Salmonella aus Stuhl/Lebensmitteln",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Brilliantgrün hemmt grampositive und viele Coliforme",
+      "indicator": "Lactose + Saccharose + Phenolrot",
+      "incubation": "35-37 °C, 24 h",
+      "color": "Pink-rot",
+      "key_reactions": [
+        "Salmonella: rosa-rote Kolonien mit rotem Hof (Lac-/Sac-negativ)",
+        "Lac-/Sac-positive: gelb-grün"
+      ]
+    },
+    {
+      "id": "elektivagar",
+      "name": "EMB-Agar (Eosin-Methylenblau, Levine)",
+      "use": "Selektiv- und Differentialmedium für gramnegative Stäbchen",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Eosin + Methylenblau hemmen grampositive",
+      "indicator": "Lactose + Eosin/Methylenblau",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Lilarosa",
+      "key_reactions": [
+        "E. coli: dunkle Kolonien mit metallisch-grünem Glanz",
+        "Lactose-positive (z.B. Klebsiella): rosa-violett, schleimig",
+        "Lactose-negative: farblos"
+      ]
+    },
+    {
+      "id": "dnase",
+      "name": "DNase-Agar",
+      "use": "Differentialmedium zum Nachweis von DNase (S. aureus, Serratia)",
+      "bereich": "mibi",
+      "category": "differential",
+      "selectivity": "nicht selektiv",
+      "indicator": "Methylgrün oder HCl-Demaskierung",
+      "incubation": "35-37 °C, 24 h",
+      "color": "Blau-grün (Methylgrün-Variante)",
+      "key_reactions": [
+        "DNase-positiv: klarer Hof um die Kolonie nach DNS-Spaltung",
+        "DNase-negativ: kein Hof"
+      ]
+    },
+    {
+      "id": "bairdparker_rpf",
+      "name": "Baird-Parker mit Rabbit-Plasma-Fibrinogen (BP-RPF)",
+      "use": "Direkter Koagulase-Nachweis für S. aureus auf Selektivplatte",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Lithium + Tellurit",
+      "indicator": "Kaninchenplasma-Fibrinogen",
+      "incubation": "35-37 °C, 24-48 h",
+      "color": "Hellgrau",
+      "key_reactions": [
+        "S. aureus: schwarze Kolonien mit weißem Präzipitathof (Koagulase + Clumping Factor)"
+      ]
+    },
+    {
+      "id": "macc_sorbitol",
+      "name": "Sorbitol-MacConkey-Agar (SMAC)",
+      "use": "Spezifischer Nachweis von EHEC (E. coli O157:H7)",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Gallensalze + Kristallviolett",
+      "indicator": "Sorbitol + Neutralrot",
+      "incubation": "35-37 °C, 18-24 h",
+      "color": "Rosa",
+      "key_reactions": [
+        "E. coli O157: farblose Kolonien (Sorbitol-negativ)",
+        "andere E. coli: rosa-rot (Sorbitol-positiv)"
+      ],
+      "tipps": "Bestätigung serologisch (Anti-O157) oder via PCR (Shiga-Toxin-Gen)."
+    },
+    {
+      "id": "bcye_legio_select",
+      "name": "GVPC-Agar (BCYE mit Glycin/Vancomycin/Polymyxin/Cycloheximid)",
+      "use": "Selektivvariante BCYE zur Legionella-Anzucht aus stark kontaminierten Wasserproben",
+      "bereich": "mibi",
+      "category": "spezial",
+      "selectivity": "Glycin + Antibiotika unterdrücken Begleitflora",
+      "indicator": "L-Cystein, α-Ketoglutarat",
+      "incubation": "35-37 °C, 7-10 Tage, aerob",
+      "color": "Schwarzgrau"
+    },
+    {
+      "id": "thio",
+      "name": "Thioglycolat-Bouillon",
+      "use": "Universelle Anreicherung für aerobe und anaerobe Bakterien",
+      "bereich": "mibi",
+      "category": "anreicherung",
+      "selectivity": "nicht selektiv",
+      "indicator": "Resazurin (rosa = oxidiert, farblos = reduziert)",
+      "incubation": "35-37 °C, 24-72 h",
+      "color": "Klar bis rosa-rot oben",
+      "tipps": "Wachstumsverteilung im Röhrchen verrät Sauerstoffbedarf: oben aerob, in Tiefe anaerob, gleichmäßig fakultativ anaerob."
+    },
+    {
+      "id": "lim_broth",
+      "name": "LIM-Bouillon (Lim Broth)",
+      "use": "Selektive Anreicherung Streptococcus agalactiae (Gruppe-B-Streptokokken / GBS) bei Schwangeren-Screening",
+      "bereich": "mibi",
+      "category": "anreicherung",
+      "selectivity": "Colistin + Nalidixinsäure",
+      "indicator": "keiner; bei Granada-Bouillon zusätzlich Pigment",
+      "incubation": "35-37 °C, 18-24 h, aerob",
+      "color": "Klar",
+      "tipps": "Subkultur auf CBA oder GBS-Chromogen."
+    },
+    {
+      "id": "granada",
+      "name": "Granada-Medium",
+      "use": "Selektivmedium für Streptococcus agalactiae mit Pigmentbildung",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Selektivantibiotika",
+      "indicator": "Methotrexat + Stärke + Folsäure",
+      "incubation": "35-37 °C, 18-48 h, aerob (anaerob verstärkt Pigment)",
+      "color": "Hellgelb",
+      "key_reactions": [
+        "S. agalactiae: orange-rote Kolonien (Granadaienpigment, β-hämolysierende GBS)"
+      ]
+    },
+    {
+      "id": "boric_acid_milk",
+      "name": "Borsäure-Urin-Stabilisator (kein Medium i.e.S. – Probenkonservierung)",
+      "use": "Stabilisierung Urinprobe für Kultur (Verhinderung von Vermehrung der Begleitflora bei Transport)",
+      "bereich": "mibi",
+      "category": "transport",
+      "selectivity": "bakteriostatisch",
+      "indicator": "keiner",
+      "incubation": "Raumtemperatur",
+      "color": "Klar",
+      "tipps": "Wichtige Variante in der Hausarztpraxis – verhindert falsch hohe Keimzahlen."
+    },
+    {
+      "id": "campylobacter_blood",
+      "name": "Campylobacter-Blood-Free-Selective-Agar (CCDA)",
+      "use": "Selektivmedium für Campylobacter ohne Blut",
+      "bereich": "mibi",
+      "category": "selektiv",
+      "selectivity": "Cefoperazon + Amphotericin B",
+      "indicator": "Aktivkohle (statt Blut, gegen O2-Toxine)",
+      "incubation": "42 °C, 48 h, mikroaerophil",
+      "color": "Schwarzgrau",
+      "tipps": "Alternative zu Skirrow, ohne Tierblut."
+    },
+    {
+      "id": "rogosa",
+      "name": "Rogosa-Agar",
+      "use": "Selektivmedium für Lactobacillus (Mund-, Vaginalflora, Lebensmittel)",
+      "bereich": "mibi",
+      "category": "selektiv",
+      "selectivity": "saurer pH (5,4) hemmt die meisten Begleitkeime",
+      "indicator": "keiner",
+      "incubation": "30-37 °C, 48-72 h, anaerob bis mikroaerophil",
+      "color": "Hellbraun"
+    },
+    {
+      "id": "mrs",
+      "name": "MRS-Agar (de Man, Rogosa, Sharpe)",
+      "use": "Anzucht von Milchsäurebakterien (Lactobacillus, Pediococcus)",
+      "bereich": "mibi",
+      "category": "selektiv",
+      "selectivity": "saurer pH, Tween-80",
+      "indicator": "keiner",
+      "incubation": "30-37 °C, 48 h, anaerob/mikroaerophil",
+      "color": "Hellgelb",
+      "tipps": "Lebensmittel-Mikrobiologie (Joghurt, Käse)."
+    },
+    {
+      "id": "kf_strept",
+      "name": "KF-Streptococcus-Agar",
+      "use": "Selektive Anzucht und Quantifizierung Enterokokken in Wasser/Lebensmitteln",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Natriumazid",
+      "indicator": "Maltose + TTC (Triphenyltetrazoliumchlorid)",
+      "incubation": "35-37 °C, 48 h",
+      "color": "Hellrot",
+      "key_reactions": [
+        "Enterokokken: rote bis dunkelrosa Kolonien (TTC-Reduktion)"
+      ]
+    },
+    {
+      "id": "bcsa",
+      "name": "BCSA (Burkholderia cepacia Selective Agar)",
+      "use": "Selektivmedium für Burkholderia cepacia complex (insbesondere CF-Patienten)",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Polymyxin + Gentamicin + Vancomycin",
+      "indicator": "Phenolrot, Cristallviolett",
+      "incubation": "35-37 °C, 48-72 h",
+      "color": "Rosa",
+      "key_reactions": [
+        "B. cepacia: rosa bis rote Kolonien mit Hof (alkalisierende Reaktion)"
+      ]
+    },
+    {
+      "id": "cetrimid",
+      "name": "Cetrimid-Agar",
+      "use": "Selektivmedium für Pseudomonas aeruginosa",
+      "bereich": "mibi",
+      "category": "selektiv_differential",
+      "selectivity": "Cetrimid hemmt Begleitflora",
+      "indicator": "keiner; Pyocyanin/Pyoverdin als Pigment",
+      "incubation": "35-37 °C, 24-48 h",
+      "color": "Hellgelb",
+      "key_reactions": [
+        "P. aeruginosa: blaugrüne Pigmentierung (Pyocyanin) + Fluoreszenz unter UV (Pyoverdin)"
+      ]
+    },
+    {
+      "id": "modified_cna",
+      "name": "Modifiziertes Columbia-CNA mit ANC",
+      "use": "Selektive Anzucht grampositiver Kokken aus stark kontaminierten Proben",
+      "bereich": "mibi",
+      "category": "selektiv",
+      "selectivity": "Aztreonam + Nalidixinsäure + Colistin",
+      "indicator": "Schafblut",
+      "incubation": "35-37 °C, 24-48 h",
+      "color": "Rot"
+    },
+    {
+      "id": "haem_dep",
+      "name": "Haemophilus-Selektiv-Agar (Bacitracin-haltig)",
+      "use": "Selektivmedium für Haemophilus influenzae aus respiratorischen Proben",
+      "bereich": "mibi",
+      "category": "selektiv",
+      "selectivity": "Bacitracin",
+      "indicator": "Schokoladenagar mit Faktor X + V",
+      "incubation": "35-37 °C, 24-48 h, 5% CO2",
+      "color": "Schokoladenbraun"
+    }
+  ],
+  "tipps_zur_anwendung": {
+    "uebersicht_routine": "In einer durchschnittlichen Stuhl-Diagnostik werden mind. CBA, MacConkey, XLD/SS und ein Anreicherungsmedium (Selenit) parallel beimpft. In der Atemwegsdiagnostik typischerweise CBA, Schokoladenagar, MacConkey und Sabouraud. In der Urindiagnostik CLED oder UriSelect-Chromogen ggf. mit MacConkey.",
+    "haemolyse_lesen": "α (vergrünend) – β (klar/durchsichtig) – γ (keine). Erst nach 24 h und im Durchlicht beurteilen.",
+    "inkubation": "Aerob 35-37 °C ist Standard. Campylobacter 42 °C mikroaerophil. Yersinia 30 °C. Listeria mit Kälteanreicherung 4 °C. Mykobakterien wochenlang 35-37 °C.",
+    "co2_atmosphaere": "5% CO2 (Brutschrank oder Kerzentopf) verbessert Wachstum von Streptokokken, Haemophilus, Neisseria, Pasteurella, Brucella und einigen Anaerobiern."
+  }
+}

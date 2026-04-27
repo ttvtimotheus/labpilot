@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { cancelNotification, scheduleTimerNotification } from '@/src/lib/notifications';
-import { prependLimited } from '@/src/lib/utils/collections';
+import { mergeById, prependLimited } from '@/src/lib/utils/collections';
 import { zustandStorage } from '@/src/lib/storage/zustand';
 import { buildActiveTimer, buildTimerRun, createTimerTemplate } from '@/src/features/timer/model';
 import type { ActiveTimer, Bereich, TimerRun, TimerTemplate } from '@/src/types/domain';
@@ -57,6 +57,7 @@ interface TimerStore {
   completeTimer: (id: string) => Promise<TimerRun | null>;
   clearHistory: () => void;
   resetAll: () => Promise<void>;
+  hydrateLocalData: (input: { templates: TimerTemplate[]; completedRuns: TimerRun[] }) => void;
 }
 
 export const useTimerStore = create<TimerStore>()(
@@ -113,6 +114,12 @@ export const useTimerStore = create<TimerStore>()(
       resetAll: async () => {
         await Promise.all(get().activeTimers.map((timer) => cancelNotification(timer.notificationId)));
         set({ activeTimers: [] });
+      },
+      hydrateLocalData: ({ templates, completedRuns }) => {
+        set((state) => ({
+          templates: mergeById(templates, state.templates, 200),
+          completedRuns: mergeById(completedRuns, state.completedRuns, 100),
+        }));
       },
     }),
     {

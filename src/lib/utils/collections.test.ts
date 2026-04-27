@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { decrementCountById, incrementCountById, prependLimited, sumCounts } from '@/src/lib/utils/collections';
+import { decrementCountById, incrementCountById, mergeById, prependLimited, sumCounts } from '@/src/lib/utils/collections';
 
 describe('collection helpers', () => {
   it('prepends items and caps history length', () => {
@@ -15,5 +15,15 @@ describe('collection helpers', () => {
 
   it('sums counts', () => {
     expect(sumCounts([{ count: 3 }, { count: 7 }])).toBe(10);
+  });
+
+  it('merges records by id with primary items winning', () => {
+    expect(
+      mergeById(
+        [{ id: 'a', value: 'remote' }, { id: 'b', value: 'new' }],
+        [{ id: 'a', value: 'local' }, { id: 'c', value: 'old' }],
+        3,
+      ),
+    ).toEqual([{ id: 'a', value: 'remote' }, { id: 'b', value: 'new' }, { id: 'c', value: 'old' }]);
   });
 });

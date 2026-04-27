@@ -13,3 +13,17 @@ export function decrementCountById<T extends { id: string; count: number }>(item
 export function sumCounts(items: { count: number }[]) {
   return items.reduce((sum, item) => sum + item.count, 0);
 }
+
+export function mergeById<T extends { id: string }>(primary: T[], fallback: T[], limit = 100) {
+  const seen = new Set<string>();
+  const merged: T[] = [];
+
+  for (const item of [...primary, ...fallback]) {
+    if (seen.has(item.id)) continue;
+    seen.add(item.id);
+    merged.push(item);
+    if (merged.length >= limit) break;
+  }
+
+  return merged;
+}

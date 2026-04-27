@@ -1,6 +1,13 @@
 import type { QueryResult, Scalar } from '@op-engineering/op-sqlite';
 
 import { executeLocalSql, migrateLocalDb } from '@/src/lib/db/client';
+import {
+  localDifferentialCountFromRow,
+  localKolonieCountFromRow,
+  localProtokollRunFromRow,
+  localTimerRunFromRow,
+  localTimerTemplateFromRow,
+} from '@/src/lib/db/localRows';
 import { syncTables, type SyncTable } from '@/src/lib/db/syncModel';
 import type { Database, Json } from '@/src/types/database.types';
 import type { DifferentialCountSnapshot, KolonieCountSnapshot, ProtokollRun, TimerRun, TimerTemplate } from '@/src/types/domain';
@@ -271,10 +278,27 @@ export async function removeLocalRows(table: SyncTable, userId: string, ids: str
   await Promise.all(ids.map((id) => executeLocalSql(`delete from ${table} where user_id = ? and id = ?`, [userId, id])));
 }
 
+export async function markLocalRowsPendingDelete(table: SyncTable, userId: string, ids: string[], deletedAt = Date.now()) {
+  assertSyncTable(table);
+  await migrateLocalDb();
+  await Promise.all(ids.map((id) => executeLocalSql(`update ${table} set pending_delete = 1, updated_at = ?, synced_at = null where user_id = ? and id = ?`, [deletedAt, userId, id])));
+}
+
+export async function markLocalTablePendingDelete(table: SyncTable, userId: string, deletedAt = Date.now()): Promise<QueryResult> {
+  assertSyncTable(table);
+  await migrateLocalDb();
+  return executeLocalSql(`update ${table} set pending_delete = 1, updated_at = ?, synced_at = null where user_id = ? and pending_delete = 0`, [deletedAt, userId]);
+}
+
 export async function clearLocalRows(table: SyncTable, userId?: string): Promise<QueryResult> {
   assertSyncTable(table);
   await migrateLocalDb();
   return userId ? executeLocalSql(`delete from ${table} where user_id = ?`, [userId]) : executeLocalSql(`delete from ${table}`);
+}
+
+export async function clearOrMarkLocalRowsDeleted(table: SyncTable, userId?: string): Promise<QueryResult> {
+  if (!userId || userId === 'local-user') return clearLocalRows(table, userId);
+  return markLocalTablePendingDelete(table, userId);
 }
 
 export async function getPendingLocalChangeSummary(userId: string) {
@@ -291,4 +315,35 @@ export async function getPendingLocalChangeSummary(userId: string) {
   );
 
   return Object.fromEntries(entries) as Record<SyncTable, number>;
+}
+
+export async function loadLocalTimerData(userId: string) {
+  await migrateLocalDb();
+  const [templateRows, runRows] = await Promise.all([
+    executeLocalSql(`select * from timer_templates where user_id = ? and pending_delete = 0 order by updated_at desc, created_at desc limit 100`, [userId]),
+    executeLocalSql(`select * from timer_runs where user_id = ? and pending_delete = 0 order by completed_at desc, updated_at desc limit 100`, [userId]),
+  ]);
+
+  return {
+    templates: templateRows.rows.map(localTimerTemplateFromRow).filter((template): template is TimerTemplate => Boolean(template)),
+    completedRuns: runRows.rows.map(localTimerRunFromRow).filter((run): run is TimerRun => Boolean(run)),
+  };
+}
+
+export async function loadLocalProtokollRuns(userId: string) {
+  await migrateLocalDb();
+  const rows = await executeLocalSql(`select * from protokoll_runs where user_id = ? and pending_delete = 0 order by completed_at desc, updated_at desc limit 100`, [userId]);
+  return rows.rows.map(localProtokollRunFromRow).filter((run): run is ProtokollRun => Boolean(run));
+}
+
+export async function loadLocalKolonieCounts(userId: string) {
+  await migrateLocalDb();
+  const rows = await executeLocalSql(`select * from kolonie_counts where user_id = ? and pending_delete = 0 order by created_at desc, updated_at desc limit 100`, [userId]);
+  return rows.rows.map(localKolonieCountFromRow).filter((count): count is KolonieCountSnapshot => Boolean(count));
+}
+
+export async function loadLocalDifferentialCounts(userId: string) {
+  await migrateLocalDb();
+  const rows = await executeLocalSql(`select * from differential_counts where user_id = ? and pending_delete = 0 order by created_at desc, updated_at desc limit 100`, [userId]);
+  return rows.rows.map(localDifferentialCountFromRow).filter((count): count is DifferentialCountSnapshot => Boolean(count));
 }

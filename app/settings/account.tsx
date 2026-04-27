@@ -6,6 +6,7 @@ import { Screen } from '@/src/components/layout/Screen';
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { Card } from '@/src/components/ui/Card';
+import { useLocalDataHydration } from '@/src/hooks/useLocalDataHydration';
 import { useAuth } from '@/src/lib/auth/AuthProvider';
 import { syncAll } from '@/src/lib/db/sync';
 import { isSupabaseConfigured } from '@/src/lib/env';
@@ -15,6 +16,7 @@ type SyncState = 'idle' | 'running' | 'success' | 'skipped' | 'error';
 
 export default function AccountScreen() {
   const { isGuest, userId, signOut } = useAuth();
+  const hydrateLocalData = useLocalDataHydration({ auto: false });
   const [syncState, setSyncState] = useState<SyncState>('idle');
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
 
@@ -30,9 +32,11 @@ export default function AccountScreen() {
         const pendingTotal = Object.values(result.pendingLocalChanges).reduce((sum, count) => sum + count, 0);
         const pushedTotal = Object.values(result.pushedLocalChanges).reduce((sum, count) => sum + count, 0);
         const deletedTotal = Object.values(result.deletedLocalChanges).reduce((sum, count) => sum + count, 0);
+        const conflictTotal = Object.values(result.remoteConflictChanges).reduce((sum, count) => sum + count, 0);
         const remoteTotal = Object.values(result.remoteChanges).reduce((sum, count) => sum + count, 0);
+        await hydrateLocalData(userId);
         setSyncState('success');
-        setSyncMessage(`Sync abgeschlossen. Gepusht: ${pushedTotal}, geloescht: ${deletedTotal}, lokal offen: ${pendingTotal}, remote erkannt: ${remoteTotal}.`);
+        setSyncMessage(`Sync abgeschlossen. Gepusht: ${pushedTotal}, geloescht: ${deletedTotal}, remote neuer: ${conflictTotal}, lokal offen: ${pendingTotal}, remote erkannt: ${remoteTotal}.`);
       }
     } catch (error) {
       setSyncState('error');

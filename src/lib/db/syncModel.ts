@@ -58,6 +58,11 @@ export function resolveLastWriteWins(
   return serverWinsOnTie ? 'remote' : 'local';
 }
 
+export function shouldSkipLocalPushForRemote(local: LocalSyncMetadata, remote: RemoteSyncMetadata | null | undefined) {
+  if (!remote) return false;
+  return resolveLastWriteWins(local.updatedAt, remote.updated_at ?? remote.created_at) === 'remote';
+}
+
 export function getRemoteWatermark(rows: RemoteSyncMetadata[], previousWatermark: string | null = null) {
   const previous = toTimestampMs(previousWatermark);
   const latest = rows.reduce<number | null>((max, row) => {

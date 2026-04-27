@@ -1,7 +1,3177 @@
-[
-  { "id": "hb_f", "label": "Haemoglobin Frauen", "value": "12.0-16.0 g/dl", "bereich": "haema" },
-  { "id": "hb_m", "label": "Haemoglobin Maenner", "value": "14.0-18.0 g/dl", "bereich": "haema" },
-  { "id": "leuko", "label": "Leukozyten", "value": "4.0-10.0 /nl", "bereich": "haema" },
-  { "id": "crp", "label": "CRP", "value": "< 5 mg/l", "bereich": "chemie" },
-  { "id": "krea", "label": "Kreatinin", "value": "0.5-1.1 mg/dl", "bereich": "chemie" }
-]
+{
+  "$schema": "./labpilot.normwerte.schema.json",
+  "source": "Institut für medizinische und pharmazeutische Prüfungsfragen (IMPP), Mainz – Laborparameter-Tabellen mit Referenzbereichen für Erwachsene und Kinder",
+  "disclaimer": "Referenzbereiche dienen Lern- und Übungszwecken. Keine Verwendung für reale Patientenbefunde. Werte können je nach Labor und Methode abweichen.",
+  "categories": {
+    "saeure_basen": "Säure-Basen-Status",
+    "haematologie": "Hämatologie",
+    "gerinnung": "Gerinnung",
+    "klinische_chemie": "Klinische Chemie",
+    "endokrinologie": "Endokrinologie / Hormone",
+    "tumormarker": "Tumormarker",
+    "vitamine": "Vitamine",
+    "elektrolyte": "Elektrolyte",
+    "lipide": "Lipidstoffwechsel",
+    "leberwerte": "Leber-/Pankreaswerte",
+    "nierenwerte": "Nierenwerte",
+    "urin": "Urin"
+  },
+  "values": [
+
+    {
+      "id": "be_adult",
+      "label": "Base Excess (BE)",
+      "value": "-2 bis +3 mmol/l",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "adult",
+      "si_value": "-2 bis +3 mmol/L"
+    },
+    {
+      "id": "ph_adult",
+      "label": "pH (arteriell)",
+      "value": "7.35-7.45",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "adult"
+    },
+    {
+      "id": "pco2_adult",
+      "label": "pCO2",
+      "value": "32-45 mmHg",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "adult",
+      "si_value": "4.3-6.0 kPa",
+      "conventional_value": "32-45 mmHg"
+    },
+    {
+      "id": "po2_adult",
+      "label": "pO2",
+      "value": "65-100 mmHg",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "adult",
+      "si_value": "8.7-13.3 kPa",
+      "conventional_value": "65-100 mmHg"
+    },
+    {
+      "id": "stdbic_adult",
+      "label": "Standardbikarbonat",
+      "value": "22-26 mmol/l",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "adult"
+    },
+
+    {
+      "id": "bsg_f",
+      "label": "BSG nach Westergren – Frauen",
+      "value": "< 20 mm / 1 h",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "f",
+      "age_group": "adult",
+      "note": "Blutkörperchensenkungsgeschwindigkeit"
+    },
+    {
+      "id": "bsg_m",
+      "label": "BSG nach Westergren – Männer",
+      "value": "< 15 mm / 1 h",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "m",
+      "age_group": "adult"
+    },
+    {
+      "id": "leuko_adult",
+      "label": "Leukozyten",
+      "value": "4 000-10 000 /µl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult"
+    },
+    {
+      "id": "leuko_myelo",
+      "label": "Leukozyten – Myelozyten/Metamyelozyten",
+      "value": "0-1 %",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult",
+      "parent_id": "leuko_adult"
+    },
+    {
+      "id": "leuko_stab",
+      "label": "Leukozyten – Stabkernige",
+      "value": "150-400 /µl (3-5 %)",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult",
+      "parent_id": "leuko_adult"
+    },
+    {
+      "id": "leuko_seg",
+      "label": "Leukozyten – Segmentkernige",
+      "value": "3 000-5 800 /µl (50-70 %)",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult",
+      "parent_id": "leuko_adult"
+    },
+    {
+      "id": "leuko_eos",
+      "label": "Leukozyten – Eosinophile",
+      "value": "50-250 /µl (1-4 %)",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult",
+      "parent_id": "leuko_adult"
+    },
+    {
+      "id": "leuko_baso",
+      "label": "Leukozyten – Basophile",
+      "value": "15-50 /µl (0-1 %)",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult",
+      "parent_id": "leuko_adult"
+    },
+    {
+      "id": "leuko_lympho",
+      "label": "Leukozyten – Lymphozyten",
+      "value": "1 500-3 000 /µl (25-45 %)",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult",
+      "parent_id": "leuko_adult"
+    },
+    {
+      "id": "leuko_mono",
+      "label": "Leukozyten – Monozyten",
+      "value": "285-500 /µl (3-7 %)",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult",
+      "parent_id": "leuko_adult"
+    },
+    {
+      "id": "thrombo_adult",
+      "label": "Thrombozyten",
+      "value": "150-400 /nl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult"
+    },
+    {
+      "id": "ery_f",
+      "label": "Erythrozyten – Frauen",
+      "value": "3.5-5.0 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "f",
+      "age_group": "adult"
+    },
+    {
+      "id": "ery_m",
+      "label": "Erythrozyten – Männer",
+      "value": "4.3-5.9 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "m",
+      "age_group": "adult"
+    },
+    {
+      "id": "retikulozyten_adult",
+      "label": "Retikulozyten",
+      "value": "0.5-2.0 %",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult"
+    },
+    {
+      "id": "mcv_adult",
+      "label": "MCV",
+      "value": "81-100 fl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult"
+    },
+    {
+      "id": "mch_adult",
+      "label": "MCH",
+      "value": "27-34 pg",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult",
+      "si_value": "1.67-2.11 fmol",
+      "conventional_value": "27-34 pg"
+    },
+    {
+      "id": "mchc_adult",
+      "label": "MCHC",
+      "value": "320-360 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult",
+      "si_value": "19.85-22.34 mmol/l",
+      "conventional_value": "320-360 g/l"
+    },
+    {
+      "id": "hb_f_adult",
+      "label": "Hämoglobin – Frauen",
+      "value": "120-150 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "7.45-9.31 mmol/l",
+      "conventional_value": "120-150 g/l"
+    },
+    {
+      "id": "hb_m_adult",
+      "label": "Hämoglobin – Männer",
+      "value": "136-172 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "8.44-10.68 mmol/l",
+      "conventional_value": "136-172 g/l"
+    },
+    {
+      "id": "hba1c_adult",
+      "label": "HbA1c",
+      "value": "4-6 %",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "adult",
+      "si_value": "20-42 mmol/mol",
+      "conventional_value": "4-6 %"
+    },
+    {
+      "id": "hkt_f",
+      "label": "Hämatokrit – Frauen",
+      "value": "0.33-0.43",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "f",
+      "age_group": "adult"
+    },
+    {
+      "id": "hkt_m",
+      "label": "Hämatokrit – Männer",
+      "value": "0.39-0.49",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "m",
+      "age_group": "adult"
+    },
+
+    {
+      "id": "tpz_adult",
+      "label": "Thromboplastinzeit (TPZ; Quick)",
+      "value": "70-130 %",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "adult"
+    },
+    {
+      "id": "aptt_adult",
+      "label": "aktivierte partielle Thromboplastinzeit (aPTT)",
+      "value": "26-36 s",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "adult"
+    },
+    {
+      "id": "ptz_adult",
+      "label": "Plasma-Thrombinzeit (PTZ)",
+      "value": "17-24 s",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "adult"
+    },
+    {
+      "id": "fibrinogen_adult",
+      "label": "Fibrinogen",
+      "value": "1.8-3.5 g/l",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "adult",
+      "si_value": "4.4-10.3 µmol/l",
+      "conventional_value": "1.8-3.5 g/l"
+    },
+    {
+      "id": "at3_adult",
+      "label": "Antithrombin III",
+      "value": "0.14-0.39 g/l",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "adult"
+    },
+    {
+      "id": "ddimere_adult",
+      "label": "D-Dimere",
+      "value": "< 0.5 mg/l",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "adult"
+    },
+
+    {
+      "id": "alt_f",
+      "label": "ALT (GPT) – Frauen",
+      "value": "≤ 35 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "≤ 0.58 µkat/l",
+      "conventional_value": "≤ 35 U/l"
+    },
+    {
+      "id": "alt_m",
+      "label": "ALT (GPT) – Männer",
+      "value": "≤ 45 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "≤ 0.75 µkat/l",
+      "conventional_value": "≤ 45 U/l"
+    },
+    {
+      "id": "albumin_adult",
+      "label": "Albumin",
+      "value": "35-50 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "amylase_adult",
+      "label": "α-Amylase",
+      "value": "≤ 100 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "≤ 1.67 µkat/l"
+    },
+    {
+      "id": "asl_adult",
+      "label": "Antistreptolysintiter (ASL)",
+      "value": "≤ 200 IU/ml",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "ast_f",
+      "label": "AST (GOT) – Frauen",
+      "value": "≤ 30 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "≤ 0.50 µkat/l"
+    },
+    {
+      "id": "ast_m",
+      "label": "AST (GOT) – Männer",
+      "value": "≤ 35 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "≤ 0.58 µkat/l"
+    },
+    {
+      "id": "bili_ges_adult",
+      "label": "Bilirubin gesamt",
+      "value": "< 1.1 mg/dl",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "< 19 µmol/l",
+      "conventional_value": "< 1.1 mg/dl"
+    },
+    {
+      "id": "bili_dir_adult",
+      "label": "Bilirubin direkt",
+      "value": "< 0.6 mg/dl",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "< 10 µmol/l",
+      "conventional_value": "< 0.6 mg/dl"
+    },
+    {
+      "id": "cea_adult",
+      "label": "CEA",
+      "value": "≤ 5 µg/l",
+      "bereich": "chemie",
+      "category": "tumormarker",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "chlorid_adult",
+      "label": "Chlorid",
+      "value": "98-106 mmol/l",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "chol_ges_adult",
+      "label": "Cholesterin gesamt",
+      "value": "≤ 200 mg/dl",
+      "bereich": "chemie",
+      "category": "lipide",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "≤ 5.2 mmol/l",
+      "conventional_value": "≤ 200 mg/dl"
+    },
+    {
+      "id": "hdl_adult",
+      "label": "HDL-Cholesterin",
+      "value": "> 35 mg/dl",
+      "bereich": "chemie",
+      "category": "lipide",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "> 0.9 mmol/l",
+      "conventional_value": "> 35 mg/dl"
+    },
+    {
+      "id": "ldl_adult",
+      "label": "LDL-Cholesterin",
+      "value": "< 155 mg/dl",
+      "bereich": "chemie",
+      "category": "lipide",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "< 4.0 mmol/l",
+      "conventional_value": "< 155 mg/dl"
+    },
+    {
+      "id": "crp_adult",
+      "label": "C-reaktives Protein (CRP)",
+      "value": "< 5 mg/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "che_f",
+      "label": "Cholinesterase (ChE) – Frauen",
+      "value": "4.3-11.3 kU/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "71-188 µkat/l"
+    },
+    {
+      "id": "che_m",
+      "label": "Cholinesterase (ChE) – Männer",
+      "value": "5.3-12.9 kU/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "88-215 µkat/l"
+    },
+    {
+      "id": "eisen_adult",
+      "label": "Eisen",
+      "value": "45-160 µg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "7-29 µmol/l",
+      "conventional_value": "45-160 µg/dl"
+    },
+    {
+      "id": "ferritin_f_18_45",
+      "label": "Ferritin – Frauen (18-45 J.)",
+      "value": "6-81 µg/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "age_range": "18-45 Jahre"
+    },
+    {
+      "id": "ferritin_m_18_45",
+      "label": "Ferritin – Männer (18-45 J.)",
+      "value": "30-233 µg/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "age_range": "18-45 Jahre"
+    },
+    {
+      "id": "ferritin_f_46plus",
+      "label": "Ferritin – Frauen (≥ 46 J.)",
+      "value": "14-186 µg/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "age_range": "ab 46 Jahre"
+    },
+    {
+      "id": "ferritin_m_46plus",
+      "label": "Ferritin – Männer (≥ 46 J.)",
+      "value": "32-284 µg/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "age_range": "ab 46 Jahre"
+    },
+    {
+      "id": "glukose_adult",
+      "label": "Glukose (nüchtern)",
+      "value": "55-100 mg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Vollblut",
+      "age_group": "adult",
+      "si_value": "3.1-5.6 mmol/l",
+      "conventional_value": "55-100 mg/dl"
+    },
+    {
+      "id": "gldh_adult",
+      "label": "Glutamat-Dehydrogenase (GLDH)",
+      "value": "≤ 6 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "≤ 0.1 µkat/l"
+    },
+    {
+      "id": "ggt_f",
+      "label": "γ-GT – Frauen",
+      "value": "≤ 38 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "≤ 0.63 µkat/l"
+    },
+    {
+      "id": "ggt_m",
+      "label": "γ-GT – Männer",
+      "value": "≤ 55 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "≤ 0.92 µkat/l"
+    },
+    {
+      "id": "harnsaeure_f",
+      "label": "Harnsäure – Frauen",
+      "value": "2.3-6.1 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "137-363 µmol/l",
+      "conventional_value": "2.3-6.1 mg/dl"
+    },
+    {
+      "id": "harnsaeure_m",
+      "label": "Harnsäure – Männer",
+      "value": "3.6-8.2 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "214-488 µmol/l",
+      "conventional_value": "3.6-8.2 mg/dl"
+    },
+    {
+      "id": "harnstoff_le65",
+      "label": "Harnstoff (≤ 65 J.)",
+      "value": "20-50 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "age_range": "≤ 65 Jahre",
+      "si_value": "3.0-8.3 mmol/l",
+      "conventional_value": "20-50 mg/dl"
+    },
+    {
+      "id": "harnstoff_gt65",
+      "label": "Harnstoff (> 65 J.)",
+      "value": "< 72 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "age_range": "> 65 Jahre",
+      "si_value": "< 12 mmol/l",
+      "conventional_value": "< 72 mg/dl"
+    },
+    {
+      "id": "harnstoff_n_le65",
+      "label": "Harnstoff-N (≤ 65 J.)",
+      "value": "9-23 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "age_range": "≤ 65 Jahre",
+      "si_value": "3.2-8.2 mmol/l",
+      "conventional_value": "9-23 mg/dl"
+    },
+    {
+      "id": "harnstoff_n_gt65",
+      "label": "Harnstoff-N (> 65 J.)",
+      "value": "< 33 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "age_range": "> 65 Jahre",
+      "si_value": "< 11.8 mmol/l",
+      "conventional_value": "< 33 mg/dl"
+    },
+    {
+      "id": "hbdh_adult",
+      "label": "Hydroxybutyrat-Dehydrogenase (HBDH)",
+      "value": "72-182 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "1.2-3.0 µkat/l"
+    },
+    {
+      "id": "kalium_adult",
+      "label": "Kalium",
+      "value": "3.6-5.2 mmol/l",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "kalzitonin_f",
+      "label": "Kalzitonin basal (hCT) – Frauen",
+      "value": "< 2-10 ng/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult"
+    },
+    {
+      "id": "kalzitonin_m",
+      "label": "Kalzitonin basal (hCT) – Männer",
+      "value": "< 2-48 ng/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult"
+    },
+    {
+      "id": "calcium_ges_adult",
+      "label": "Kalzium gesamt",
+      "value": "8.8-10.6 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "2.20-2.65 mmol/l",
+      "conventional_value": "8.8-10.6 mg/dl"
+    },
+    {
+      "id": "calcium_ion_adult",
+      "label": "Kalzium ionisiert",
+      "value": "4.6-5.4 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "1.15-1.35 mmol/l",
+      "conventional_value": "4.6-5.4 mg/dl"
+    },
+    {
+      "id": "c3_adult",
+      "label": "Komplement C3",
+      "value": "0.75-1.35 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "c4_adult",
+      "label": "Komplement C4",
+      "value": "0.09-0.36 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "krea_f",
+      "label": "Kreatinin – Frauen",
+      "value": "≤ 0.9 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "≤ 80 µmol/l"
+    },
+    {
+      "id": "krea_m",
+      "label": "Kreatinin – Männer",
+      "value": "≤ 1.1 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "≤ 100 µmol/l"
+    },
+    {
+      "id": "ck_f",
+      "label": "Kreatinkinase (CK) – Frauen",
+      "value": "≤ 145 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "≤ 2.42 µkat/l"
+    },
+    {
+      "id": "ck_m",
+      "label": "Kreatinkinase (CK) – Männer",
+      "value": "≤ 170 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "≤ 2.83 µkat/l"
+    },
+    {
+      "id": "ckmb_f",
+      "label": "CK-MB – Frauen",
+      "value": "< 22 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "< 0.36 µkat/l"
+    },
+    {
+      "id": "ckmb_m",
+      "label": "CK-MB – Männer",
+      "value": "< 25 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "< 0.41 µkat/l"
+    },
+    {
+      "id": "laktat_adult",
+      "label": "Laktat",
+      "value": "5-15 mg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Plasma",
+      "age_group": "adult",
+      "si_value": "0.6-1.7 mmol/l",
+      "conventional_value": "5-15 mg/dl"
+    },
+    {
+      "id": "ldh_adult",
+      "label": "Laktat-Dehydrogenase (LDH)",
+      "value": "120-240 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "2-4 µkat/l"
+    },
+    {
+      "id": "lipase_adult",
+      "label": "Lipase",
+      "value": "≤ 60 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "≤ 1.0 µkat/l"
+    },
+    {
+      "id": "magnesium_f",
+      "label": "Magnesium – Frauen",
+      "value": "1.9-2.5 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "0.77-1.03 mmol/l",
+      "conventional_value": "1.9-2.5 mg/dl"
+    },
+    {
+      "id": "magnesium_m",
+      "label": "Magnesium – Männer",
+      "value": "1.8-2.6 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "0.73-1.06 mmol/l",
+      "conventional_value": "1.8-2.6 mg/dl"
+    },
+    {
+      "id": "natrium_adult",
+      "label": "Natrium",
+      "value": "135-145 mmol/l",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "psa_adult",
+      "label": "PSA",
+      "value": "≤ 4 ng/ml",
+      "bereich": "chemie",
+      "category": "tumormarker",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "phosphat_adult",
+      "label": "Phosphat",
+      "value": "2.6-4.5 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "0.84-1.45 mmol/l",
+      "conventional_value": "2.6-4.5 mg/dl"
+    },
+    {
+      "id": "ap_f",
+      "label": "Alkalische Phosphatase (AP) – Frauen",
+      "value": "35-105 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult",
+      "si_value": "0.58-1.75 µkat/l"
+    },
+    {
+      "id": "ap_m",
+      "label": "Alkalische Phosphatase (AP) – Männer",
+      "value": "40-130 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult",
+      "si_value": "0.66-2.16 µkat/l"
+    },
+    {
+      "id": "protein_ges_adult",
+      "label": "Gesamteiweiß",
+      "value": "65-85 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "spe_albumin_adult",
+      "label": "Serumprotein-EP – Albumin",
+      "value": "59-72 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "parent_id": "protein_ges_adult"
+    },
+    {
+      "id": "spe_alpha1_adult",
+      "label": "Serumprotein-EP – α1-Globulin",
+      "value": "1.3-4.5 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "parent_id": "protein_ges_adult"
+    },
+    {
+      "id": "spe_alpha2_adult",
+      "label": "Serumprotein-EP – α2-Globulin",
+      "value": "4.5-10.0 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "parent_id": "protein_ges_adult"
+    },
+    {
+      "id": "spe_beta_adult",
+      "label": "Serumprotein-EP – β-Globulin",
+      "value": "6.5-13.0 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "parent_id": "protein_ges_adult"
+    },
+    {
+      "id": "spe_gamma_adult",
+      "label": "Serumprotein-EP – γ-Globulin",
+      "value": "10.5-18.0 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "parent_id": "protein_ges_adult"
+    },
+    {
+      "id": "tsh_adult",
+      "label": "TSH basal",
+      "value": "0.4-4.0 mU/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "t4_ges_adult",
+      "label": "Thyroxin gesamt (T4)",
+      "value": "55-110 µg/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "77-142 nmol/l",
+      "conventional_value": "55-110 µg/l"
+    },
+    {
+      "id": "ft4_adult",
+      "label": "Thyroxin frei (fT4)",
+      "value": "8-18 ng/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "10-23 pmol/l",
+      "conventional_value": "8-18 ng/l"
+    },
+    {
+      "id": "transferrin_adult",
+      "label": "Transferrin",
+      "value": "200-360 mg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "trigly_adult",
+      "label": "Triglyzeride",
+      "value": "≤ 200 mg/dl",
+      "bereich": "chemie",
+      "category": "lipide",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "≤ 2.3 mmol/l",
+      "conventional_value": "≤ 200 mg/dl"
+    },
+    {
+      "id": "t3_ges_adult",
+      "label": "Triiodthyronin gesamt (T3)",
+      "value": "0.90-1.80 µg/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "1.4-2.8 nmol/l",
+      "conventional_value": "0.90-1.80 µg/l"
+    },
+    {
+      "id": "ft3_adult",
+      "label": "Triiodthyronin frei (fT3)",
+      "value": "3.5-8.0 pg/ml",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "5.4-12.3 pmol/l",
+      "conventional_value": "3.5-8.0 pg/ml"
+    },
+    {
+      "id": "trop_i_adult",
+      "label": "Troponin I",
+      "value": "< 0.1-2.0 µg/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "trop_t_adult",
+      "label": "Troponin T",
+      "value": "< 0.1 µg/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "trop_t_hs_adult",
+      "label": "Troponin T-hs",
+      "value": "< 14 ng/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "adult"
+    },
+    {
+      "id": "vitb1_adult",
+      "label": "Vitamin B1",
+      "value": "0.2-0.7 µg/dl",
+      "bereich": "chemie",
+      "category": "vitamine",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "5.2-20.0 nmol/l",
+      "conventional_value": "0.2-0.7 µg/dl"
+    },
+    {
+      "id": "vitb12_adult",
+      "label": "Vitamin B12",
+      "value": "20-100 ng/dl",
+      "bereich": "chemie",
+      "category": "vitamine",
+      "specimen": "Serum",
+      "age_group": "adult",
+      "si_value": "148-738 pmol/l",
+      "conventional_value": "20-100 ng/dl"
+    },
+    {
+      "id": "zaeruloplasmin_f",
+      "label": "Zäruloplasmin – Frauen",
+      "value": "25-60 mg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "adult"
+    },
+    {
+      "id": "zaeruloplasmin_m",
+      "label": "Zäruloplasmin – Männer",
+      "value": "22-40 mg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "adult"
+    },
+
+    {
+      "id": "urin_dichte",
+      "label": "Spezifisches Gewicht",
+      "value": "1 015-1 030 g/l",
+      "bereich": "chemie",
+      "category": "urin",
+      "specimen": "Urin",
+      "age_group": "all"
+    },
+    {
+      "id": "urin_ph",
+      "label": "Urin-pH",
+      "value": "4.8-7.6",
+      "bereich": "chemie",
+      "category": "urin",
+      "specimen": "Urin",
+      "age_group": "all"
+    },
+    {
+      "id": "urin_bili",
+      "label": "Bilirubin (Urin)",
+      "value": "negativ",
+      "bereich": "chemie",
+      "category": "urin",
+      "specimen": "Urin",
+      "age_group": "all",
+      "note": "Urinteststreifen"
+    },
+    {
+      "id": "urin_eiweiss",
+      "label": "Eiweiß (Urin)",
+      "value": "negativ; quantitativ < 150 mg / 24 h",
+      "bereich": "chemie",
+      "category": "urin",
+      "specimen": "Urin",
+      "age_group": "all"
+    },
+    {
+      "id": "urin_glukose",
+      "label": "Glukose (Urin)",
+      "value": "negativ; quantitativ (Spontanurin) < 165 mg/l",
+      "bereich": "chemie",
+      "category": "urin",
+      "specimen": "Urin",
+      "age_group": "all",
+      "si_value": "< 0.92 mmol/l",
+      "conventional_value": "< 165 mg/l"
+    },
+    {
+      "id": "urin_keton",
+      "label": "Ketonkörper (Urin)",
+      "value": "negativ",
+      "bereich": "chemie",
+      "category": "urin",
+      "specimen": "Urin",
+      "age_group": "all"
+    },
+    {
+      "id": "urin_nitrit",
+      "label": "Nitrit (Urin)",
+      "value": "negativ",
+      "bereich": "chemie",
+      "category": "urin",
+      "specimen": "Urin",
+      "age_group": "all"
+    },
+    {
+      "id": "urin_urobili",
+      "label": "Urobilinogen (Urin)",
+      "value": "negativ; quantitativ 0.5-4 mg / 24 h",
+      "bereich": "chemie",
+      "category": "urin",
+      "specimen": "Urin",
+      "age_group": "all"
+    },
+    {
+      "id": "urin_sed_ery",
+      "label": "Erythrozyten im Urinsediment",
+      "value": "0-1 / Gesichtsfeld (400×)",
+      "bereich": "chemie",
+      "category": "urin",
+      "specimen": "Urin",
+      "age_group": "all"
+    },
+    {
+      "id": "urin_sed_leuko",
+      "label": "Leukozyten im Urinsediment",
+      "value": "bis 4 / Gesichtsfeld (400×)",
+      "bereich": "chemie",
+      "category": "urin",
+      "specimen": "Urin",
+      "age_group": "all"
+    },
+
+    {
+      "id": "be_neonatal",
+      "label": "Base Excess – Neugeborene",
+      "value": "≥ -10 mmol/l",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "be_kind",
+      "label": "Base Excess – Säuglinge / Kinder ab 1. Lj.",
+      "value": "-3.5 bis +2.5 mmol/l",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "child"
+    },
+    {
+      "id": "ph_neonatal",
+      "label": "pH – Neugeborene",
+      "value": "≥ 7.20",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "ph_kind",
+      "label": "pH – Säuglinge / Kinder ab 1. Lj.",
+      "value": "7.35-7.45",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "child"
+    },
+    {
+      "id": "pco2_neonatal",
+      "label": "pCO2 – Neugeborene",
+      "value": "38-53 mmHg",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "neonatal",
+      "si_value": "5.1-7.1 kPa",
+      "conventional_value": "38-53 mmHg"
+    },
+    {
+      "id": "pco2_kind",
+      "label": "pCO2 – Säuglinge / Kinder ab 1. Lj.",
+      "value": "32-47 mmHg",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "child",
+      "si_value": "4.3-6.3 kPa",
+      "conventional_value": "32-47 mmHg"
+    },
+    {
+      "id": "po2_neonatal",
+      "label": "pO2 – Neugeborene",
+      "value": "≥ 50 mmHg",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "neonatal",
+      "si_value": "≥ 6.7 kPa",
+      "conventional_value": "≥ 50 mmHg"
+    },
+    {
+      "id": "po2_kind",
+      "label": "pO2 – Säuglinge / Kinder ab 1. Lj.",
+      "value": "80-108 mmHg",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "child",
+      "si_value": "10.7-14.4 kPa",
+      "conventional_value": "80-108 mmHg"
+    },
+    {
+      "id": "stdbic_neonatal",
+      "label": "Standardbikarbonat – Neugeborene",
+      "value": "18-26 mmol/l",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "stdbic_kind",
+      "label": "Standardbikarbonat – Säuglinge / Kinder ab 1. Lj.",
+      "value": "20-27 mmol/l",
+      "bereich": "chemie",
+      "category": "saeure_basen",
+      "specimen": "arteriell",
+      "age_group": "child"
+    },
+
+    {
+      "id": "bsg_kind",
+      "label": "BSG nach Westergren – Kinder",
+      "value": "< 10 mm / 1 h",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child"
+    },
+    {
+      "id": "leuko_neonatal",
+      "label": "Leukozyten – Neugeborene",
+      "value": "9 000-15 000 /µl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "leuko_kind",
+      "label": "Leukozyten – Säuglinge / Kinder",
+      "value": "8 000-12 000 /µl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child"
+    },
+    {
+      "id": "thrombo_neonatal",
+      "label": "Thrombozyten – Neugeborene",
+      "value": "100-250 /nl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "thrombo_kind",
+      "label": "Thrombozyten – Säuglinge / Kinder",
+      "value": "200-350 /nl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child"
+    },
+
+    {
+      "id": "ery_d1",
+      "label": "Erythrozyten – 1 Tag",
+      "value": "4.5-6.5 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "neonatal",
+      "age_range": "1 Tag"
+    },
+    {
+      "id": "hb_d1",
+      "label": "Hämoglobin – 1 Tag",
+      "value": "140-240 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "neonatal",
+      "age_range": "1 Tag",
+      "si_value": "8.7-14.9 mmol/l"
+    },
+    {
+      "id": "hkt_d1",
+      "label": "Hämatokrit – 1 Tag",
+      "value": "0.44-0.65",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "neonatal",
+      "age_range": "1 Tag"
+    },
+    {
+      "id": "ery_d5",
+      "label": "Erythrozyten – 5 Tage",
+      "value": "4.4-6.1 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "neonatal",
+      "age_range": "5 Tage"
+    },
+    {
+      "id": "hb_d5",
+      "label": "Hämoglobin – 5 Tage",
+      "value": "130-230 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "neonatal",
+      "age_range": "5 Tage",
+      "si_value": "8.1-14.3 mmol/l"
+    },
+    {
+      "id": "hkt_d5",
+      "label": "Hämatokrit – 5 Tage",
+      "value": "0.50-0.70",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "neonatal",
+      "age_range": "5 Tage"
+    },
+    {
+      "id": "ery_m1",
+      "label": "Erythrozyten – 1 Monat",
+      "value": "3.9-5.3 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "infant",
+      "age_range": "1 Monat"
+    },
+    {
+      "id": "hb_m1",
+      "label": "Hämoglobin – 1 Monat",
+      "value": "110-170 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "infant",
+      "age_range": "1 Monat",
+      "si_value": "6.8-10.6 mmol/l"
+    },
+    {
+      "id": "hkt_m1",
+      "label": "Hämatokrit – 1 Monat",
+      "value": "0.31-0.59",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "infant",
+      "age_range": "1 Monat"
+    },
+    {
+      "id": "ery_m3",
+      "label": "Erythrozyten – 3 Monate",
+      "value": "3.2-4.3 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "infant",
+      "age_range": "3 Monate"
+    },
+    {
+      "id": "hb_m3",
+      "label": "Hämoglobin – 3 Monate",
+      "value": "100-130 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "infant",
+      "age_range": "3 Monate",
+      "si_value": "6.2-8.1 mmol/l"
+    },
+    {
+      "id": "hkt_m3",
+      "label": "Hämatokrit – 3 Monate",
+      "value": "0.31-0.43",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "infant",
+      "age_range": "3 Monate"
+    },
+    {
+      "id": "ery_m6",
+      "label": "Erythrozyten – 6 Monate",
+      "value": "3.8-5.0 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "infant",
+      "age_range": "6 Monate"
+    },
+    {
+      "id": "hb_m6",
+      "label": "Hämoglobin – 6 Monate",
+      "value": "105-145 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "infant",
+      "age_range": "6 Monate",
+      "si_value": "6.5-9.0 mmol/l"
+    },
+    {
+      "id": "hkt_m6",
+      "label": "Hämatokrit – 6 Monate",
+      "value": "0.32-0.44",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "infant",
+      "age_range": "6 Monate"
+    },
+    {
+      "id": "ery_y1",
+      "label": "Erythrozyten – 1 Jahr",
+      "value": "4.2-5.5 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child",
+      "age_range": "1 Jahr"
+    },
+    {
+      "id": "hb_y1",
+      "label": "Hämoglobin – 1 Jahr",
+      "value": "110-150 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child",
+      "age_range": "1 Jahr",
+      "si_value": "6.8-9.3 mmol/l"
+    },
+    {
+      "id": "hkt_y1",
+      "label": "Hämatokrit – 1 Jahr",
+      "value": "0.35-0.43",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child",
+      "age_range": "1 Jahr"
+    },
+    {
+      "id": "ery_y2_6",
+      "label": "Erythrozyten – 2-6 Jahre",
+      "value": "4.3-5.5 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child",
+      "age_range": "2-6 Jahre"
+    },
+    {
+      "id": "hb_y2_6",
+      "label": "Hämoglobin – 2-6 Jahre",
+      "value": "120-150 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child",
+      "age_range": "2-6 Jahre",
+      "si_value": "7.45-9.3 mmol/l"
+    },
+    {
+      "id": "hkt_y2_6",
+      "label": "Hämatokrit – 2-6 Jahre",
+      "value": "0.31-0.43",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child",
+      "age_range": "2-6 Jahre"
+    },
+    {
+      "id": "ery_y7_12",
+      "label": "Erythrozyten – 7-12 Jahre",
+      "value": "4.5-5.5 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child",
+      "age_range": "7-12 Jahre"
+    },
+    {
+      "id": "hb_y7_12",
+      "label": "Hämoglobin – 7-12 Jahre",
+      "value": "130-155 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child",
+      "age_range": "7-12 Jahre",
+      "si_value": "8.1-9.6 mmol/l"
+    },
+    {
+      "id": "hkt_y7_12",
+      "label": "Hämatokrit – 7-12 Jahre",
+      "value": "0.33-0.43",
+      "bereich": "haema",
+      "category": "haematologie",
+      "age_group": "child",
+      "age_range": "7-12 Jahre"
+    },
+    {
+      "id": "ery_y13_17_f",
+      "label": "Erythrozyten – Mädchen 13-17 J.",
+      "value": "4.3-5.5 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "13-17 Jahre"
+    },
+    {
+      "id": "hb_y13_17_f",
+      "label": "Hämoglobin – Mädchen 13-17 J.",
+      "value": "110-160 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "13-17 Jahre",
+      "si_value": "6.8-9.9 mmol/l"
+    },
+    {
+      "id": "hkt_y13_17_f",
+      "label": "Hämatokrit – Mädchen 13-17 J.",
+      "value": "0.36-0.44",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "13-17 Jahre"
+    },
+    {
+      "id": "ery_y13_17_m",
+      "label": "Erythrozyten – Jungen 13-17 J.",
+      "value": "4.8-5.7 /pl",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "13-17 Jahre"
+    },
+    {
+      "id": "hb_y13_17_m",
+      "label": "Hämoglobin – Jungen 13-17 J.",
+      "value": "130-180 g/l",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "13-17 Jahre",
+      "si_value": "8.1-11.2 mmol/l"
+    },
+    {
+      "id": "hkt_y13_17_m",
+      "label": "Hämatokrit – Jungen 13-17 J.",
+      "value": "0.39-0.47",
+      "bereich": "haema",
+      "category": "haematologie",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "13-17 Jahre"
+    },
+
+    {
+      "id": "tpz_neonatal",
+      "label": "TPZ (Quick) – Neugeborene",
+      "value": "> 40 %",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "tpz_kind",
+      "label": "TPZ (Quick) – Säuglinge / Kinder",
+      "value": "70-130 %",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "child"
+    },
+    {
+      "id": "aptt_neonatal",
+      "label": "aPTT – Neugeborene",
+      "value": "35-52 s",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "aptt_infant",
+      "label": "aPTT – Säuglinge",
+      "value": "27-50 s",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "infant"
+    },
+    {
+      "id": "aptt_kind",
+      "label": "aPTT – Kinder ab 1. Lj.",
+      "value": "24-36 s",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "child"
+    },
+    {
+      "id": "ptz_kind",
+      "label": "PTZ – Kinder",
+      "value": "17-24 s",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "child"
+    },
+    {
+      "id": "fibrinogen_le6m",
+      "label": "Fibrinogen – < 6 Monate",
+      "value": "1.5-3 g/l",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "infant",
+      "age_range": "< 6 Monate",
+      "si_value": "4.5-9 µmol/l"
+    },
+    {
+      "id": "fibrinogen_gt6m",
+      "label": "Fibrinogen – > 6 Monate",
+      "value": "2-4 g/l",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "child",
+      "age_range": "> 6 Monate",
+      "si_value": "6-12 µmol/l"
+    },
+    {
+      "id": "at3_neonatal",
+      "label": "Antithrombin III – Neugeborene",
+      "value": "40-70 %",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "at3_kind",
+      "label": "Antithrombin III – Kinder",
+      "value": "80-120 %",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "child"
+    },
+    {
+      "id": "ddimere_kind",
+      "label": "D-Dimere – Kinder",
+      "value": "0.02-0.4 mg/l",
+      "bereich": "chemie",
+      "category": "gerinnung",
+      "specimen": "Plasma",
+      "age_group": "child"
+    },
+
+    {
+      "id": "alt_kind_d1",
+      "label": "ALT (GPT) – 1 Tag",
+      "value": "< 27 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "1 Tag",
+      "si_value": "< 0.45 µkat/l"
+    },
+    {
+      "id": "alt_kind_d2_4",
+      "label": "ALT (GPT) – 2-4 Tage",
+      "value": "< 42 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "2-4 Tage",
+      "si_value": "< 0.70 µkat/l"
+    },
+    {
+      "id": "alt_kind_d5_m5",
+      "label": "ALT (GPT) – 5 Tage – 5 Monate",
+      "value": "< 48 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "5 Tage – 5 Monate",
+      "si_value": "< 0.80 µkat/l"
+    },
+    {
+      "id": "alt_kind_m6_12",
+      "label": "ALT (GPT) – 6-12 Monate",
+      "value": "< 47 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "6-12 Monate",
+      "si_value": "< 0.78 µkat/l"
+    },
+    {
+      "id": "alt_kind_y1_2",
+      "label": "ALT (GPT) – 1-2 Jahre",
+      "value": "< 29 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "1-2 Jahre",
+      "si_value": "< 0.48 µkat/l"
+    },
+    {
+      "id": "alt_kind_y3_5",
+      "label": "ALT (GPT) – 3-5 Jahre",
+      "value": "< 26 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "3-5 Jahre",
+      "si_value": "< 0.43 µkat/l"
+    },
+    {
+      "id": "alt_kind_y6_11",
+      "label": "ALT (GPT) – 6-11 Jahre",
+      "value": "< 34 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "6-11 Jahre",
+      "si_value": "< 0.57 µkat/l"
+    },
+    {
+      "id": "alt_kind_y12_16_f",
+      "label": "ALT (GPT) – 12-16 J. (Mädchen)",
+      "value": "< 21 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "12-16 Jahre",
+      "si_value": "< 0.35 µkat/l"
+    },
+    {
+      "id": "alt_kind_y12_16_m",
+      "label": "ALT (GPT) – 12-16 J. (Jungen)",
+      "value": "< 24 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "12-16 Jahre",
+      "si_value": "< 0.40 µkat/l"
+    },
+
+    {
+      "id": "albumin_neonatal",
+      "label": "Albumin – Neugeborene / Säuglinge",
+      "value": "30.0-52.0 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "albumin_kind",
+      "label": "Albumin – Kinder ab 1. Lj.",
+      "value": "35.2-50.4 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child"
+    },
+    {
+      "id": "amylase_kind",
+      "label": "α-Amylase – Kinder",
+      "value": "28-100 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "0.47-1.67 µkat/l"
+    },
+    {
+      "id": "asl_kind",
+      "label": "Antistreptolysintiter – Kinder",
+      "value": "≤ 200 IU/ml",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child"
+    },
+
+    {
+      "id": "ast_kind_d1",
+      "label": "AST (GOT) – 1 Tag",
+      "value": "< 110 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "1 Tag",
+      "si_value": "< 1.84 µkat/l"
+    },
+    {
+      "id": "ast_kind_d2_4",
+      "label": "AST (GOT) – 2-4 Tage",
+      "value": "< 100 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "2-4 Tage",
+      "si_value": "< 1.67 µkat/l"
+    },
+    {
+      "id": "ast_kind_d5_m5",
+      "label": "AST (GOT) – 5 Tage – 5 Monate",
+      "value": "< 79 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "5 Tage – 5 Monate",
+      "si_value": "< 1.32 µkat/l"
+    },
+    {
+      "id": "ast_kind_m6_12",
+      "label": "AST (GOT) – 6-12 Monate",
+      "value": "< 83 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "6-12 Monate",
+      "si_value": "< 1.38 µkat/l"
+    },
+    {
+      "id": "ast_kind_y1_2",
+      "label": "AST (GOT) – 1-2 Jahre",
+      "value": "< 50 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "1-2 Jahre",
+      "si_value": "< 0.84 µkat/l"
+    },
+    {
+      "id": "ast_kind_y3_5",
+      "label": "AST (GOT) – 3-5 Jahre",
+      "value": "< 37 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "3-5 Jahre",
+      "si_value": "< 0.62 µkat/l"
+    },
+    {
+      "id": "ast_kind_y6_11",
+      "label": "AST (GOT) – 6-11 Jahre",
+      "value": "< 48 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "6-11 Jahre",
+      "si_value": "< 0.80 µkat/l"
+    },
+    {
+      "id": "ast_kind_y12_16_f",
+      "label": "AST (GOT) – 12-16 J. (Mädchen)",
+      "value": "< 25 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "12-16 Jahre",
+      "si_value": "< 0.42 µkat/l"
+    },
+    {
+      "id": "ast_kind_y12_16_m",
+      "label": "AST (GOT) – 12-16 J. (Jungen)",
+      "value": "< 29 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "12-16 Jahre",
+      "si_value": "< 0.48 µkat/l"
+    },
+
+    {
+      "id": "bili_ges_nabel",
+      "label": "Bilirubin gesamt – Nabelschnur",
+      "value": "< 2 mg/dl",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "Nabelschnur",
+      "si_value": "< 34 µmol/l"
+    },
+    {
+      "id": "bili_ges_lt24h",
+      "label": "Bilirubin gesamt – < 24 h",
+      "value": "2-6 mg/dl",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "< 24 h",
+      "si_value": "34-100 µmol/l"
+    },
+    {
+      "id": "bili_ges_d1_2",
+      "label": "Bilirubin gesamt – 1-2 Tage",
+      "value": "6-7 mg/dl",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "1-2 Tage",
+      "si_value": "100-120 µmol/l"
+    },
+    {
+      "id": "bili_ges_d3_5",
+      "label": "Bilirubin gesamt – 3-5 Tage",
+      "value": "4-12 mg/dl",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "3-5 Tage",
+      "si_value": "70-120 µmol/l"
+    },
+    {
+      "id": "bili_ges_kind",
+      "label": "Bilirubin gesamt – ab 1 Monat",
+      "value": "< 1 mg/dl",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "ab 1 Monat",
+      "si_value": "< 17 µmol/l"
+    },
+    {
+      "id": "bili_dir_kind",
+      "label": "Bilirubin direkt – ab 1 Monat",
+      "value": "0-0.4 mg/dl",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "ab 1 Monat",
+      "si_value": "0-7 µmol/l"
+    },
+
+    {
+      "id": "chol_kind_lt2m",
+      "label": "Cholesterin – < 2 Monate",
+      "value": "72-166 mg/dl",
+      "bereich": "chemie",
+      "category": "lipide",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "< 2 Monate",
+      "si_value": "1.9-4.3 mmol/l"
+    },
+    {
+      "id": "chol_kind_infant",
+      "label": "Cholesterin – Säuglinge ab 2 Monate",
+      "value": "60-193 mg/dl",
+      "bereich": "chemie",
+      "category": "lipide",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "si_value": "1.6-5.0 mmol/l"
+    },
+    {
+      "id": "chol_kind_y1_4",
+      "label": "Cholesterin – 1-4 Jahre",
+      "value": "116-219 mg/dl",
+      "bereich": "chemie",
+      "category": "lipide",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "1-4 Jahre",
+      "si_value": "3.0-5.7 mmol/l"
+    },
+    {
+      "id": "chol_kind_y4_16",
+      "label": "Cholesterin – 4-16 Jahre",
+      "value": "123-226 mg/dl",
+      "bereich": "chemie",
+      "category": "lipide",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "4-16 Jahre",
+      "si_value": "3.2-5.8 mmol/l"
+    },
+    {
+      "id": "crp_kind",
+      "label": "CRP – Kinder",
+      "value": "< 5 mg/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child"
+    },
+
+    {
+      "id": "eisen_neonatal",
+      "label": "Eisen – Neugeborene",
+      "value": "63-201 µg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "eisen_infant",
+      "label": "Eisen – Säuglinge",
+      "value": "28-155 µg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant"
+    },
+    {
+      "id": "eisen_kind",
+      "label": "Eisen – Kinder ab 1. Lj.",
+      "value": "45-160 µg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child"
+    },
+
+    {
+      "id": "ggt_kind_d1",
+      "label": "γ-GT – 1 Tag",
+      "value": "< 148 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "1 Tag",
+      "si_value": "< 2.47 µkat/l"
+    },
+    {
+      "id": "ggt_kind_d2_4",
+      "label": "γ-GT – 2-4 Tage",
+      "value": "< 181 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "2-4 Tage",
+      "si_value": "< 3.02 µkat/l"
+    },
+    {
+      "id": "ggt_kind_d5_m5",
+      "label": "γ-GT – 5 Tage – 5 Monate",
+      "value": "< 200 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "5 Tage – 5 Monate",
+      "si_value": "< 3.33 µkat/l"
+    },
+    {
+      "id": "ggt_kind_m6_12",
+      "label": "γ-GT – 6-12 Monate",
+      "value": "< 33 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "6-12 Monate",
+      "si_value": "< 0.55 µkat/l"
+    },
+    {
+      "id": "ggt_kind_y1_2",
+      "label": "γ-GT – 1-2 Jahre",
+      "value": "< 17 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "1-2 Jahre",
+      "si_value": "< 0.28 µkat/l"
+    },
+    {
+      "id": "ggt_kind_y3_5",
+      "label": "γ-GT – 3-5 Jahre",
+      "value": "< 22 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "3-5 Jahre",
+      "si_value": "< 0.37 µkat/l"
+    },
+    {
+      "id": "ggt_kind_y6_11",
+      "label": "γ-GT – 6-11 Jahre",
+      "value": "< 17 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "6-11 Jahre",
+      "si_value": "< 0.28 µkat/l"
+    },
+    {
+      "id": "ggt_kind_y12_16_f",
+      "label": "γ-GT – 12-16 J. (Mädchen)",
+      "value": "< 33 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "12-16 Jahre",
+      "si_value": "< 0.55 µkat/l"
+    },
+    {
+      "id": "ggt_kind_y12_16_m",
+      "label": "γ-GT – 12-16 J. (Jungen)",
+      "value": "< 45 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "12-16 Jahre",
+      "si_value": "< 0.75 µkat/l"
+    },
+
+    {
+      "id": "glukose_neonatal",
+      "label": "Glukose nüchtern – Neugeborene",
+      "value": "30-60 mg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Vollblut",
+      "age_group": "neonatal",
+      "si_value": "1.7-3.3 mmol/l"
+    },
+    {
+      "id": "glukose_infant",
+      "label": "Glukose nüchtern – Säuglinge",
+      "value": "50-90 mg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Vollblut",
+      "age_group": "infant",
+      "si_value": "2.8-5.0 mmol/l"
+    },
+    {
+      "id": "glukose_kind",
+      "label": "Glukose nüchtern – Kinder",
+      "value": "60-105 mg/dl",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Vollblut",
+      "age_group": "child",
+      "si_value": "3.3-5.8 mmol/l"
+    },
+    {
+      "id": "harnsaeure_neonatal",
+      "label": "Harnsäure – Neugeborene",
+      "value": "< 5.7 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "< 339 µmol/l"
+    },
+    {
+      "id": "harnsaeure_infant",
+      "label": "Harnsäure – Säuglinge",
+      "value": "< 2.5 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "si_value": "< 149 µmol/l"
+    },
+    {
+      "id": "harnsaeure_kind",
+      "label": "Harnsäure – Kinder",
+      "value": "< 6.5 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "< 387 µmol/l"
+    },
+    {
+      "id": "harnstoff_neonatal",
+      "label": "Harnstoff – Neugeborene",
+      "value": "8-28 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "2.9-10 mmol/l"
+    },
+    {
+      "id": "harnstoff_infant",
+      "label": "Harnstoff – Säuglinge",
+      "value": "5-15 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "si_value": "1.8-5.4 mmol/l"
+    },
+    {
+      "id": "harnstoff_kind",
+      "label": "Harnstoff – Kinder",
+      "value": "8-20 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "2.9-7.1 mmol/l"
+    },
+    {
+      "id": "hbdh_neonatal",
+      "label": "HBDH – Neugeborene",
+      "value": "100-515 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "1.7-8.6 µkat/l"
+    },
+    {
+      "id": "hbdh_infant",
+      "label": "HBDH – Säuglinge",
+      "value": "90-310 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "si_value": "1.5-5.2 µkat/l"
+    },
+    {
+      "id": "hbdh_kind",
+      "label": "HBDH – Kinder ab 1. Lj.",
+      "value": "72-182 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "1.2-3.0 µkat/l"
+    },
+
+    {
+      "id": "kalium_neonatal",
+      "label": "Kalium – Neugeborene",
+      "value": "3.6-6.0 mmol/l",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "kalium_infant",
+      "label": "Kalium – Säuglinge",
+      "value": "3.7-5.7 mmol/l",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "infant"
+    },
+    {
+      "id": "kalium_kind",
+      "label": "Kalium – Kinder ab 1. Lj.",
+      "value": "3.2-5.4 mmol/l",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "child"
+    },
+    {
+      "id": "calcium_ges_neonatal",
+      "label": "Kalzium gesamt – Neugeborene",
+      "value": "6.8-12.0 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "1.7-3 mmol/l"
+    },
+    {
+      "id": "calcium_ion_neonatal",
+      "label": "Kalzium ionisiert – Neugeborene",
+      "value": "4.3-5.1 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "1.07-1.27 mmol/l"
+    },
+    {
+      "id": "calcium_ges_kind",
+      "label": "Kalzium gesamt – Säuglinge / Kinder",
+      "value": "8.4-11 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "2.1-2.74 mmol/l"
+    },
+    {
+      "id": "calcium_ion_kind",
+      "label": "Kalzium ionisiert – Säuglinge / Kinder",
+      "value": "4.48-4.92 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "1.12-1.23 mmol/l"
+    },
+    {
+      "id": "c3_kind",
+      "label": "Komplement C3 – Kinder",
+      "value": "0.6-1.8 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child"
+    },
+    {
+      "id": "c4_kind",
+      "label": "Komplement C4 – Kinder",
+      "value": "0.07-0.4 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child"
+    },
+    {
+      "id": "krea_neonatal",
+      "label": "Kreatinin – Neugeborene",
+      "value": "< 1.1 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "< 97 µmol/l"
+    },
+    {
+      "id": "krea_infant",
+      "label": "Kreatinin – Säuglinge",
+      "value": "< 0.9 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "si_value": "< 80 µmol/l"
+    },
+    {
+      "id": "krea_kind",
+      "label": "Kreatinin – Kinder ab 1. Lj.",
+      "value": "< 1.0 mg/dl",
+      "bereich": "chemie",
+      "category": "nierenwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "< 88 µmol/l"
+    },
+
+    {
+      "id": "ck_kind_d1",
+      "label": "CK – 1 Tag",
+      "value": "< 714 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "1 Tag",
+      "si_value": "< 11.9 µkat/l"
+    },
+    {
+      "id": "ck_kind_d2_4",
+      "label": "CK – 2-4 Tage",
+      "value": "< 652 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "2-4 Tage",
+      "si_value": "< 10.9 µkat/l"
+    },
+    {
+      "id": "ck_kind_d5_m5",
+      "label": "CK – 5 Tage – 5 Monate",
+      "value": "< 295 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "5 Tage – 5 Monate",
+      "si_value": "< 4.92 µkat/l"
+    },
+    {
+      "id": "ck_kind_m6_12",
+      "label": "CK – 6-12 Monate",
+      "value": "< 202 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "6-12 Monate",
+      "si_value": "< 3.37 µkat/l"
+    },
+    {
+      "id": "ck_kind_y1_2",
+      "label": "CK – 1-2 Jahre",
+      "value": "< 228 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "1-2 Jahre",
+      "si_value": "< 3.80 µkat/l"
+    },
+    {
+      "id": "ck_kind_y3_5",
+      "label": "CK – 3-5 Jahre",
+      "value": "< 150 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "3-5 Jahre",
+      "si_value": "< 2.50 µkat/l"
+    },
+    {
+      "id": "ck_kind_y6_11_f",
+      "label": "CK – 6-11 J. (Mädchen)",
+      "value": "< 155 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "6-11 Jahre",
+      "si_value": "< 2.59 µkat/l"
+    },
+    {
+      "id": "ck_kind_y6_11_m",
+      "label": "CK – 6-11 J. (Jungen)",
+      "value": "< 248 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "6-11 Jahre",
+      "si_value": "< 4.13 µkat/l"
+    },
+    {
+      "id": "ck_kind_y12_16_f",
+      "label": "CK – 12-16 J. (Mädchen)",
+      "value": "< 124 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "12-16 Jahre",
+      "si_value": "< 2.07 µkat/l"
+    },
+    {
+      "id": "ck_kind_y12_16_m",
+      "label": "CK – 12-16 J. (Jungen)",
+      "value": "< 269 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "12-16 Jahre",
+      "si_value": "< 4.48 µkat/l"
+    },
+
+    {
+      "id": "ldh_kind_d1",
+      "label": "LDH – 1 Tag",
+      "value": "< 730 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "1 Tag",
+      "si_value": "< 12.2 µkat/l"
+    },
+    {
+      "id": "ldh_kind_d2_4",
+      "label": "LDH – 2-4 Tage",
+      "value": "< 953 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "2-4 Tage",
+      "si_value": "< 15.9 µkat/l"
+    },
+    {
+      "id": "ldh_kind_d5_m5",
+      "label": "LDH – 5 Tage – 5 Monate",
+      "value": "< 537 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "5 Tage – 5 Monate",
+      "si_value": "< 8.95 µkat/l"
+    },
+    {
+      "id": "ldh_kind_m6_12",
+      "label": "LDH – 6-12 Monate",
+      "value": "< 605 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "6-12 Monate",
+      "si_value": "< 10.1 µkat/l"
+    },
+    {
+      "id": "ldh_kind_y1_2",
+      "label": "LDH – 1-2 Jahre",
+      "value": "< 468 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "1-2 Jahre",
+      "si_value": "< 7.80 µkat/l"
+    },
+    {
+      "id": "ldh_kind_y3_5",
+      "label": "LDH – 3-5 Jahre",
+      "value": "< 339 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "3-5 Jahre",
+      "si_value": "< 5.65 µkat/l"
+    },
+    {
+      "id": "ldh_kind_y6_11_f",
+      "label": "LDH – 6-11 J. (Mädchen)",
+      "value": "< 319 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "6-11 Jahre",
+      "si_value": "< 5.32 µkat/l"
+    },
+    {
+      "id": "ldh_kind_y6_11_m",
+      "label": "LDH – 6-11 J. (Jungen)",
+      "value": "< 420 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "6-11 Jahre",
+      "si_value": "< 7.00 µkat/l"
+    },
+    {
+      "id": "ldh_kind_y12_16_f",
+      "label": "LDH – 12-16 J. (Mädchen)",
+      "value": "< 240 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "12-16 Jahre",
+      "si_value": "< 4.00 µkat/l"
+    },
+    {
+      "id": "ldh_kind_y12_16_m",
+      "label": "LDH – 12-16 J. (Jungen)",
+      "value": "< 376 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "12-16 Jahre",
+      "si_value": "< 6.27 µkat/l"
+    },
+
+    {
+      "id": "lipase_kind",
+      "label": "Lipase – Kinder",
+      "value": "13-60 U/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "0.20-1.0 µkat/l"
+    },
+    {
+      "id": "magnesium_neonatal",
+      "label": "Magnesium – Neugeborene",
+      "value": "1.6-2.2 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "0.8-1.1 mmol/l"
+    },
+    {
+      "id": "magnesium_infant",
+      "label": "Magnesium – Säuglinge",
+      "value": "1.7-2.4 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "si_value": "0.85-1.2 mmol/l"
+    },
+    {
+      "id": "magnesium_kind",
+      "label": "Magnesium – Kinder ab 1. Lj.",
+      "value": "1.4-2.2 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "0.7-1.1 mmol/l"
+    },
+    {
+      "id": "natrium_kind",
+      "label": "Natrium – Kinder",
+      "value": "135-145 mmol/l",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "child"
+    },
+    {
+      "id": "phosphat_neonatal_infant",
+      "label": "Phosphat – Neugeborene / Säuglinge",
+      "value": "5.0-9.6 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "1.6-3.1 mmol/l"
+    },
+    {
+      "id": "phosphat_kind",
+      "label": "Phosphat – Kinder ab 1. Lj.",
+      "value": "4.5-6.7 mg/dl",
+      "bereich": "chemie",
+      "category": "elektrolyte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "1.5-2.2 mmol/l"
+    },
+
+    {
+      "id": "ap_kind_d1",
+      "label": "AP – 1 Tag",
+      "value": "< 230 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "1 Tag",
+      "si_value": "< 3.83 µkat/l"
+    },
+    {
+      "id": "ap_kind_d2_4",
+      "label": "AP – 2-4 Tage",
+      "value": "< 212 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "age_range": "2-4 Tage",
+      "si_value": "< 3.53 µkat/l"
+    },
+    {
+      "id": "ap_kind_d5_m5",
+      "label": "AP – 5 Tage – 5 Monate",
+      "value": "< 412 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "5 Tage – 5 Monate",
+      "si_value": "< 6.87 µkat/l"
+    },
+    {
+      "id": "ap_kind_m6_12",
+      "label": "AP – 6-12 Monate",
+      "value": "< 423 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "6-12 Monate",
+      "si_value": "< 7.05 µkat/l"
+    },
+    {
+      "id": "ap_kind_y1_2",
+      "label": "AP – 1-2 Jahre",
+      "value": "< 258 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "1-2 Jahre",
+      "si_value": "< 4.30 µkat/l"
+    },
+    {
+      "id": "ap_kind_y3_5",
+      "label": "AP – 3-5 Jahre",
+      "value": "< 247 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "3-5 Jahre",
+      "si_value": "< 4.12 µkat/l"
+    },
+    {
+      "id": "ap_kind_y6_12",
+      "label": "AP – 6-12 Jahre",
+      "value": "< 276 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "age_group": "child",
+      "age_range": "6-12 Jahre",
+      "si_value": "< 4.60 µkat/l"
+    },
+    {
+      "id": "ap_kind_y13_16_f",
+      "label": "AP – 13-16 J. (Mädchen)",
+      "value": "< 172 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "f",
+      "age_group": "child",
+      "age_range": "13-16 Jahre",
+      "si_value": "< 2.87 µkat/l"
+    },
+    {
+      "id": "ap_kind_y13_16_m",
+      "label": "AP – 13-16 J. (Jungen)",
+      "value": "< 358 U/l",
+      "bereich": "chemie",
+      "category": "leberwerte",
+      "specimen": "Serum",
+      "sex": "m",
+      "age_group": "child",
+      "age_range": "13-16 Jahre",
+      "si_value": "< 5.97 µkat/l"
+    },
+
+    {
+      "id": "protein_ges_neonatal",
+      "label": "Gesamteiweiß – Neugeborene",
+      "value": "46-68 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "protein_ges_infant",
+      "label": "Gesamteiweiß – Säuglinge",
+      "value": "48-76 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant"
+    },
+    {
+      "id": "protein_ges_kind",
+      "label": "Gesamteiweiß – Kinder ab 1. Lj.",
+      "value": "60-83 g/l",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child"
+    },
+    {
+      "id": "spe_albumin_neonatal",
+      "label": "SPE Albumin – Neugeborene",
+      "value": "60-65 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "parent_id": "protein_ges_neonatal"
+    },
+    {
+      "id": "spe_alpha1_neonatal",
+      "label": "SPE α1-Globulin – Neugeborene",
+      "value": "2-5 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "parent_id": "protein_ges_neonatal"
+    },
+    {
+      "id": "spe_alpha2_neonatal",
+      "label": "SPE α2-Globulin – Neugeborene",
+      "value": "7-10 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "parent_id": "protein_ges_neonatal"
+    },
+    {
+      "id": "spe_beta_neonatal",
+      "label": "SPE β-Globulin – Neugeborene",
+      "value": "2-16 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "parent_id": "protein_ges_neonatal"
+    },
+    {
+      "id": "spe_gamma_neonatal",
+      "label": "SPE γ-Globulin – Neugeborene",
+      "value": "13-22 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "parent_id": "protein_ges_neonatal"
+    },
+    {
+      "id": "spe_albumin_infant",
+      "label": "SPE Albumin – Säuglinge",
+      "value": "63-68 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "parent_id": "protein_ges_infant"
+    },
+    {
+      "id": "spe_alpha1_infant",
+      "label": "SPE α1-Globulin – Säuglinge",
+      "value": "2-5 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "parent_id": "protein_ges_infant"
+    },
+    {
+      "id": "spe_alpha2_infant",
+      "label": "SPE α2-Globulin – Säuglinge",
+      "value": "9-11 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "parent_id": "protein_ges_infant"
+    },
+    {
+      "id": "spe_beta_infant",
+      "label": "SPE β-Globulin – Säuglinge",
+      "value": "7-14 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "parent_id": "protein_ges_infant"
+    },
+    {
+      "id": "spe_gamma_infant",
+      "label": "SPE γ-Globulin – Säuglinge",
+      "value": "5-19 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "parent_id": "protein_ges_infant"
+    },
+    {
+      "id": "spe_albumin_kind",
+      "label": "SPE Albumin – Kinder ab 1. Lj.",
+      "value": "60-63 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "parent_id": "protein_ges_kind"
+    },
+    {
+      "id": "spe_alpha1_kind",
+      "label": "SPE α1-Globulin – Kinder",
+      "value": "2-5 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "parent_id": "protein_ges_kind"
+    },
+    {
+      "id": "spe_alpha2_kind",
+      "label": "SPE α2-Globulin – Kinder",
+      "value": "8-10 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "parent_id": "protein_ges_kind"
+    },
+    {
+      "id": "spe_beta_kind",
+      "label": "SPE β-Globulin – Kinder",
+      "value": "8-14 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "parent_id": "protein_ges_kind"
+    },
+    {
+      "id": "spe_gamma_kind",
+      "label": "SPE γ-Globulin – Kinder",
+      "value": "10-23 %",
+      "bereich": "chemie",
+      "category": "klinische_chemie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "parent_id": "protein_ges_kind"
+    },
+
+    {
+      "id": "tsh_neonatal",
+      "label": "TSH basal – Neugeborene",
+      "value": "1.0-38.9 mU/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "neonatal"
+    },
+    {
+      "id": "tsh_w2_20",
+      "label": "TSH basal – 2-20 Wochen",
+      "value": "1.7-9.1 mU/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "infant",
+      "age_range": "2-20 Wochen"
+    },
+    {
+      "id": "tsh_kind",
+      "label": "TSH basal – Kinder ab 1. Lj.",
+      "value": "0.4-4.0 mU/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "child"
+    },
+    {
+      "id": "t4_ges_neonatal",
+      "label": "T4 gesamt – Neugeborene / Säuglinge",
+      "value": "107-258 µg/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "138-332 nmol/l"
+    },
+    {
+      "id": "ft4_neonatal",
+      "label": "fT4 – Neugeborene / Säuglinge",
+      "value": "15-30 ng/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "19-38 pmol/l"
+    },
+    {
+      "id": "t4_ges_kind",
+      "label": "T4 gesamt – Kinder ab 1. Lj.",
+      "value": "55-110 µg/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "77-142 nmol/l"
+    },
+    {
+      "id": "ft4_kind",
+      "label": "fT4 – Kinder ab 1. Lj.",
+      "value": "8-18 ng/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "10-23 pmol/l"
+    },
+    {
+      "id": "trigly_neonatal_infant",
+      "label": "Triglyzeride – Neugeborene / Säuglinge",
+      "value": "< 100 mg/dl",
+      "bereich": "chemie",
+      "category": "lipide",
+      "specimen": "Serum",
+      "age_group": "neonatal",
+      "si_value": "< 1.12 mmol/l"
+    },
+    {
+      "id": "trigly_kind",
+      "label": "Triglyzeride – Kinder ab 1. Lj.",
+      "value": "< 163 mg/dl",
+      "bereich": "chemie",
+      "category": "lipide",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "< 1.86 mmol/l"
+    },
+    {
+      "id": "t3_ges_kind",
+      "label": "T3 gesamt – Kinder",
+      "value": "0.90-1.80 µg/l",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "1.4-2.8 nmol/l"
+    },
+    {
+      "id": "ft3_kind",
+      "label": "fT3 – Kinder",
+      "value": "3.5-8.0 pg/ml",
+      "bereich": "chemie",
+      "category": "endokrinologie",
+      "specimen": "Serum",
+      "age_group": "child",
+      "si_value": "5.4-12.3 pmol/l"
+    }
+
+  ]
+}

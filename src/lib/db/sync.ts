@@ -22,7 +22,7 @@ import {
   timerTemplateRemotePayload,
   type LocalRow,
 } from '@/src/lib/db/remotePayloads';
-import { getRemoteWatermark, syncStorageKey, syncTables, type SyncTable } from '@/src/lib/db/syncModel';
+import { getRemoteWatermark, shouldSkipLocalPushForRemote, syncStorageKey, syncTables, type RemoteSyncMetadata, type SyncTable } from '@/src/lib/db/syncModel';
 import { isSupabaseConfigured } from '@/src/lib/env';
 import { appStorage } from '@/src/lib/storage/mmkv';
 import { supabase } from '@/src/lib/supabase/client';
@@ -46,6 +46,38 @@ async function deleteRemoteRow(table: SyncTable, id: string, userId: string) {
   return supabase.from('differential_counts').delete().eq('id', id).eq('user_id', userId);
 }
 
+async function getRemoteMetadata(table: SyncTable, id: string, userId: string): Promise<RemoteSyncMetadata | null> {
+  if (table === 'timer_templates') {
+    const { data, error } = await supabase.from('timer_templates').select('updated_at, created_at').eq('id', id).eq('user_id', userId).maybeSingle();
+    if (error) throw error;
+    return data;
+  }
+  if (table === 'timer_runs') {
+    const { data, error } = await supabase.from('timer_runs').select('updated_at, created_at').eq('id', id).eq('user_id', userId).maybeSingle();
+    if (error) throw error;
+    return data;
+  }
+  if (table === 'protokolle') {
+    const { data, error } = await supabase.from('protokolle').select('updated_at, created_at').eq('id', id).eq('user_id', userId).maybeSingle();
+    if (error) throw error;
+    return data;
+  }
+  if (table === 'protokoll_runs') {
+    const { data, error } = await supabase.from('protokoll_runs').select('updated_at, created_at').eq('id', id).eq('user_id', userId).maybeSingle();
+    if (error) throw error;
+    return data;
+  }
+  if (table === 'kolonie_counts') {
+    const { data, error } = await supabase.from('kolonie_counts').select('updated_at, created_at').eq('id', id).eq('user_id', userId).maybeSingle();
+    if (error) throw error;
+    return data;
+  }
+
+  const { data, error } = await supabase.from('differential_counts').select('updated_at, created_at').eq('id', id).eq('user_id', userId).maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
 async function upsertRemoteRow(table: SyncTable, row: LocalRow) {
   if (table === 'timer_templates') return supabase.from('timer_templates').upsert(timerTemplateRemotePayload(row));
   if (table === 'timer_runs') return supabase.from('timer_runs').upsert(timerRunRemotePayload(row));
@@ -59,9 +91,16 @@ async function pushPendingTable(table: SyncTable, userId: string) {
   const rows = await getPendingLocalRows(table, userId);
   let pushed = 0;
   let deleted = 0;
+  let skipped = 0;
 
   for (const row of rows) {
     const id = localRowId(row);
+    const remoteMetadata = await getRemoteMetadata(table, id, userId);
+    if (shouldSkipLocalPushForRemote({ updatedAt: row.updated_at as string | number | null | undefined }, remoteMetadata)) {
+      skipped += 1;
+      continue;
+    }
+
     if (isLocalPendingDelete(row)) {
       const { error } = await deleteRemoteRow(table, id, userId);
       if (error) throw error;
@@ -76,7 +115,7 @@ async function pushPendingTable(table: SyncTable, userId: string) {
     pushed += 1;
   }
 
-  return { pushed, deleted };
+  return { pushed, deleted, skipped };
 }
 
 async function pullRemoteTable(table: SyncTable, userId: string) {
@@ -140,12 +179,14 @@ export async function syncAll(userId: string) {
   const pendingLocalChanges = await getPendingLocalChangeSummary(userId);
   const pushedLocalChanges = emptySummary();
   const deletedLocalChanges = emptySummary();
+  const remoteConflictChanges = emptySummary();
   const remoteChanges = emptySummary();
 
   for (const table of syncTables) {
     const result = await pushPendingTable(table, userId);
     pushedLocalChanges[table] = result.pushed;
     deletedLocalChanges[table] = result.deleted;
+    remoteConflictChanges[table] = result.skipped;
   }
 
   for (const table of syncTables) {
@@ -159,11 +200,12 @@ export async function syncAll(userId: string) {
     pending_local_count: sumSummary(pendingLocalChanges),
     pushed_local_count: sumSummary(pushedLocalChanges),
     deleted_local_count: sumSummary(deletedLocalChanges),
+    remote_conflict_count: sumSummary(remoteConflictChanges),
     remote_change_count: sumSummary(remoteChanges),
     duration_ms: Date.now() - startedAt,
   });
 
   const remainingLocalChanges = await getPendingLocalChangeSummary(userId);
 
-  return { skipped: false, pendingLocalChanges: remainingLocalChanges, pushedLocalChanges, deletedLocalChanges, remoteChanges } as const;
+  return { skipped: false, pendingLocalChanges: remainingLocalChanges, pushedLocalChanges, deletedLocalChanges, remoteConflictChanges, remoteChanges } as const;
 }

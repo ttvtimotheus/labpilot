@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { zustandStorage } from '@/src/lib/storage/zustand';
-import { decrementCountById, incrementCountById, prependLimited } from '@/src/lib/utils/collections';
+import { decrementCountById, incrementCountById, mergeById, prependLimited } from '@/src/lib/utils/collections';
 import { createKolonieCountSnapshot } from '@/src/features/zaehler/snapshots';
 import type { KolonieCategory, KolonieCountSnapshot } from '@/src/types/domain';
 import { calculateCfu } from '@/src/features/zaehler/cfu';
@@ -30,6 +30,7 @@ interface KolonieStore {
   reset: () => void;
   setDilutionFactor: (value: number) => void;
   setPlatedVolumeMl: (value: number) => void;
+  hydrateSavedCounts: (counts: KolonieCountSnapshot[]) => void;
 }
 
 export const useKolonieStore = create<KolonieStore>()(
@@ -61,6 +62,7 @@ export const useKolonieStore = create<KolonieStore>()(
       reset: () => set({ categories: defaultKolonieCategories }),
       setDilutionFactor: (value) => set({ dilutionFactor: Math.max(1, value) }),
       setPlatedVolumeMl: (value) => set({ platedVolumeMl: Math.max(0.01, value) }),
+      hydrateSavedCounts: (counts) => set((state) => ({ savedCounts: mergeById(counts, state.savedCounts, 100) })),
     }),
     {
       name: 'labpilot.kolonien-store',

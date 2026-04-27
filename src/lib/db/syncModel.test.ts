@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getRemoteWatermark, resolveLastWriteWins, shouldPushLocalChange, syncStorageKey, toTimestampMs } from '@/src/lib/db/syncModel';
+import { getRemoteWatermark, resolveLastWriteWins, shouldPushLocalChange, shouldSkipLocalPushForRemote, syncStorageKey, toTimestampMs } from '@/src/lib/db/syncModel';
 
 describe('sync model', () => {
   it('builds stable storage keys per table', () => {
@@ -22,6 +22,27 @@ describe('sync model', () => {
     expect(resolveLastWriteWins('2026-04-28T10:00:00.000Z', '2026-04-28T09:00:00.000Z')).toBe('local');
     expect(resolveLastWriteWins('2026-04-28T09:00:00.000Z', '2026-04-28T10:00:00.000Z')).toBe('remote');
     expect(resolveLastWriteWins('2026-04-28T10:00:00.000Z', '2026-04-28T10:00:00.000Z')).toBe('remote');
+  });
+
+  it('skips local pushes when remote metadata is newer or tied', () => {
+    expect(
+      shouldSkipLocalPushForRemote(
+        { updatedAt: '2026-04-28T09:00:00.000Z' },
+        { updated_at: '2026-04-28T10:00:00.000Z' },
+      ),
+    ).toBe(true);
+    expect(
+      shouldSkipLocalPushForRemote(
+        { updatedAt: '2026-04-28T10:00:00.000Z' },
+        { updated_at: '2026-04-28T10:00:00.000Z' },
+      ),
+    ).toBe(true);
+    expect(
+      shouldSkipLocalPushForRemote(
+        { updatedAt: '2026-04-28T11:00:00.000Z' },
+        { updated_at: '2026-04-28T10:00:00.000Z' },
+      ),
+    ).toBe(false);
   });
 
   it('advances remote watermark only to returned remote timestamps', () => {

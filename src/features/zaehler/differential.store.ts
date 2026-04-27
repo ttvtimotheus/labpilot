@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { zustandStorage } from '@/src/lib/storage/zustand';
-import { decrementCountById, incrementCountById, prependLimited, sumCounts } from '@/src/lib/utils/collections';
+import { decrementCountById, incrementCountById, mergeById, prependLimited, sumCounts } from '@/src/lib/utils/collections';
 import { createDifferentialCountSnapshot } from '@/src/features/zaehler/snapshots';
 import type { DifferentialCell, DifferentialCountSnapshot } from '@/src/types/domain';
 
@@ -27,6 +27,7 @@ interface DifferentialStore {
   clearSavedCounts: () => void;
   reset: () => void;
   setTarget: (target: number) => void;
+  hydrateSavedCounts: (counts: DifferentialCountSnapshot[]) => void;
 }
 
 export const useDifferentialStore = create<DifferentialStore>()(
@@ -60,6 +61,7 @@ export const useDifferentialStore = create<DifferentialStore>()(
       clearSavedCounts: () => set({ savedCounts: [] }),
       reset: () => set({ cells: defaultDifferentialCells }),
       setTarget: (target) => set({ target: Math.max(20, target) }),
+      hydrateSavedCounts: (counts) => set((state) => ({ savedCounts: mergeById(counts, state.savedCounts, 100) })),
     }),
     {
       name: 'labpilot.differential-store',

@@ -6,6 +6,12 @@ import '@/src/lib/i18n';
 import { isSentryConfigured, env } from '@/src/lib/env';
 import { AuthProvider } from '@/src/lib/auth/AuthProvider';
 import { migrateLocalDb } from '@/src/lib/db/client';
+import { useLocalDataHydration } from '@/src/hooks/useLocalDataHydration';
+
+function LocalDataHydrator({ children }: { children: ReactNode }) {
+  useLocalDataHydration();
+  return <>{children}</>;
+}
 
 if (isSentryConfigured) {
   Sentry.init({ dsn: env.sentryDsn, enableNative: true });
@@ -36,7 +42,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <LocalDataHydrator>{children}</LocalDataHydrator>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

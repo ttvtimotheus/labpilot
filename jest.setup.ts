@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals';
+
 jest.mock('react-native-mmkv', () => {
   function createStore() {
     const values = new Map<string, string | number | boolean>();
@@ -34,3 +36,12 @@ jest.mock('@expo/vector-icons/MaterialIcons', () => {
     return React.createElement(Text, { accessibilityLabel: name }, name);
   };
 });
+
+jest.mock('expo-notifications', () => ({
+  SchedulableTriggerInputTypes: { TIME_INTERVAL: 'timeInterval' },
+  cancelScheduledNotificationAsync: jest.fn(async () => undefined),
+  getPermissionsAsync: jest.fn(async () => ({ granted: true })),
+  requestPermissionsAsync: jest.fn(async () => ({ granted: true })),
+  scheduleNotificationAsync: jest.fn(async () => 'notification-id'),
+  setNotificationHandler: jest.fn(),
+}));

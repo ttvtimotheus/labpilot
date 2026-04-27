@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LabPilot Normalwerte",
+  "type": "object",
+  "required": ["values"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "source": { "type": "string" },
+    "disclaimer": { "type": "string" },
+    "categories": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "values": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "value", "bereich"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "value": { "type": "string" },
+          "bereich": { "type": "string" },
+          "category": { "type": "string" },
+          "specimen": { "type": "string" },
+          "age_group": { "type": "string" },
+          "sex": { "type": "string" },
+          "note": { "type": "string" },
+          "si_value": { "type": "string" },
+          "conventional_value": { "type": "string" },
+          "parent_id": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

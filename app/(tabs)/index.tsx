@@ -10,6 +10,7 @@ import { Card } from '@/src/components/ui/Card';
 import { EmptyState } from '@/src/components/ui/EmptyState';
 import { ListRow } from '@/src/components/ui/ListRow';
 import { useTimerStore } from '@/src/features/timer/store';
+import { useLocalDataHydration } from '@/src/hooks/useLocalDataHydration';
 import { useAuth } from '@/src/lib/auth/AuthProvider';
 import { syncAll } from '@/src/lib/db/sync';
 import { useNow } from '@/src/hooks/useNow';
@@ -19,6 +20,7 @@ export default function HomeScreen() {
   useNow();
   const theme = useAppTheme();
   const { isGuest, userId } = useAuth();
+  const hydrateLocalData = useLocalDataHydration({ auto: false });
   const templates = useTimerStore((state) => state.templates);
   const activeTimers = useTimerStore((state) => state.activeTimers);
   const startTimer = useTimerStore((state) => state.startTimer);
@@ -68,7 +70,10 @@ export default function HomeScreen() {
           icon="sync"
           title="Sync pruefen"
           subtitle="Pusht lokale Aenderungen, sobald Supabase konfiguriert ist."
-          onPress={() => syncAll(userId)}
+          onPress={async () => {
+            const result = await syncAll(userId);
+            if (!result.skipped) await hydrateLocalData(userId);
+          }}
         />
       </Section>
     </Screen>

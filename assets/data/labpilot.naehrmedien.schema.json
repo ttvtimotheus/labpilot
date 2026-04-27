@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LabPilot Nährmedien",
+  "type": "object",
+  "required": ["medien"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "description": { "type": "string" },
+    "disclaimer": { "type": "string" },
+    "categories": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "medien": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "use", "bereich"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "use": { "type": "string" },
+          "bereich": { "type": "string" },
+          "category": { "type": "string" },
+          "selectivity": { "type": "string" },
+          "indicator": { "type": "string" },
+          "incubation": { "type": "string" },
+          "color": { "type": "string" },
+          "key_reactions": { "type": "array", "items": { "type": "string" } },
+          "wachstum": { "type": "array", "items": { "type": "string" } },
+          "kein_wachstum_oder_schwach": { "type": "array", "items": { "type": "string" } },
+          "tipps": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "tipps_zur_anwendung": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

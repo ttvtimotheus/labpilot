@@ -12,7 +12,7 @@ import { useTimerStore } from '@/src/features/timer/store';
 import { useDifferentialStore } from '@/src/features/zaehler/differential.store';
 import { useKolonieStore } from '@/src/features/zaehler/kolonien.store';
 import { useAuth } from '@/src/lib/auth/AuthProvider';
-import { clearLocalRows } from '@/src/lib/db/localPersistence';
+import { clearOrMarkLocalRowsDeleted } from '@/src/lib/db/localPersistence';
 import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
 
 type ClearTarget = 'timer' | 'protokolle' | 'kolonien' | 'differential';
@@ -35,23 +35,23 @@ export default function DataSettingsScreen() {
   async function clearTarget(target: ClearTarget) {
     if (target === 'timer') {
       clearTimerHistory();
-      await clearLocalRows('timer_runs', userId);
-      setMessage('Timerverlauf wurde geloescht.');
+      await clearOrMarkLocalRowsDeleted('timer_runs', userId);
+      setMessage('Timerverlauf wurde entfernt.');
     }
     if (target === 'protokolle') {
       clearProtokollRuns();
-      await clearLocalRows('protokoll_runs', userId);
-      setMessage('Protokoll-Durchlaeufe wurden geloescht.');
+      await clearOrMarkLocalRowsDeleted('protokoll_runs', userId);
+      setMessage('Protokoll-Durchlaeufe wurden entfernt.');
     }
     if (target === 'kolonien') {
       clearKolonieCounts();
-      await clearLocalRows('kolonie_counts', userId);
-      setMessage('Kolonienzaehlungen wurden geloescht.');
+      await clearOrMarkLocalRowsDeleted('kolonie_counts', userId);
+      setMessage('Kolonienzaehlungen wurden entfernt.');
     }
     if (target === 'differential') {
       clearDifferentialCounts();
-      await clearLocalRows('differential_counts', userId);
-      setMessage('Differentialzaehlungen wurden geloescht.');
+      await clearOrMarkLocalRowsDeleted('differential_counts', userId);
+      setMessage('Differentialzaehlungen wurden entfernt.');
     }
   }
 
