@@ -1,0 +1,5 @@
+[
+  { "id": "cba", "name": "Columbia-Blutagar", "use": "Basisnaermedium fuer viele aerobe Bakterien", "bereich": "mibi" },
+  { "id": "mc", "name": "MacConkey-Agar", "use": "Selektiv- und Differenzierungsmedium fuer gramnegative Staebchen", "bereich": "mibi" },
+  { "id": "sab", "name": "Sabouraud-Agar", "use": "Pilze und Hefen", "bereich": "mibi" }
+]

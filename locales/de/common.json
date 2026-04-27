@@ -1,0 +1,33 @@
+{
+  "app": {
+    "name": "LabPilot",
+    "tagline": "Laborroutinen, Timer und Referenzen offline griffbereit."
+  },
+  "auth": {
+    "welcomeTitle": "LabPilot",
+    "welcomeSubtitle": "Für MTLA, Azubis und Ausbildungsschulen. Schnell, offline-first und bereit für den Laboralltag.",
+    "continueOffline": "Offline starten",
+    "signInApple": "Mit Apple anmelden",
+    "signInGoogle": "Mit Google anmelden",
+    "offlineNote": "Ohne Login bleiben Daten nur auf diesem Gerät. Sync aktivierst du später über die Einstellungen."
+  },
+  "tabs": {
+    "home": "Home",
+    "timer": "Timer",
+    "protokolle": "Protokolle",
+    "zaehler": "Zähler",
+    "wissen": "Wissen"
+  },
+  "common": {
+    "add": "Hinzufügen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "start": "Starten",
+    "stop": "Stoppen",
+    "reset": "Zurücksetzen",
+    "retry": "Erneut versuchen",
+    "settings": "Einstellungen",
+    "minutes": "Minuten",
+    "seconds": "Sekunden"
+  }
+}

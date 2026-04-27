@@ -1,98 +1,96 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
+import { StyleSheet, View } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { Screen } from '@/src/components/layout/Screen';
+import { Section } from '@/src/components/layout/Section';
+import { TimerRow } from '@/src/components/domain/TimerRow';
+import { AppText } from '@/src/components/ui/AppText';
+import { Button } from '@/src/components/ui/Button';
+import { Card } from '@/src/components/ui/Card';
+import { EmptyState } from '@/src/components/ui/EmptyState';
+import { ListRow } from '@/src/components/ui/ListRow';
+import { useTimerStore } from '@/src/features/timer/store';
+import { useAuth } from '@/src/lib/auth/AuthProvider';
+import { syncAll } from '@/src/lib/db/sync';
+import { useNow } from '@/src/hooks/useNow';
+import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  useNow();
+  const theme = useAppTheme();
+  const { isGuest, userId } = useAuth();
+  const templates = useTimerStore((state) => state.templates);
+  const activeTimers = useTimerStore((state) => state.activeTimers);
+  const startTimer = useTimerStore((state) => state.startTimer);
+  const quickTemplate = templates[0];
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  return (
+    <Screen>
+      <View style={styles.header}>
+        <View style={styles.titleRow}>
+          <View style={styles.titleCopy}>
+            <AppText variant="display">LabPilot</AppText>
+            <AppText variant="callout" muted>Dein Labor-Cockpit fuer Routine, Zaehler und Referenzwissen.</AppText>
+          </View>
+          <Button label="" icon="settings" variant="ghost" accessibilityLabel="Einstellungen" onPress={() => router.push('/settings')} />
+        </View>
+        {isGuest ? (
+          <Card style={{ borderColor: theme.warning }}>
+            <AppText variant="bodyEmph" style={{ color: theme.warning }}>Offline-Modus</AppText>
+            <AppText muted>Alle Kernfunktionen laufen lokal. Anmeldung und Sync kannst du spaeter aktivieren.</AppText>
+          </Card>
+        ) : null}
+      </View>
+
+      <Section title="Aktive Timer">
+        {activeTimers.length ? (
+          activeTimers.map((timer) => <TimerRow key={timer.id} timer={timer} />)
+        ) : (
+          <EmptyState icon="timer" title="Kein Timer aktiv" description="Starte eine Vorlage oder lege einen neuen Timer fuer deinen Arbeitsschritt an." />
+        )}
+      </Section>
+
+      <Section title="Schnellzugriff">
+        <View style={styles.quickGrid}>
+          <Button label="Timer" icon="timer" onPress={() => router.push('/(tabs)/timer')} />
+          <Button label="Kolonien" icon="science" variant="secondary" onPress={() => router.push('/(tabs)/zaehler/kolonien')} />
+        </View>
+        {quickTemplate ? (
+          <ListRow
+            icon="bolt"
+            title={`${quickTemplate.name} starten`}
+            subtitle={`${Math.round(quickTemplate.durationSeconds / 60)} Min. Vorlage`}
+            accentColor={theme.area[quickTemplate.bereich]}
+            onPress={() => startTimer(quickTemplate)}
+          />
+        ) : null}
+        <ListRow
+          icon="sync"
+          title="Sync pruefen"
+          subtitle="Pusht lokale Aenderungen, sobald Supabase konfiguriert ist."
+          onPress={() => syncAll(userId)}
+        />
+      </Section>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  header: {
+    gap: spacing.md,
+  },
+  titleRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    alignItems: 'flex-start',
+    gap: spacing.md,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  titleCopy: {
+    flex: 1,
+    minWidth: 0,
+    gap: spacing.xs,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  quickGrid: {
+    flexDirection: 'row',
+    gap: spacing.sm,
   },
 });

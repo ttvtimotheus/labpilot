@@ -1,0 +1,33 @@
+{
+  "app": {
+    "name": "LabPilot",
+    "tagline": "Lab routines, timers, and references ready offline."
+  },
+  "auth": {
+    "welcomeTitle": "LabPilot",
+    "welcomeSubtitle": "Built for biomedical laboratory scientists, students, and schools.",
+    "continueOffline": "Start offline",
+    "signInApple": "Sign in with Apple",
+    "signInGoogle": "Sign in with Google",
+    "offlineNote": "Without sign-in, data stays on this device. You can enable sync later in settings."
+  },
+  "tabs": {
+    "home": "Home",
+    "timer": "Timers",
+    "protokolle": "Protocols",
+    "zaehler": "Counters",
+    "wissen": "Knowledge"
+  },
+  "common": {
+    "add": "Add",
+    "cancel": "Cancel",
+    "save": "Save",
+    "start": "Start",
+    "stop": "Stop",
+    "reset": "Reset",
+    "retry": "Try again",
+    "settings": "Settings",
+    "minutes": "Minutes",
+    "seconds": "Seconds"
+  }
+}

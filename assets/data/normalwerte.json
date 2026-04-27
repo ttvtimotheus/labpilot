@@ -1,0 +1,7 @@
+[
+  { "id": "hb_f", "label": "Haemoglobin Frauen", "value": "12.0-16.0 g/dl", "bereich": "haema" },
+  { "id": "hb_m", "label": "Haemoglobin Maenner", "value": "14.0-18.0 g/dl", "bereich": "haema" },
+  { "id": "leuko", "label": "Leukozyten", "value": "4.0-10.0 /nl", "bereich": "haema" },
+  { "id": "crp", "label": "CRP", "value": "< 5 mg/l", "bereich": "chemie" },
+  { "id": "krea", "label": "Kreatinin", "value": "0.5-1.1 mg/dl", "bereich": "chemie" }
+]

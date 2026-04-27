@@ -1,0 +1,43 @@
+[
+  {
+    "id": "proto_gram",
+    "name": "Gram-Faerbung",
+    "bereich": "mibi",
+    "description": "Differenzierende Routinefaerbung fuer grampositive und gramnegative Bakterien.",
+    "source": "Standard Gram",
+    "steps": [
+      { "id": "gram_1", "name": "Fixieren", "durationSeconds": 20, "instructions": "Ausstrich lufttrocknen lassen und hitzefixieren.", "order": 1 },
+      { "id": "gram_2", "name": "Kristallviolett", "durationSeconds": 60, "instructions": "Praeparat vollstaendig bedecken.", "order": 2 },
+      { "id": "gram_3", "name": "Lugol", "durationSeconds": 60, "instructions": "Mit Lugol bedecken und danach vorsichtig spuelen.", "order": 3 },
+      { "id": "gram_4", "name": "Entfaerben", "durationSeconds": 15, "instructions": "Kurz mit Alkohol entfaerben, sofort stoppen.", "order": 4 },
+      { "id": "gram_5", "name": "Safranin", "durationSeconds": 60, "instructions": "Gegenfaerben, spuelen und trocknen.", "order": 5 }
+    ]
+  },
+  {
+    "id": "proto_he",
+    "name": "HE-Faerbung",
+    "bereich": "histo",
+    "description": "Uebersichtsfaerbung fuer Gewebeschnitte mit Haematoxylin und Eosin.",
+    "source": "Routine HE",
+    "steps": [
+      { "id": "he_1", "name": "Entparaffinieren", "durationSeconds": 600, "instructions": "Schnitt in Xylol oder Ersatzmedium entparaffinieren.", "order": 1 },
+      { "id": "he_2", "name": "Absteigende Alkoholreihe", "durationSeconds": 300, "instructions": "Bis Aqua dest. fuehren.", "order": 2 },
+      { "id": "he_3", "name": "Haematoxylin", "durationSeconds": 360, "instructions": "Kerne faerben, Laborstandard beachten.", "order": 3 },
+      { "id": "he_4", "name": "Blaeuen", "durationSeconds": 120, "instructions": "In Leitungswasser blaeuen.", "order": 4 },
+      { "id": "he_5", "name": "Eosin", "durationSeconds": 90, "instructions": "Zytoplasma faerben, danach aufsteigend entwaessern.", "order": 5 }
+    ]
+  },
+  {
+    "id": "proto_zn",
+    "name": "Ziehl-Neelsen",
+    "bereich": "mibi",
+    "description": "Saeurefeste Staebchen mit Carbolfuchsin, Entfaerbung und Gegenfaerbung darstellen.",
+    "source": "Standard ZN",
+    "steps": [
+      { "id": "zn_1", "name": "Carbolfuchsin", "durationSeconds": 300, "instructions": "Erwaermen und feucht halten, nicht kochen lassen.", "order": 1 },
+      { "id": "zn_2", "name": "Spuelen", "durationSeconds": 30, "instructions": "Mit Wasser vorsichtig spuelen.", "order": 2 },
+      { "id": "zn_3", "name": "Entfaerben", "durationSeconds": 180, "instructions": "Mit Salzsaeure-Alkohol entfaerben.", "order": 3 },
+      { "id": "zn_4", "name": "Methylenblau", "durationSeconds": 60, "instructions": "Gegenfaerben, spuelen und trocknen.", "order": 4 }
+    ]
+  }
+]

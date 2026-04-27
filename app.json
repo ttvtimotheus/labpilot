@@ -9,9 +9,19 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "net.estopia.labpilot",
+      "infoPlist": {
+        "NSCameraUsageDescription": "LabPilot verwendet die Kamera, um Kolonieplatten für deine lokale Dokumentation zu fotografieren.",
+        "NSPhotoLibraryAddUsageDescription": "LabPilot kann exportierte Protokolle und Bilder in deiner Mediathek speichern."
+      }
     },
     "android": {
+      "package": "net.estopia.labpilot",
+      "permissions": [
+        "CAMERA",
+        "POST_NOTIFICATIONS"
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -38,11 +48,20 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-localization",
+      "@sentry/react-native"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "31592ac2-b096-4b68-80eb-d797b51b4665"
+      }
+    },
+    "owner": "estopia-engineering-ltd"
   }
 }
