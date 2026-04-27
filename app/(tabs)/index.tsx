@@ -32,7 +32,7 @@ export default function HomeScreen() {
             <AppText variant="display">LabPilot</AppText>
             <AppText variant="callout" muted>Dein Labor-Cockpit fuer Routine, Zaehler und Referenzwissen.</AppText>
           </View>
-          <Button label="" icon="settings" variant="ghost" accessibilityLabel="Einstellungen" onPress={() => router.push('/settings')} />
+          <Button label="Einstellungen" icon="settings" variant="ghost" onPress={() => router.push('/settings')} />
         </View>
         {isGuest ? (
           <Card style={{ borderColor: theme.warning }}>

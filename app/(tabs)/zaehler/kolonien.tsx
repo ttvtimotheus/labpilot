@@ -1,9 +1,12 @@
 import { StyleSheet, View, Pressable } from 'react-native';
+import { useState } from 'react';
 
 import { Screen } from '@/src/components/layout/Screen';
+import { Section } from '@/src/components/layout/Section';
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { Card } from '@/src/components/ui/Card';
+import { ListRow } from '@/src/components/ui/ListRow';
 import { NumericDisplay } from '@/src/components/ui/NumericDisplay';
 import { TextField } from '@/src/components/ui/TextField';
 import { calculateCfu } from '@/src/features/zaehler/cfu';
@@ -14,9 +17,11 @@ import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
 export default function KolonienScreen() {
   const theme = useAppTheme();
   const haptics = useHaptics();
-  const { categories, dilutionFactor, platedVolumeMl, increment, decrement, reset, setDilutionFactor, setPlatedVolumeMl } = useKolonieStore();
+  const [name, setName] = useState('');
+  const { categories, savedCounts, dilutionFactor, platedVolumeMl, increment, decrement, reset, saveCurrent, setDilutionFactor, setPlatedVolumeMl } = useKolonieStore();
   const total = categories.reduce((sum, category) => sum + category.count, 0);
   const cfu = calculateCfu(total, dilutionFactor, platedVolumeMl);
+  const latestCounts = savedCounts.slice(0, 3);
 
   return (
     <Screen>
@@ -30,6 +35,7 @@ export default function KolonienScreen() {
       </View>
       <Card>
         <View style={styles.inputGrid}>
+          <TextField label="Name / Platte" value={name} onChangeText={setName} placeholder="z. B. Urin CLED 10^-3" />
           <TextField label="Verduennungsfaktor" value={String(dilutionFactor)} keyboardType="number-pad" onChangeText={(value) => setDilutionFactor(Number(value) || 1)} />
           <TextField label="Volumen ml" value={String(platedVolumeMl)} keyboardType="decimal-pad" onChangeText={(value) => setPlatedVolumeMl(Number(value.replace(',', '.')) || 0.1)} />
         </View>
@@ -50,7 +56,34 @@ export default function KolonienScreen() {
           </Pressable>
         ))}
       </View>
-      <Button label="Zuruecksetzen" icon="restart-alt" variant="secondary" onPress={reset} />
+      <View style={styles.actions}>
+        <Button
+          label="Zaehlung speichern"
+          icon="save"
+          disabled={!total}
+          onPress={() => {
+            const saved = saveCurrent(name);
+            if (saved) {
+              haptics.success();
+              setName('');
+            }
+          }}
+        />
+        <Button label="Zuruecksetzen" icon="restart-alt" variant="secondary" onPress={reset} />
+      </View>
+      {latestCounts.length ? (
+        <Section title="Letzte Zaehlungen">
+          {latestCounts.map((count) => (
+            <ListRow
+              key={count.id}
+              icon="history"
+              title={count.name ?? 'Kolonienzaehlung'}
+              subtitle={`${count.totalColonies} Kolonien · ${new Intl.NumberFormat('de-DE').format(count.totalCfu)} CFU/ml`}
+              accentColor={theme.area.mibi}
+            />
+          ))}
+        </Section>
+      ) : null}
     </Screen>
   );
 }
@@ -84,5 +117,8 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
+  },
+  actions: {
+    gap: spacing.sm,
   },
 });

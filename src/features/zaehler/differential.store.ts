@@ -2,7 +2,8 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { zustandStorage } from '@/src/lib/storage/zustand';
-import type { DifferentialCell } from '@/src/types/domain';
+import { createId } from '@/src/lib/utils/id';
+import type { DifferentialCell, DifferentialCountSnapshot } from '@/src/types/domain';
 
 export const defaultDifferentialCells: DifferentialCell[] = [
   { id: 'neutro', label: 'Segmentkernige Neutrophile', shortLabel: 'Neu', count: 0 },
@@ -16,9 +17,12 @@ export const defaultDifferentialCells: DifferentialCell[] = [
 
 interface DifferentialStore {
   cells: DifferentialCell[];
+  savedCounts: DifferentialCountSnapshot[];
   target: number;
   increment: (id: string) => void;
   decrement: (id: string) => void;
+  saveCurrent: (name?: string) => DifferentialCountSnapshot | null;
+  removeSavedCount: (id: string) => void;
   reset: () => void;
   setTarget: (target: number) => void;
 }
@@ -27,6 +31,7 @@ export const useDifferentialStore = create<DifferentialStore>()(
   persist(
     (set) => ({
       cells: defaultDifferentialCells,
+      savedCounts: [],
       target: 100,
       increment: (id) =>
         set((state) => {
@@ -40,6 +45,24 @@ export const useDifferentialStore = create<DifferentialStore>()(
         set((state) => ({
           cells: state.cells.map((cell) => (cell.id === id ? { ...cell, count: Math.max(0, cell.count - 1) } : cell)),
         })),
+      saveCurrent: (name) => {
+        let snapshot: DifferentialCountSnapshot | null = null;
+        set((state) => {
+          const totalCells = state.cells.reduce((sum, cell) => sum + cell.count, 0);
+          if (!totalCells) return state;
+          snapshot = {
+            id: createId('differential_count'),
+            name: name?.trim() || undefined,
+            cells: state.cells,
+            totalCells,
+            target: state.target,
+            createdAt: new Date().toISOString(),
+          };
+          return { savedCounts: [snapshot, ...state.savedCounts].slice(0, 100) };
+        });
+        return snapshot;
+      },
+      removeSavedCount: (id) => set((state) => ({ savedCounts: state.savedCounts.filter((count) => count.id !== id) })),
       reset: () => set({ cells: defaultDifferentialCells }),
       setTarget: (target) => set({ target: Math.max(20, target) }),
     }),

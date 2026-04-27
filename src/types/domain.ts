@@ -56,6 +56,15 @@ export interface Protokoll {
   updatedAt: string;
 }
 
+export interface ProtokollRun {
+  id: string;
+  protokollId: string;
+  protokollSnapshot: Protokoll;
+  startedAt: string;
+  completedAt: string;
+  notes?: string;
+}
+
 export interface KolonieCategory {
   id: string;
   label: string;
@@ -63,11 +72,31 @@ export interface KolonieCategory {
   count: number;
 }
 
+export interface KolonieCountSnapshot {
+  id: string;
+  name?: string;
+  categories: KolonieCategory[];
+  dilutionFactor: number;
+  platedVolumeMl: number;
+  totalColonies: number;
+  totalCfu: number;
+  createdAt: string;
+}
+
 export interface DifferentialCell {
   id: string;
   label: string;
   shortLabel: string;
   count: number;
+}
+
+export interface DifferentialCountSnapshot {
+  id: string;
+  name?: string;
+  cells: DifferentialCell[];
+  totalCells: number;
+  target: number;
+  createdAt: string;
 }
 
 export interface KnowledgeTopic {

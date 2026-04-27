@@ -7,38 +7,68 @@ import { Button } from '@/src/components/ui/Button';
 import { Card } from '@/src/components/ui/Card';
 import { NumericDisplay } from '@/src/components/ui/NumericDisplay';
 import { TextField } from '@/src/components/ui/TextField';
+import {
+  convertLabUnit,
+  formatLabNumber,
+  labUnitConversions,
+  parsePositiveDecimal,
+  type UnitConversionDirection,
+} from '@/src/features/wissen/calculations';
 import { spacing } from '@/src/lib/theme/tokens';
-
-const glucoseFactor = 18.0182;
 
 export default function EinheitenScreen() {
   const [value, setValue] = useState('90');
-  const [direction, setDirection] = useState<'mgdl-to-mmol' | 'mmol-to-mgdl'>('mgdl-to-mmol');
+  const [conversionId, setConversionId] = useState(labUnitConversions[0].id);
+  const [direction, setDirection] = useState<UnitConversionDirection>('to-target');
+  const conversion = labUnitConversions.find((candidate) => candidate.id === conversionId) ?? labUnitConversions[0];
+  const numericValue = parsePositiveDecimal(value);
 
   const result = useMemo(() => {
-    const numeric = Number(value.replace(',', '.'));
-    if (!Number.isFinite(numeric)) return null;
-    return direction === 'mgdl-to-mmol' ? numeric / glucoseFactor : numeric * glucoseFactor;
-  }, [direction, value]);
+    if (numericValue === null) return null;
+    return convertLabUnit(conversion, numericValue, direction);
+  }, [conversion, direction, numericValue]);
+
+  const inputUnit = direction === 'to-target' ? conversion.sourceUnit : conversion.targetUnit;
+  const outputUnit = direction === 'to-target' ? conversion.targetUnit : conversion.sourceUnit;
 
   return (
     <Screen>
       <View style={styles.header}>
         <AppText variant="h1">Einheiten</AppText>
-        <AppText variant="callout" muted>Schnelle Glukose-Umrechnung als MVP-Tool.</AppText>
+        <AppText variant="callout" muted>Haeufige Laborwerte zwischen konventionellen und SI-Einheiten umrechnen.</AppText>
       </View>
       <Card>
-        <TextField label={direction === 'mgdl-to-mmol' ? 'mg/dl' : 'mmol/l'} value={value} onChangeText={setValue} keyboardType="decimal-pad" />
-        <View style={styles.actions}>
-          <Button label="mg/dl zu mmol/l" variant={direction === 'mgdl-to-mmol' ? 'primary' : 'secondary'} onPress={() => setDirection('mgdl-to-mmol')} />
-          <Button label="mmol/l zu mg/dl" variant={direction === 'mmol-to-mgdl' ? 'primary' : 'secondary'} onPress={() => setDirection('mmol-to-mgdl')} />
+        <AppText variant="subhead">Parameter</AppText>
+        <View style={styles.buttonGrid}>
+          {labUnitConversions.map((candidate) => (
+            <Button
+              key={candidate.id}
+              label={candidate.label}
+              variant={candidate.id === conversion.id ? 'primary' : 'secondary'}
+              onPress={() => setConversionId(candidate.id)}
+            />
+          ))}
+        </View>
+      </Card>
+      <Card>
+        <TextField
+          label={`Wert in ${inputUnit}`}
+          value={value}
+          onChangeText={setValue}
+          keyboardType="decimal-pad"
+          error={value.trim() && numericValue === null ? 'Bitte eine positive Zahl eingeben.' : undefined}
+        />
+        <View style={styles.buttonGrid}>
+          <Button label={`${conversion.sourceUnit} zu ${conversion.targetUnit}`} variant={direction === 'to-target' ? 'primary' : 'secondary'} onPress={() => setDirection('to-target')} />
+          <Button label={`${conversion.targetUnit} zu ${conversion.sourceUnit}`} variant={direction === 'to-source' ? 'primary' : 'secondary'} onPress={() => setDirection('to-source')} />
         </View>
       </Card>
       <NumericDisplay
-        value={result === null ? '--' : new Intl.NumberFormat('de-DE', { maximumFractionDigits: 2 }).format(result)}
-        label={direction === 'mgdl-to-mmol' ? 'mmol/l' : 'mg/dl'}
+        value={result === null ? '--' : formatLabNumber(result)}
+        label={outputUnit}
         size="lg"
       />
+      <AppText variant="footnote" muted>Referenzbereiche sind methoden- und laborabhaengig; die Umrechnung ersetzt keine Befundbewertung.</AppText>
     </Screen>
   );
 }
@@ -47,7 +77,9 @@ const styles = StyleSheet.create({
   header: {
     gap: spacing.sm,
   },
-  actions: {
+  buttonGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: spacing.sm,
   },
 });

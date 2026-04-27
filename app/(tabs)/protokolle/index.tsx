@@ -6,10 +6,12 @@ import { Section } from '@/src/components/layout/Section';
 import { AppText } from '@/src/components/ui/AppText';
 import { ListRow } from '@/src/components/ui/ListRow';
 import { protokolle } from '@/src/features/protokolle/data';
+import { useProtokollRunStore } from '@/src/features/protokolle/store';
 import { areaLabels, spacing, useAppTheme } from '@/src/lib/theme/tokens';
 
 export default function ProtokolleScreen() {
   const theme = useAppTheme();
+  const completedRuns = useProtokollRunStore((state) => state.completedRuns.slice(0, 3));
 
   return (
     <Screen>
@@ -29,6 +31,19 @@ export default function ProtokolleScreen() {
           />
         ))}
       </Section>
+      {completedRuns.length ? (
+        <Section title="Letzte Durchlaeufe">
+          {completedRuns.map((run) => (
+            <ListRow
+              key={run.id}
+              icon="history"
+              title={run.protokollSnapshot.name}
+              subtitle={`${new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(run.completedAt))} · ${run.notes ?? 'ohne Notiz'}`}
+              accentColor={theme.area[run.protokollSnapshot.bereich]}
+            />
+          ))}
+        </Section>
+      ) : null}
     </Screen>
   );
 }

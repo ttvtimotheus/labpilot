@@ -1,9 +1,14 @@
 import { Pressable, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
 
 import { Screen } from '@/src/components/layout/Screen';
+import { Section } from '@/src/components/layout/Section';
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
+import { Card } from '@/src/components/ui/Card';
+import { ListRow } from '@/src/components/ui/ListRow';
 import { NumericDisplay } from '@/src/components/ui/NumericDisplay';
+import { TextField } from '@/src/components/ui/TextField';
 import { useDifferentialStore } from '@/src/features/zaehler/differential.store';
 import { useHaptics } from '@/src/hooks/useHaptics';
 import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
@@ -11,9 +16,11 @@ import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
 export default function DifferentialScreen() {
   const theme = useAppTheme();
   const haptics = useHaptics();
-  const { cells, target, increment, decrement, reset } = useDifferentialStore();
+  const [name, setName] = useState('');
+  const { cells, savedCounts, target, increment, decrement, reset, saveCurrent, setTarget } = useDifferentialStore();
   const total = cells.reduce((sum, cell) => sum + cell.count, 0);
   const done = total >= target;
+  const latestCounts = savedCounts.slice(0, 3);
 
   return (
     <Screen>
@@ -26,6 +33,10 @@ export default function DifferentialScreen() {
         <NumericDisplay value={`${Math.round((total / target) * 100)}%`} label="Fortschritt" />
       </View>
       {done ? <AppText variant="bodyEmph" style={{ color: theme.success }}>Zielzellzahl erreicht.</AppText> : null}
+      <Card>
+        <TextField label="Name / Praeparat" value={name} onChangeText={setName} placeholder="z. B. Diff-BB Kontrolle" />
+        <TextField label="Zielzellzahl" value={String(target)} keyboardType="number-pad" onChangeText={(value) => setTarget(Number(value) || 100)} helpText="Mindestens 20 Zellen; Standard sind 100." />
+      </Card>
       <View style={styles.cellGrid}>
         {cells.map((cell) => {
           const percentage = total ? Math.round((cell.count / total) * 100) : 0;
@@ -47,7 +58,34 @@ export default function DifferentialScreen() {
           );
         })}
       </View>
-      <Button label="Zuruecksetzen" icon="restart-alt" variant="secondary" onPress={reset} />
+      <View style={styles.actions}>
+        <Button
+          label="Zaehlung speichern"
+          icon="save"
+          disabled={!total}
+          onPress={() => {
+            const saved = saveCurrent(name);
+            if (saved) {
+              haptics.success();
+              setName('');
+            }
+          }}
+        />
+        <Button label="Zuruecksetzen" icon="restart-alt" variant="secondary" onPress={reset} />
+      </View>
+      {latestCounts.length ? (
+        <Section title="Letzte Zaehlungen">
+          {latestCounts.map((count) => (
+            <ListRow
+              key={count.id}
+              icon="history"
+              title={count.name ?? 'Differentialzaehlung'}
+              subtitle={`${count.totalCells}/${count.target} Zellen · ${new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(count.createdAt))}`}
+              accentColor={theme.area.haema}
+            />
+          ))}
+        </Section>
+      ) : null}
     </Screen>
   );
 }
@@ -73,5 +111,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: spacing.md,
     justifyContent: 'space-between',
+  },
+  actions: {
+    gap: spacing.sm,
   },
 });

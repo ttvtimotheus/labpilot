@@ -2,8 +2,11 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { zustandStorage } from '@/src/lib/storage/zustand';
-import type { KolonieCategory } from '@/src/types/domain';
-export { calculateCfu } from '@/src/features/zaehler/cfu';
+import { createId } from '@/src/lib/utils/id';
+import type { KolonieCategory, KolonieCountSnapshot } from '@/src/types/domain';
+import { calculateCfu } from '@/src/features/zaehler/cfu';
+
+export { calculateCfu };
 
 export const defaultKolonieCategories: KolonieCategory[] = [
   { id: 'cream', label: 'Creme', colour: '#E8D8B8', count: 0 },
@@ -15,10 +18,13 @@ export const defaultKolonieCategories: KolonieCategory[] = [
 
 interface KolonieStore {
   categories: KolonieCategory[];
+  savedCounts: KolonieCountSnapshot[];
   dilutionFactor: number;
   platedVolumeMl: number;
   increment: (id: string) => void;
   decrement: (id: string) => void;
+  saveCurrent: (name?: string) => KolonieCountSnapshot | null;
+  removeSavedCount: (id: string) => void;
   reset: () => void;
   setDilutionFactor: (value: number) => void;
   setPlatedVolumeMl: (value: number) => void;
@@ -28,6 +34,7 @@ export const useKolonieStore = create<KolonieStore>()(
   persist(
     (set) => ({
       categories: defaultKolonieCategories,
+      savedCounts: [],
       dilutionFactor: 1000,
       platedVolumeMl: 0.1,
       increment: (id) =>
@@ -42,6 +49,26 @@ export const useKolonieStore = create<KolonieStore>()(
             category.id === id ? { ...category, count: Math.max(0, category.count - 1) } : category,
           ),
         })),
+      saveCurrent: (name) => {
+        let snapshot: KolonieCountSnapshot | null = null;
+        set((state) => {
+          const totalColonies = state.categories.reduce((sum, category) => sum + category.count, 0);
+          if (!totalColonies) return state;
+          snapshot = {
+            id: createId('kolonie_count'),
+            name: name?.trim() || undefined,
+            categories: state.categories,
+            dilutionFactor: state.dilutionFactor,
+            platedVolumeMl: state.platedVolumeMl,
+            totalColonies,
+            totalCfu: calculateCfu(totalColonies, state.dilutionFactor, state.platedVolumeMl),
+            createdAt: new Date().toISOString(),
+          };
+          return { savedCounts: [snapshot, ...state.savedCounts].slice(0, 100) };
+        });
+        return snapshot;
+      },
+      removeSavedCount: (id) => set((state) => ({ savedCounts: state.savedCounts.filter((count) => count.id !== id) })),
       reset: () => set({ categories: defaultKolonieCategories }),
       setDilutionFactor: (value) => set({ dilutionFactor: Math.max(1, value) }),
       setPlatedVolumeMl: (value) => set({ platedVolumeMl: Math.max(0.01, value) }),

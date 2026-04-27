@@ -13,7 +13,8 @@
       "bundleIdentifier": "net.estopia.labpilot",
       "infoPlist": {
         "NSCameraUsageDescription": "LabPilot verwendet die Kamera, um Kolonieplatten für deine lokale Dokumentation zu fotografieren.",
-        "NSPhotoLibraryAddUsageDescription": "LabPilot kann exportierte Protokolle und Bilder in deiner Mediathek speichern."
+        "NSPhotoLibraryAddUsageDescription": "LabPilot kann exportierte Protokolle und Bilder in deiner Mediathek speichern.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {

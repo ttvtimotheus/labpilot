@@ -5,10 +5,14 @@ import { Screen } from '@/src/components/layout/Screen';
 import { Section } from '@/src/components/layout/Section';
 import { AppText } from '@/src/components/ui/AppText';
 import { ListRow } from '@/src/components/ui/ListRow';
+import { useDifferentialStore } from '@/src/features/zaehler/differential.store';
+import { useKolonieStore } from '@/src/features/zaehler/kolonien.store';
 import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
 
 export default function ZaehlerScreen() {
   const theme = useAppTheme();
+  const lastKolonie = useKolonieStore((state) => state.savedCounts[0]);
+  const lastDifferential = useDifferentialStore((state) => state.savedCounts[0]);
 
   return (
     <Screen>
@@ -32,6 +36,28 @@ export default function ZaehlerScreen() {
           onPress={() => router.push('/(tabs)/zaehler/differential')}
         />
       </Section>
+      {(lastKolonie || lastDifferential) ? (
+        <Section title="Letzte lokale Ergebnisse">
+          {lastKolonie ? (
+            <ListRow
+              icon="science"
+              title={lastKolonie.name ?? 'Kolonienzaehlung'}
+              subtitle={`${lastKolonie.totalColonies} Kolonien · ${new Intl.NumberFormat('de-DE').format(lastKolonie.totalCfu)} CFU/ml`}
+              accentColor={theme.area.mibi}
+              onPress={() => router.push('/(tabs)/zaehler/kolonien')}
+            />
+          ) : null}
+          {lastDifferential ? (
+            <ListRow
+              icon="bloodtype"
+              title={lastDifferential.name ?? 'Differentialzaehlung'}
+              subtitle={`${lastDifferential.totalCells}/${lastDifferential.target} Zellen gespeichert`}
+              accentColor={theme.area.haema}
+              onPress={() => router.push('/(tabs)/zaehler/differential')}
+            />
+          ) : null}
+        </Section>
+      ) : null}
     </Screen>
   );
 }
