@@ -23,8 +23,12 @@ export default function TabLayout() {
         tintColor={theme.info}
         iconColor={{ default: theme.foregroundSubtle, selected: theme.info }}
         backgroundColor={theme.backgroundElev}
+        disableTransparentOnScrollEdge
+        minimizeBehavior="never"
+        labelStyle={{ default: { color: theme.foreground, fontSize: 12, fontWeight: '500' }, selected: { color: theme.info, fontSize: 12, fontWeight: '600' } }}
+        shadowColor={theme.borderStrong}
         blurEffect={theme.mode === 'dark' ? 'systemChromeMaterialDark' : 'systemChromeMaterialLight'}>
-        <NativeTabs.Trigger name="index" options={{ title: 'Home', icon: { sf: 'house' }, selectedIcon: { sf: 'house.fill' } }} />
+        <NativeTabs.Trigger name="index" options={{ title: 'Start', icon: { sf: 'house' }, selectedIcon: { sf: 'house.fill' } }} />
         <NativeTabs.Trigger name="timer" options={{ title: 'Timer', icon: { sf: 'timer' }, selectedIconColor: theme.area.mibi }} />
         <NativeTabs.Trigger name="protokolle" options={{ title: 'Protokolle', icon: { sf: 'list.clipboard' }, selectedIcon: { sf: 'list.clipboard.fill' }, selectedIconColor: theme.area.histo }} />
         <NativeTabs.Trigger name="zaehler" options={{ title: 'Zaehler', icon: { sf: 'plus.forwardslash.minus' }, selectedIconColor: theme.area.haema }} />
@@ -42,7 +46,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
       }}>
-      <Tabs.Screen name="index" options={{ title: 'Home', tabBarIcon: ({ color }) => <AppIcon name="home" color={color} size={24} /> }} />
+      <Tabs.Screen name="index" options={{ title: 'Start', tabBarIcon: ({ color }) => <AppIcon name="home" color={color} size={24} /> }} />
       <Tabs.Screen name="timer" options={{ title: 'Timer', tabBarIcon: ({ color }) => <AppIcon name="timer" color={color} size={24} /> }} />
       <Tabs.Screen name="protokolle" options={{ title: 'Protokolle', tabBarIcon: ({ color }) => <AppIcon name="assignment" color={color} size={24} /> }} />
       <Tabs.Screen name="zaehler" options={{ title: 'Zaehler', tabBarIcon: ({ color }) => <AppIcon name="calculate" color={color} size={24} /> }} />

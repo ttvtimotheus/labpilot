@@ -8,7 +8,7 @@ export function ProBadge() {
   const theme = useAppTheme();
 
   return (
-    <View accessibilityLabel="Pro" style={[styles.badge, { backgroundColor: theme.backgroundSunk, borderColor: theme.warning }]}> 
+    <View accessibilityLabel="Pro" style={[styles.badge, { backgroundColor: theme.backgroundElev, borderColor: theme.warning }]}> 
       <AppIcon name="workspace-premium" size={14} color={theme.warning} />
       <AppText variant="caption" style={{ color: theme.warning }}>Pro</AppText>
     </View>
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     minHeight: 28,
     borderWidth: 1,
     borderRadius: radius.full,
-    paddingHorizontal: spacing.sm,
+    paddingHorizontal: spacing.xs,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,

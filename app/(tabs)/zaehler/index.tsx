@@ -1,13 +1,13 @@
 import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
 
 import { Screen } from '@/src/components/layout/Screen';
+import { ScreenHeader } from '@/src/components/layout/ScreenHeader';
 import { Section } from '@/src/components/layout/Section';
-import { AppText } from '@/src/components/ui/AppText';
-import { ListRow } from '@/src/components/ui/ListRow';
+import { ResourceRow } from '@/src/components/ui/ResourceRow';
+import { StatusChip } from '@/src/components/ui/StatusChip';
 import { useDifferentialStore } from '@/src/features/zaehler/differential.store';
 import { useKolonieStore } from '@/src/features/zaehler/kolonien.store';
-import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
+import { useAppTheme } from '@/src/lib/theme/tokens';
 
 export default function ZaehlerScreen() {
   const theme = useAppTheme();
@@ -16,20 +16,30 @@ export default function ZaehlerScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <AppText variant="h1">Zaehler</AppText>
-        <AppText variant="callout" muted>Haptische Zaehler fuer Kolonien und Differentialblutbild.</AppText>
-      </View>
-      <Section title="Laborzaehler">
-        <ListRow
+      <ScreenHeader
+        eyebrow="Arbeitsrechner"
+        title="Zaehler"
+        description="Haptische Zaehler fuer Kolonien und Differentialblutbild mit lokaler Ergebnissicherung."
+        chips={
+          <>
+            <StatusChip label="Kolonien" tone="info" icon="science" />
+            <StatusChip label="Diff-BB" tone="danger" icon="bloodtype" />
+          </>
+        }
+      />
+
+      <Section title="Laborzaehler" description="Zwei schnelle Erfassungsmodi fuer wiederkehrende Zaehlarbeit.">
+        <ResourceRow
           icon="science"
+          eyebrow="Mikrobiologie"
           title="Mibi-Kolonienzaehler"
           subtitle="Kategorien, Gesamtzahl und CFU/ml Berechnung."
           accentColor={theme.area.mibi}
           onPress={() => router.push('/(tabs)/zaehler/kolonien')}
         />
-        <ListRow
+        <ResourceRow
           icon="bloodtype"
+          eyebrow="Haematologie"
           title="Differentialblutbild"
           subtitle="100-Zellen-Tracking mit Prozentanzeige."
           accentColor={theme.area.haema}
@@ -39,8 +49,9 @@ export default function ZaehlerScreen() {
       {(lastKolonie || lastDifferential) ? (
         <Section title="Letzte lokale Ergebnisse">
           {lastKolonie ? (
-            <ListRow
+            <ResourceRow
               icon="science"
+              eyebrow="Kolonienzaehlung"
               title={lastKolonie.name ?? 'Kolonienzaehlung'}
               subtitle={`${lastKolonie.totalColonies} Kolonien · ${new Intl.NumberFormat('de-DE').format(lastKolonie.totalCfu)} CFU/ml`}
               accentColor={theme.area.mibi}
@@ -48,8 +59,9 @@ export default function ZaehlerScreen() {
             />
           ) : null}
           {lastDifferential ? (
-            <ListRow
+            <ResourceRow
               icon="bloodtype"
+              eyebrow="Differentialblutbild"
               title={lastDifferential.name ?? 'Differentialzaehlung'}
               subtitle={`${lastDifferential.totalCells}/${lastDifferential.target} Zellen gespeichert`}
               accentColor={theme.area.haema}
@@ -61,9 +73,3 @@ export default function ZaehlerScreen() {
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    gap: spacing.sm,
-  },
-});

@@ -19,11 +19,15 @@ export function NumericDisplay({ value, label, size = 'md', style, ...props }: N
       {...props}
       accessibilityRole="text"
       accessibilityLabel={label ? `${label}: ${value}` : String(value)}
-      style={[styles.wrap, { backgroundColor: theme.backgroundSunk, borderColor: theme.border }, style]}>
+      style={[styles.wrap, { backgroundColor: theme.card, borderColor: theme.borderStrong }, style]}>
+      {label ? (
+        <AppText variant="caption" muted style={styles.label}>
+          {label}
+        </AppText>
+      ) : null}
       <AppText style={[typography.mono, styles.value, { color: theme.foreground, fontSize, lineHeight }]}>
         {value}
       </AppText>
-      {label ? <AppText variant="caption" muted>{label}</AppText> : null}
     </View>
   );
 }
@@ -31,7 +35,7 @@ export function NumericDisplay({ value, label, size = 'md', style, ...props }: N
 const styles = StyleSheet.create({
   wrap: {
     borderWidth: 1,
-    borderRadius: radius.lg,
+    borderRadius: radius.md,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     alignItems: 'center',
@@ -41,5 +45,9 @@ const styles = StyleSheet.create({
   },
   value: {
     textAlign: 'center',
+  },
+  label: {
+    textTransform: 'uppercase',
+    letterSpacing: 0.7,
   },
 });

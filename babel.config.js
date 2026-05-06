@@ -2,9 +2,8 @@ module.exports = function (api) {
   const isTest = api.env('test');
 
   return {
-    presets: ['babel-preset-expo'],
+    presets: ['babel-preset-expo', !isTest && 'nativewind/babel'].filter(Boolean),
     plugins: [
-      !isTest && 'nativewind/babel',
       [
         'module-resolver',
         {

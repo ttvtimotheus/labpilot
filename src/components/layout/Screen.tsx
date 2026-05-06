@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, View, type ViewProps } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Platform, ScrollView, StyleSheet, View, type ViewProps } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
 
@@ -10,7 +10,9 @@ interface ScreenProps extends ViewProps {
 
 export function Screen({ scroll = true, padded = true, style, children, ...props }: ScreenProps) {
   const theme = useAppTheme();
-  const contentStyle = [styles.content, padded && styles.padded, style];
+  const insets = useSafeAreaInsets();
+  const tabBarReserve = Platform.OS === 'ios' ? 116 : 84;
+  const contentStyle = [styles.content, { paddingBottom: spacing.xxl + tabBarReserve + insets.bottom }, padded && styles.padded, style];
 
   return (
     <SafeAreaView style={[styles.root, { backgroundColor: theme.background }]} edges={['top', 'left', 'right']}>
@@ -19,6 +21,7 @@ export function Screen({ scroll = true, padded = true, style, children, ...props
           {...props}
           keyboardShouldPersistTaps="handled"
           contentInsetAdjustmentBehavior="automatic"
+          showsVerticalScrollIndicator={false}
           style={styles.scroll}
           contentContainerStyle={contentStyle}>
           {children}
@@ -41,7 +44,6 @@ const styles = StyleSheet.create({
   },
   content: {
     gap: spacing.xl,
-    paddingBottom: spacing.xxxl,
   },
   padded: {
     paddingHorizontal: spacing.lg,

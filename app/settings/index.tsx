@@ -2,14 +2,18 @@ import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 import { Screen } from '@/src/components/layout/Screen';
+import { ScreenHeader } from '@/src/components/layout/ScreenHeader';
 import { Section } from '@/src/components/layout/Section';
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { Card } from '@/src/components/ui/Card';
-import { ListRow } from '@/src/components/ui/ListRow';
+import { ResourceRow } from '@/src/components/ui/ResourceRow';
+import { StatusChip } from '@/src/components/ui/StatusChip';
 import { usePreferencesStore, type AppLanguage, type ThemePreference } from '@/src/features/settings/preferences.store';
-import i18n from '@/src/lib/i18n';
+import { useEntitlements } from '@/src/hooks/useEntitlements';
 import { useAuth } from '@/src/lib/auth/AuthProvider';
+import { isRevenueCatConfigured } from '@/src/lib/env';
+import i18n from '@/src/lib/i18n';
 import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
 
 const themeOptions: { value: ThemePreference; label: string }[] = [
@@ -26,11 +30,13 @@ const languageOptions: { value: AppLanguage; label: string }[] = [
 export default function SettingsScreen() {
   const theme = useAppTheme();
   const { isGuest } = useAuth();
+  const { isPro } = useEntitlements();
   const themePreference = usePreferencesStore((state) => state.themePreference);
   const language = usePreferencesStore((state) => state.language);
   const setThemePreference = usePreferencesStore((state) => state.setThemePreference);
   const setLanguage = usePreferencesStore((state) => state.setLanguage);
   const setOnboardingCompleted = usePreferencesStore((state) => state.setOnboardingCompleted);
+  const showSubscription = isPro || isRevenueCatConfigured;
 
   function updateLanguage(nextLanguage: AppLanguage) {
     setLanguage(nextLanguage);
@@ -39,15 +45,23 @@ export default function SettingsScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <AppText variant="h1">Einstellungen</AppText>
-        <AppText variant="callout" muted>{isGuest ? 'Offline-Profil' : 'Angemeldetes Profil'}</AppText>
-      </View>
-      <Section title="Konto">
-        <ListRow icon="person" title="Account" subtitle="Login, Rolle und Sync-Status" onPress={() => router.push('/settings/account')} />
-        <ListRow icon="workspace-premium" title="LabPilot Pro" subtitle="Abo, Restore und Entitlements" accentColor={theme.warning} onPress={() => router.push('/settings/subscription')} />
+      <ScreenHeader
+        eyebrow="Arbeitsbereich"
+        title="Einstellungen"
+        description="Profil, Darstellung und lokale Arbeitsumgebung fuer deinen Laboralltag."
+        chips={
+          <>
+            <StatusChip label={isGuest ? 'Lokal' : 'Cloud'} tone={isGuest ? 'warning' : 'info'} icon={isGuest ? 'offline-bolt' : 'cloud-done'} />
+            <StatusChip label={`Sprache ${language.toUpperCase()}`} tone="neutral" icon="language" />
+            {showSubscription ? <StatusChip label={isPro ? 'Pro aktiv' : 'Pro verfuegbar'} tone="warning" icon="workspace-premium" /> : null}
+          </>
+        }
+      />
+      <Section title="Profil" description="Konto, Berechtigungen und Kaufstatus.">
+        <ResourceRow icon="person" eyebrow="Profil" title="Account" subtitle="Login, Rolle und Sync-Status" onPress={() => router.push('/settings/account')} />
+        {showSubscription ? <ResourceRow icon="workspace-premium" eyebrow="Zusatzfunktionen" title="LabPilot Pro" subtitle="Zusatzfunktionen, Restore und Berechtigungen" accentColor={theme.warning} onPress={() => router.push('/settings/subscription')} /> : null}
       </Section>
-      <Section title="Darstellung">
+      <Section title="Darstellung" description="Farbschema und Sprache fuer diese Installation.">
         <Card>
           <AppText variant="bodyEmph">Theme</AppText>
           <View style={styles.optionGrid}>
@@ -73,30 +87,28 @@ export default function SettingsScreen() {
               />
             ))}
           </View>
-          <AppText variant="footnote" muted>Deutsch ist im MVP voll gepflegt; Englisch bleibt vorerst Basistext.</AppText>
+          <AppText variant="footnote" muted>Deutsch ist vollstaendig gepflegt; Englisch deckt aktuell die Kerntexte ab.</AppText>
         </Card>
       </Section>
-      <Section title="App">
-        <ListRow icon="storage" title="Lokale Daten" subtitle="Verlaeufe und gespeicherte Zaehlungen verwalten" onPress={() => router.push('/settings/data')} />
-        <ListRow
+      <Section title="Arbeitsbereich" description="Lokale Daten, Startcheck und App-Informationen.">
+        <ResourceRow icon="storage" eyebrow="Daten" title="Lokale Daten" subtitle="Verlaeufe und gespeicherte Zaehlungen verwalten" onPress={() => router.push('/settings/data')} />
+        <ResourceRow
           icon="flag"
+          eyebrow="Einrichtung"
           title="Startcheck erneut anzeigen"
-          subtitle="Oeffnet die Hinweise fuer Offline-Modus, Routine und Datenschutz."
+          subtitle="Oeffnet die Einfuehrung zu Routine, Datenschutz und Arbeitsweise erneut."
           onPress={() => {
             setOnboardingCompleted(false);
             router.replace('/onboarding');
           }}
         />
-        <ListRow icon="info" title="Ueber LabPilot" subtitle="Version, Datenschutz und Hinweise" onPress={() => router.push('/settings/about')} />
+        <ResourceRow icon="info" eyebrow="App" title="Ueber LabPilot" subtitle="Version, Datenschutz und Hinweise" onPress={() => router.push('/settings/about')} />
       </Section>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
-    gap: spacing.sm,
-  },
   optionGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',

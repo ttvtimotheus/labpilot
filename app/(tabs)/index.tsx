@@ -1,26 +1,27 @@
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
-import { Screen } from '@/src/components/layout/Screen';
-import { Section } from '@/src/components/layout/Section';
 import { TimerRow } from '@/src/components/domain/TimerRow';
-import { AppText } from '@/src/components/ui/AppText';
+import { Screen } from '@/src/components/layout/Screen';
+import { ScreenHeader } from '@/src/components/layout/ScreenHeader';
+import { Section } from '@/src/components/layout/Section';
+import { ActionTile } from '@/src/components/ui/ActionTile';
 import { Button } from '@/src/components/ui/Button';
-import { Card } from '@/src/components/ui/Card';
 import { EmptyState } from '@/src/components/ui/EmptyState';
-import { ListRow } from '@/src/components/ui/ListRow';
+import { NoticeBanner } from '@/src/components/ui/NoticeBanner';
+import { ResourceRow } from '@/src/components/ui/ResourceRow';
+import { StatusChip } from '@/src/components/ui/StatusChip';
+import { protokolle } from '@/src/features/protokolle/data';
 import { useTimerStore } from '@/src/features/timer/store';
-import { useLocalDataHydration } from '@/src/hooks/useLocalDataHydration';
-import { useAuth } from '@/src/lib/auth/AuthProvider';
-import { syncAll } from '@/src/lib/db/sync';
 import { useNow } from '@/src/hooks/useNow';
-import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
+import { useAuth } from '@/src/lib/auth/AuthProvider';
+import { areaLabels, spacing, useAppTheme } from '@/src/lib/theme/tokens';
+import { formatDuration } from '@/src/lib/utils/time';
 
 export default function HomeScreen() {
   useNow();
   const theme = useAppTheme();
-  const { isGuest, userId } = useAuth();
-  const hydrateLocalData = useLocalDataHydration({ auto: false });
+  const { isGuest } = useAuth();
   const templates = useTimerStore((state) => state.templates);
   const activeTimers = useTimerStore((state) => state.activeTimers);
   const startTimer = useTimerStore((state) => state.startTimer);
@@ -28,52 +29,79 @@ export default function HomeScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <View style={styles.titleRow}>
-          <View style={styles.titleCopy}>
-            <AppText variant="display">LabPilot</AppText>
-            <AppText variant="callout" muted>Dein Labor-Cockpit fuer Routine, Zaehler und Referenzwissen.</AppText>
-          </View>
-          <Button label="Einstellungen" icon="settings" variant="ghost" onPress={() => router.push('/settings')} />
-        </View>
-        {isGuest ? (
-          <Card style={{ borderColor: theme.warning }}>
-            <AppText variant="bodyEmph" style={{ color: theme.warning }}>Offline-Modus</AppText>
-            <AppText muted>Alle Kernfunktionen laufen lokal. Anmeldung und Sync kannst du spaeter aktivieren.</AppText>
-          </Card>
-        ) : null}
-      </View>
+      <ScreenHeader
+        eyebrow="LabPilot"
+        title="Laborarbeitsplatz"
+        description="Timer, Protokolle und Referenzwissen in einer klaren Arbeitsoberflaeche fuer Routine, Lehre und Nachschlagen."
+        action={<Button label="Einstellungen" icon="settings" variant="secondary" onPress={() => router.push('/settings')} />}
+        chips={
+          <>
+            <StatusChip
+              label={isGuest ? 'Lokal' : 'Konto aktiv'}
+              tone={isGuest ? 'warning' : 'info'}
+              icon={isGuest ? 'offline-bolt' : 'cloud-done'}
+            />
+            <StatusChip
+              label={activeTimers.length ? `${activeTimers.length} Timer aktiv` : 'Bereit'}
+              tone={activeTimers.length ? 'success' : 'neutral'}
+              icon={activeTimers.length ? 'timer' : 'check-circle'}
+            />
+          </>
+        }
+      />
 
-      <Section title="Aktive Timer">
+      {isGuest ? (
+        <NoticeBanner
+          title="Arbeitet lokal auf diesem Geraet"
+          description="Die Kernfunktionen stehen direkt zur Verfuegung. Konto und Abgleich kannst du spaeter dazuschalten."
+          tone="warning"
+          icon="offline-bolt"
+        />
+      ) : null}
+
+      <Section title="Direkt einsteigen" description="Die vier wichtigsten Wege fuer die naechste Handlung.">
+        <View style={styles.actionGrid}>
+          <ActionTile style={styles.actionTile} icon="timer" title="Timer" subtitle="Zeitfenster starten und aktiv begleiten" accentColor={theme.area.mibi} onPress={() => router.push('/(tabs)/timer')} />
+          <ActionTile style={styles.actionTile} icon="assignment" title="Protokolle" subtitle="Standardablaeufe aufrufen und dokumentieren" accentColor={theme.area.histo} onPress={() => router.push('/(tabs)/protokolle')} />
+          <ActionTile style={styles.actionTile} icon="menu-book" title="Wissen" subtitle="Referenzen, Themen und Rechner oeffnen" accentColor={theme.area.learn} onPress={() => router.push('/(tabs)/wissen')} />
+          <ActionTile style={styles.actionTile} icon="calculate" title="Zaehler" subtitle="Kolonien und Differentiale erfassen" accentColor={theme.area.haema} onPress={() => router.push('/(tabs)/zaehler')} />
+        </View>
+      </Section>
+
+      <Section title="Aktueller Fokus" description="Laufende Arbeit erscheint hier zuerst, bevor du in die Bibliotheken gehst.">
         {activeTimers.length ? (
           activeTimers.map((timer) => <TimerRow key={timer.id} timer={timer} />)
         ) : (
-          <EmptyState icon="timer" title="Kein Timer aktiv" description="Starte eine Vorlage oder lege einen neuen Timer fuer deinen Arbeitsschritt an." />
+          <EmptyState icon="timer" title="Kein Timer aktiv" description="Starte einen Zeitabschnitt oder nimm eine Standardvorlage direkt aus der Bibliothek unten." />
         )}
       </Section>
 
-      <Section title="Schnellzugriff">
-        <View style={styles.quickGrid}>
-          <Button label="Timer" icon="timer" onPress={() => router.push('/(tabs)/timer')} />
-          <Button label="Kolonien" icon="science" variant="secondary" onPress={() => router.push('/(tabs)/zaehler/kolonien')} />
-        </View>
+      <Section title="Standardbibliothek" description="Integrierte Startpunkte statt Demo-Daten: Vorlagen, Abläufe und Nachschlagepfade.">
         {quickTemplate ? (
-          <ListRow
-            icon="bolt"
-            title={`${quickTemplate.name} starten`}
-            subtitle={`${Math.round(quickTemplate.durationSeconds / 60)} Min. Vorlage`}
+          <ResourceRow
+            icon="timer"
+            eyebrow="Timerbibliothek"
+            title={quickTemplate.name}
+            subtitle={`${areaLabels[quickTemplate.bereich]} · ${formatDuration(quickTemplate.durationSeconds)} · Standardvorlage fuer den Schnellstart`}
             accentColor={theme.area[quickTemplate.bereich]}
             onPress={() => startTimer(quickTemplate)}
           />
         ) : null}
-        <ListRow
-          icon="sync"
-          title="Sync pruefen"
-          subtitle="Pusht lokale Aenderungen, sobald Supabase konfiguriert ist."
-          onPress={async () => {
-            const result = await syncAll(userId);
-            if (!result.skipped) await hydrateLocalData(userId);
-          }}
+        <ResourceRow
+          icon="assignment"
+          eyebrow="Protokolle"
+          title="Standardablaeufe"
+          subtitle={`${protokolle.length} integrierte Ablaufe fuer wiederkehrende Laborwege`}
+          accentColor={theme.area.histo}
+          onPress={() => router.push('/(tabs)/protokolle')}
+        />
+        <ResourceRow
+          icon="menu-book"
+          eyebrow="Wissensbibliothek"
+          title="Referenzen und Themen"
+          subtitle="Kompakte Fachinhalte, Nachschlagewerte und Rechner fuer den Arbeitsplatz"
+          accentColor={theme.area.learn}
+          onPress={() => router.push('/(tabs)/wissen')}
         />
       </Section>
     </Screen>
@@ -81,21 +109,12 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    gap: spacing.md,
-  },
-  titleRow: {
+  actionGrid: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: spacing.md,
-  },
-  titleCopy: {
-    flex: 1,
-    minWidth: 0,
-    gap: spacing.xs,
-  },
-  quickGrid: {
-    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: spacing.sm,
+  },
+  actionTile: {
+    flexBasis: '48%',
   },
 });

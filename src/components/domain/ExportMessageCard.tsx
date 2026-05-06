@@ -1,5 +1,4 @@
-import { AppText } from '@/src/components/ui/AppText';
-import { Card } from '@/src/components/ui/Card';
+import { NoticeBanner } from '@/src/components/ui/NoticeBanner';
 
 interface ExportMessageCardProps {
   message: string | null;
@@ -8,10 +7,5 @@ interface ExportMessageCardProps {
 export function ExportMessageCard({ message }: ExportMessageCardProps) {
   if (!message) return null;
 
-  return (
-    <Card>
-      <AppText variant="bodyEmph">Export</AppText>
-      <AppText muted>{message}</AppText>
-    </Card>
-  );
+  return <NoticeBanner title="Export" description={message} tone="info" icon="picture-as-pdf" />;
 }

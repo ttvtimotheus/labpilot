@@ -1,8 +1,8 @@
 import { Pressable, StyleSheet, View, type PressableProps } from 'react-native';
 
-import { radius, spacing, typography, useAppTheme } from '@/src/lib/theme/tokens';
 import { AppIcon } from '@/src/components/ui/AppIcon';
 import { AppText } from '@/src/components/ui/AppText';
+import { radius, spacing, typography, useAppTheme } from '@/src/lib/theme/tokens';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive';
 
@@ -19,13 +19,13 @@ export function Button({ label, variant = 'primary', icon, fullWidth, disabled, 
   const theme = useAppTheme();
   const isPrimary = variant === 'primary';
   const isDestructive = variant === 'destructive';
-  const foreground = isPrimary || isDestructive ? '#FFFFFF' : theme.foreground;
+  const foreground = isPrimary || isDestructive ? '#FFFFFF' : variant === 'ghost' ? theme.info : theme.foreground;
   const backgroundColor = isDestructive
     ? theme.danger
     : isPrimary
-      ? theme.info
+      ? theme.foreground
       : variant === 'secondary'
-        ? theme.backgroundSunk
+        ? theme.card
         : 'transparent';
 
   return (
@@ -39,8 +39,8 @@ export function Button({ label, variant = 'primary', icon, fullWidth, disabled, 
         styles.base,
         fullWidth && styles.fullWidth,
         {
-          backgroundColor,
-          borderColor: variant === 'ghost' ? 'transparent' : theme.borderStrong,
+          backgroundColor: pressed && !disabled ? (variant === 'ghost' ? theme.backgroundSunk : backgroundColor) : backgroundColor,
+          borderColor: isPrimary || isDestructive ? backgroundColor : variant === 'ghost' ? 'transparent' : theme.borderStrong,
           opacity: disabled ? 0.55 : 1,
           transform: [{ scale: pressed && !disabled ? 0.98 : 1 }],
         },
@@ -58,7 +58,7 @@ export function Button({ label, variant = 'primary', icon, fullWidth, disabled, 
 
 const styles = StyleSheet.create({
   base: {
-    minHeight: 44,
+    minHeight: 46,
     borderRadius: radius.md,
     borderWidth: 1,
     paddingHorizontal: spacing.md,

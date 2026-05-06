@@ -6,51 +6,48 @@ import { radius, spacing, useAppTheme } from '@/src/lib/theme/tokens';
 
 type IconName = React.ComponentProps<typeof AppIcon>['name'];
 
-interface ListRowProps extends PressableProps {
+interface ResourceRowProps extends PressableProps {
   icon?: IconName;
+  eyebrow?: string;
   title: string;
-  subtitle?: string;
-  trailing?: React.ReactNode;
+  subtitle: string;
   accentColor?: string;
+  badge?: React.ReactNode;
 }
 
-export function ListRow({ icon, title, subtitle, trailing, accentColor, disabled, style, ...props }: ListRowProps) {
+export function ResourceRow({ icon = 'article', eyebrow, title, subtitle, accentColor, badge, style, ...props }: ResourceRowProps) {
   const theme = useAppTheme();
-  const canPress = !!props.onPress && !disabled;
 
   return (
     <Pressable
-      accessibilityRole={canPress ? 'button' : undefined}
+      accessibilityRole={props.onPress ? 'button' : undefined}
       accessibilityLabel={props.accessibilityLabel ?? title}
-      accessibilityState={{ ...props.accessibilityState, disabled: !canPress }}
-      disabled={!canPress}
       {...props}
       style={({ pressed }) => [
         styles.row,
         {
           backgroundColor: pressed ? theme.backgroundSunk : theme.card,
           borderColor: theme.border,
-          borderLeftColor: accentColor ?? theme.border,
+          borderLeftColor: accentColor ?? theme.borderStrong,
         },
         style as object,
       ]}>
-      {icon ? (
-        <View style={[styles.icon, { backgroundColor: theme.backgroundElev, borderColor: accentColor ?? theme.border }]}> 
-          <AppIcon name={icon} size={22} color={accentColor ?? theme.info} />
-        </View>
-      ) : null}
-      <View style={styles.copy}>
-        <AppText variant="bodyEmph" numberOfLines={2}>{title}</AppText>
-        {subtitle ? <AppText variant="subhead" muted numberOfLines={3}>{subtitle}</AppText> : null}
+      <View style={[styles.iconWrap, { backgroundColor: theme.backgroundElev, borderColor: accentColor ?? theme.borderStrong }]}> 
+        <AppIcon name={icon} size={20} color={accentColor ?? theme.info} />
       </View>
-      <View style={styles.trailing}>{trailing ?? (canPress ? <AppIcon name="chevron-right" size={22} color={theme.foregroundSubtle} /> : null)}</View>
+      <View style={styles.copy}>
+        {eyebrow ? <AppText variant="caption" muted>{eyebrow}</AppText> : null}
+        <AppText variant="bodyEmph">{title}</AppText>
+        <AppText variant="footnote" muted>{subtitle}</AppText>
+      </View>
+      {badge ? <View style={styles.badge}>{badge}</View> : <AppIcon name="chevron-right" size={20} color={theme.foregroundSubtle} />}
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   row: {
-    minHeight: 74,
+    minHeight: 78,
     borderWidth: 1,
     borderLeftWidth: 4,
     borderRadius: radius.md,
@@ -60,9 +57,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing.md,
   },
-  icon: {
-    width: 42,
-    height: 42,
+  iconWrap: {
+    width: 40,
+    height: 40,
     borderRadius: radius.full,
     borderWidth: 1,
     alignItems: 'center',
@@ -73,9 +70,8 @@ const styles = StyleSheet.create({
     minWidth: 0,
     gap: spacing.xxs,
   },
-  trailing: {
-    justifyContent: 'center',
+  badge: {
     alignItems: 'center',
-    minWidth: 20,
+    justifyContent: 'center',
   },
 });

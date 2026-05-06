@@ -1,24 +1,24 @@
 import '@/global.css';
 
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
 import {
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  useFonts as useInterFonts,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    useFonts as useInterFonts,
 } from '@expo-google-fonts/inter';
 import {
-  JetBrainsMono_500Medium,
-  useFonts as useJetBrainsFonts,
+    JetBrainsMono_500Medium,
+    useFonts as useJetBrainsFonts,
 } from '@expo-google-fonts/jetbrains-mono';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
+import 'react-native-reanimated';
 
-import { AppProviders } from '@/src/providers/AppProviders';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { AppProviders } from '@/src/providers/AppProviders';
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -51,7 +51,7 @@ export default function RootLayout() {
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           <Stack.Screen name="+not-found" />
         </Stack>
-        <StatusBar style="auto" />
+        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       </ThemeProvider>
     </AppProviders>
   );

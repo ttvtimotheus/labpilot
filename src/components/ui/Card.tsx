@@ -1,4 +1,4 @@
-import { View, type ViewProps, StyleSheet } from 'react-native';
+import { StyleSheet, View, type ViewProps } from 'react-native';
 
 import { radius, spacing, useAppTheme } from '@/src/lib/theme/tokens';
 import type { Bereich } from '@/src/types/domain';
@@ -34,13 +34,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: radius.xl,
     padding: spacing.lg,
-    gap: spacing.sm,
+    gap: spacing.md,
   },
   elevated: {
-    shadowColor: '#000000',
-    shadowOpacity: 0.08,
+    shadowColor: '#121A22',
+    shadowOpacity: 0.06,
     shadowRadius: 18,
-    shadowOffset: { width: 0, height: 10 },
+    shadowOffset: { width: 0, height: 8 },
     elevation: 2,
   },
 });

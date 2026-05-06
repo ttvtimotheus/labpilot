@@ -19,8 +19,8 @@ export function EmptyState({ icon, title, description, actionLabel, onAction, st
   const theme = useAppTheme();
 
   return (
-    <View {...props} style={[styles.wrap, { borderColor: theme.border, backgroundColor: theme.card }, style]}>
-      <View style={[styles.icon, { backgroundColor: theme.backgroundSunk }]}> 
+    <View {...props} style={[styles.wrap, { borderColor: theme.border, backgroundColor: theme.backgroundElev }, style]}>
+      <View style={[styles.icon, { backgroundColor: theme.card, borderColor: theme.borderStrong }]}> 
         <AppIcon name={icon} size={28} color={theme.info} />
       </View>
       <View style={styles.copy}>
@@ -35,9 +35,8 @@ export function EmptyState({ icon, title, description, actionLabel, onAction, st
 const styles = StyleSheet.create({
   wrap: {
     borderWidth: 1,
-    borderStyle: 'dashed',
     borderRadius: radius.xl,
-    padding: spacing.xl,
+    padding: spacing.lg,
     alignItems: 'center',
     gap: spacing.md,
   },
@@ -45,6 +44,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: radius.lg,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

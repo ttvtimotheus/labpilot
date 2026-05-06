@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Screen } from '@/src/components/layout/Screen';
-import { AppText } from '@/src/components/ui/AppText';
+import { ScreenHeader } from '@/src/components/layout/ScreenHeader';
 import { Button } from '@/src/components/ui/Button';
-import { Card } from '@/src/components/ui/Card';
+import { NoticeBanner } from '@/src/components/ui/NoticeBanner';
+import { StatusChip } from '@/src/components/ui/StatusChip';
 import { useLocalDataHydration } from '@/src/hooks/useLocalDataHydration';
 import { useAuth } from '@/src/lib/auth/AuthProvider';
 import { syncAll } from '@/src/lib/db/sync';
@@ -27,7 +28,7 @@ export default function AccountScreen() {
       const result = await syncAll(userId);
       if (result.skipped) {
         setSyncState('skipped');
-        setSyncMessage(result.reason === 'offline-or-unconfigured' ? 'Supabase ist noch nicht konfiguriert oder du nutzt den Offline-Modus.' : 'Sync wurde uebersprungen.');
+        setSyncMessage(result.reason === 'offline-or-unconfigured' ? 'Der Abgleich ist in dieser Installation derzeit nur lokal verfuegbar.' : 'Der Abgleich wurde uebersprungen.');
       } else {
         const pendingTotal = Object.values(result.pendingLocalChanges).reduce((sum, count) => sum + count, 0);
         const pushedTotal = Object.values(result.pushedLocalChanges).reduce((sum, count) => sum + count, 0);
@@ -46,42 +47,49 @@ export default function AccountScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <AppText variant="h1">Account</AppText>
-        <AppText variant="callout" muted>{isGuest ? 'Lokaler Offline-Nutzer' : userId}</AppText>
-      </View>
-      <Card>
-        <AppText variant="bodyEmph">Sync-Status</AppText>
-        <AppText muted>{isGuest ? 'Nicht aktiv. Daten bleiben auf diesem Geraet.' : 'Supabase Session aktiv.'}</AppText>
-        <AppText variant="footnote" muted>{isSupabaseConfigured ? 'Backend-Konfiguration vorhanden.' : 'Backend-Secrets fehlen in der lokalen Umgebung.'}</AppText>
-      </Card>
+      <ScreenHeader
+        eyebrow="Profil"
+        title="Account"
+        description={isGuest ? 'Du arbeitest derzeit lokal auf diesem Geraet.' : userId}
+        chips={
+          <>
+            <StatusChip label={isGuest ? 'Lokal' : 'Cloud'} tone={isGuest ? 'warning' : 'info'} icon={isGuest ? 'offline-bolt' : 'cloud-done'} />
+            <StatusChip label={isSupabaseConfigured ? 'Sync bereit' : 'Nur lokal'} tone={isSupabaseConfigured ? 'success' : 'neutral'} icon="sync" />
+          </>
+        }
+      />
+      <NoticeBanner title="Synchronisation" description={isGuest ? 'Deine Daten bleiben aktuell nur auf diesem Geraet.' : 'Dein Konto kann lokale Daten mit dem Server abgleichen.'} tone={isSupabaseConfigured ? 'info' : 'neutral'} icon="sync" />
       {syncMessage ? (
-        <Card>
-          <AppText variant="bodyEmph">Letzter Sync-Check</AppText>
-          <AppText muted>{syncMessage}</AppText>
-        </Card>
+        <NoticeBanner
+          title="Letzter Sync-Check"
+          description={syncMessage}
+          tone={syncState === 'error' ? 'danger' : syncState === 'success' ? 'success' : syncState === 'skipped' ? 'warning' : 'info'}
+          icon={syncState === 'error' ? 'error-outline' : 'sync'}
+        />
       ) : null}
-      <Button
-        label={syncState === 'running' ? 'Sync prueft...' : 'Sync pruefen'}
-        icon="sync"
-        disabled={syncState === 'running'}
-        onPress={runManualSync}
-      />
-      <Button
-        label={isGuest ? 'Zum Login wechseln' : 'Abmelden'}
-        icon={isGuest ? 'login' : 'logout'}
-        variant="secondary"
-        onPress={async () => {
-          await signOut();
-          router.replace('/(auth)/welcome');
-        }}
-      />
+      <View style={styles.actions}>
+        <Button
+          label={syncState === 'running' ? 'Sync prueft...' : 'Sync pruefen'}
+          icon="sync"
+          disabled={syncState === 'running'}
+          onPress={runManualSync}
+        />
+        <Button
+          label={isGuest ? 'Zum Login wechseln' : 'Abmelden'}
+          icon={isGuest ? 'login' : 'logout'}
+          variant="secondary"
+          onPress={async () => {
+            await signOut();
+            router.replace('/(auth)/welcome');
+          }}
+        />
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
+  actions: {
     gap: spacing.sm,
   },
 });

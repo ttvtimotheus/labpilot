@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { AppText } from '@/src/components/ui/AppText';
 import { NumericDisplay } from '@/src/components/ui/NumericDisplay';
-import { areaLabels, spacing, useAppTheme } from '@/src/lib/theme/tokens';
+import { areaLabels, radius, spacing, useAppTheme } from '@/src/lib/theme/tokens';
 import { formatDuration, getRemainingSeconds } from '@/src/lib/utils/time';
 import type { ActiveTimer } from '@/src/types/domain';
 
@@ -19,26 +19,28 @@ export function TimerRow({ timer }: { timer: ActiveTimer }) {
       style={({ pressed }) => [
         styles.row,
         {
-          backgroundColor: pressed ? theme.backgroundSunk : theme.card,
+          backgroundColor: pressed ? theme.backgroundElev : theme.card,
           borderColor: theme.border,
-          borderLeftColor: theme.area[timer.bereich],
+          borderTopColor: theme.area[timer.bereich],
         },
       ]}>
       <View style={styles.copy}>
+        <AppText variant="caption" muted>
+          {areaLabels[timer.bereich]}
+        </AppText>
         <AppText variant="bodyEmph" numberOfLines={2}>{timer.name}</AppText>
-        <AppText variant="subhead" muted>{areaLabels[timer.bereich]}</AppText>
       </View>
-      <NumericDisplay value={formatDuration(remaining)} size="sm" />
+      <NumericDisplay value={formatDuration(remaining)} label="Restzeit" size="sm" />
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   row: {
-    minHeight: 76,
+    minHeight: 84,
     borderWidth: 1,
-    borderLeftWidth: 4,
-    borderRadius: 16,
+    borderTopWidth: 4,
+    borderRadius: radius.md,
     padding: spacing.md,
     flexDirection: 'row',
     alignItems: 'center',
@@ -47,6 +49,6 @@ const styles = StyleSheet.create({
   copy: {
     flex: 1,
     minWidth: 0,
-    gap: 2,
+    gap: spacing.xxs,
   },
 });
