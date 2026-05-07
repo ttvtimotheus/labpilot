@@ -12,26 +12,36 @@ interface ResourceRowProps extends PressableProps {
   title: string;
   subtitle: string;
   accentColor?: string;
+  actionLabel?: string;
   badge?: React.ReactNode;
 }
 
-export function ResourceRow({ icon = 'article', eyebrow, title, subtitle, accentColor, badge, style, ...props }: ResourceRowProps) {
+export function ResourceRow({ icon = 'article', eyebrow, title, subtitle, accentColor, actionLabel = 'Oeffnen', badge, disabled, style, ...props }: ResourceRowProps) {
   const theme = useAppTheme();
+  const canPress = !!props.onPress && !disabled;
 
   return (
     <Pressable
-      accessibilityRole={props.onPress ? 'button' : undefined}
+      accessibilityRole={canPress ? 'button' : undefined}
       accessibilityLabel={props.accessibilityLabel ?? title}
+      accessibilityState={{ ...props.accessibilityState, disabled: disabled ? true : undefined }}
+      focusable={canPress}
+      disabled={!canPress}
       {...props}
-      style={({ pressed }) => [
-        styles.row,
-        {
-          backgroundColor: pressed ? theme.backgroundSunk : theme.card,
-          borderColor: theme.border,
-          borderLeftColor: accentColor ?? theme.borderStrong,
-        },
-        style as object,
-      ]}>
+      style={(state) => {
+        const focused = 'focused' in state && Boolean(state.focused);
+
+        return [
+          styles.row,
+          {
+            backgroundColor: state.pressed ? theme.backgroundSunk : theme.card,
+            borderColor: focused ? theme.focus : theme.border,
+            opacity: disabled ? 0.62 : 1,
+          },
+          focused && styles.focused,
+          style as object,
+        ];
+      }}>
       <View style={[styles.iconWrap, { backgroundColor: theme.backgroundElev, borderColor: accentColor ?? theme.borderStrong }]}> 
         <AppIcon name={icon} size={20} color={accentColor ?? theme.info} />
       </View>
@@ -40,7 +50,17 @@ export function ResourceRow({ icon = 'article', eyebrow, title, subtitle, accent
         <AppText variant="bodyEmph">{title}</AppText>
         <AppText variant="footnote" muted>{subtitle}</AppText>
       </View>
-      {badge ? <View style={styles.badge}>{badge}</View> : <AppIcon name="chevron-right" size={20} color={theme.foregroundSubtle} />}
+      {badge || canPress ? (
+        <View style={styles.trailingGroup}>
+          {badge ? <View style={styles.badge}>{badge}</View> : null}
+          {canPress ? (
+            <View style={styles.actionHint}>
+              <AppText variant="caption" style={{ color: accentColor ?? theme.info }}>{actionLabel}</AppText>
+              <AppIcon name="chevron-right" size={18} color={accentColor ?? theme.info} />
+            </View>
+          ) : null}
+        </View>
+      ) : null}
     </Pressable>
   );
 }
@@ -49,7 +69,6 @@ const styles = StyleSheet.create({
   row: {
     minHeight: 78,
     borderWidth: 1,
-    borderLeftWidth: 4,
     borderRadius: radius.md,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
@@ -73,5 +92,18 @@ const styles = StyleSheet.create({
   badge: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  trailingGroup: {
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    gap: spacing.xs,
+  },
+  actionHint: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xxs,
+  },
+  focused: {
+    borderWidth: 2,
   },
 });

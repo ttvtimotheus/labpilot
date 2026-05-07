@@ -38,6 +38,7 @@ export default function WissenScreen() {
               title={areaLabels[bereich]}
               subtitle="Kompakte Beitraege und fachliche Orientierung"
               accentColor={theme.area[bereich]}
+              actionLabel="Oeffnen"
               onPress={() => router.push(`/(tabs)/wissen/${bereich}`)}
             />
           ))}
@@ -51,6 +52,7 @@ export default function WissenScreen() {
           title="Normalwerte"
           subtitle={`${normalwerte.length} Eintraege mit Parametern, Einheiten und Hinweisen`}
           accentColor={theme.area.chemie}
+          actionLabel="Oeffnen"
           onPress={() => router.push('/(tabs)/wissen/referenzen/normalwerte')}
         />
         <ResourceRow
@@ -59,6 +61,7 @@ export default function WissenScreen() {
           title="Naehrmedien"
           subtitle={`${naehrmedien.length} Medien mit Einsatz, Reaktionen und Wachstumshinweisen`}
           accentColor={theme.area.mibi}
+          actionLabel="Oeffnen"
           onPress={() => router.push('/(tabs)/wissen/referenzen/naehrmedien')}
         />
       </Section>
@@ -71,6 +74,7 @@ export default function WissenScreen() {
             title="Verduennungsrechner"
             subtitle="C1 x V1 = C2 x V2 fuer einfache und serielle Ansaetze"
             accentColor={theme.area.chemie}
+            actionLabel="Rechnen"
             onPress={() => router.push('/(tabs)/wissen/tools/verduennung')}
           />
           <ActionTile
@@ -79,6 +83,7 @@ export default function WissenScreen() {
             title="Einheiten-Konverter"
             subtitle="mg/dl, mmol/l und typische Laborumrechnungen"
             accentColor={theme.area.general}
+            actionLabel="Umrechnen"
             onPress={() => router.push('/(tabs)/wissen/tools/einheiten')}
           />
         </View>
@@ -91,6 +96,7 @@ export default function WissenScreen() {
           title="Lernkarten"
           subtitle="Kurzes Training aus Normalwerten und Naehrmedien"
           accentColor={theme.area.learn}
+          actionLabel="Ueben"
           onPress={() => router.push('/(tabs)/wissen/lernen')}
         />
       </Section>

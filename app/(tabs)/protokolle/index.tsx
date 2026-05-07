@@ -17,7 +17,7 @@ import type { ProtokollRun } from '@/src/types/domain';
 export default function ProtokolleScreen() {
   const theme = useAppTheme();
   const completedRuns = useProtokollRunStore((state) => state.completedRuns);
-  const { exportPdf, isExporting, message } = usePdfExport();
+  const { exportPdf, retryExport, canRetry, isExporting, message, exportStatus } = usePdfExport();
   const recentCompletedRuns = completedRuns.slice(0, 3);
 
   async function exportRun(run: ProtokollRun) {
@@ -47,13 +47,14 @@ export default function ProtokolleScreen() {
             title={protokoll.name}
             subtitle={`${protokoll.steps.length} Schritte · ${protokoll.description}`}
             accentColor={theme.area[protokoll.bereich]}
+            actionLabel="Oeffnen"
             onPress={() => router.push(`/(tabs)/protokolle/${protokoll.id}`)}
           />
         ))}
       </Section>
 
       <Section title="Verlauf & Export" description="Abgeschlossene Durchlaeufe mit direkter PDF-Ausgabe aus dem Verlauf.">
-        <ExportMessageCard message={message} />
+        <ExportMessageCard message={message} status={exportStatus} onRetry={canRetry ? () => void retryExport() : undefined} />
         {recentCompletedRuns.length ? (
           recentCompletedRuns.map((run) => (
             <ResourceRow
@@ -61,8 +62,9 @@ export default function ProtokolleScreen() {
               icon="picture-as-pdf"
               eyebrow={areaLabels[run.protokollSnapshot.bereich]}
               title={run.protokollSnapshot.name}
-              subtitle={`${new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(run.completedAt))} · ${isExporting ? 'Export laeuft' : 'PDF exportierbar'}`}
+              subtitle={`${new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(run.completedAt))} · ${isExporting ? 'PDF wird erstellt' : 'PDF exportieren'}`}
               accentColor={theme.area[run.protokollSnapshot.bereich]}
+              actionLabel="Export"
               onPress={() => void exportRun(run)}
               disabled={isExporting}
             />

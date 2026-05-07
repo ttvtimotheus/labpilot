@@ -34,6 +34,7 @@ export default function BereichScreen() {
               title={topic.title}
               subtitle={topic.summary}
               accentColor={theme.area[topic.bereich]}
+              actionLabel="Lesen"
               badge={topic.proOnly ? <ProBadge /> : undefined}
               onPress={() => router.push(`/(tabs)/wissen/${topic.bereich}/${topic.id}`)}
             />

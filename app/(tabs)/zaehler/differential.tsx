@@ -1,14 +1,17 @@
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { useState } from 'react';
 
 import { ExportMessageCard } from '@/src/components/domain/ExportMessageCard';
 import { Screen } from '@/src/components/layout/Screen';
+import { ScreenHeader } from '@/src/components/layout/ScreenHeader';
 import { Section } from '@/src/components/layout/Section';
 import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
 import { Card } from '@/src/components/ui/Card';
 import { ListRow } from '@/src/components/ui/ListRow';
+import { NoticeBanner } from '@/src/components/ui/NoticeBanner';
 import { NumericDisplay } from '@/src/components/ui/NumericDisplay';
+import { StatusChip } from '@/src/components/ui/StatusChip';
 import { TextField } from '@/src/components/ui/TextField';
 import { useDifferentialStore } from '@/src/features/zaehler/differential.store';
 import { useHaptics } from '@/src/hooks/useHaptics';
@@ -17,38 +20,85 @@ import { useAuth } from '@/src/lib/auth/AuthProvider';
 import { saveDifferentialCountLocal } from '@/src/lib/db/localPersistence';
 import { shareDifferentialCountPdf } from '@/src/lib/export/pdf';
 import { spacing, useAppTheme } from '@/src/lib/theme/tokens';
-import type { DifferentialCountSnapshot } from '@/src/types/domain';
+import type { DifferentialCell, DifferentialCountSnapshot } from '@/src/types/domain';
 
 export default function DifferentialScreen() {
   const theme = useAppTheme();
   const haptics = useHaptics();
   const { userId } = useAuth();
   const [name, setName] = useState('');
-  const { exportPdf, isExporting, message } = usePdfExport();
-  const { cells, savedCounts, target, increment, decrement, reset, saveCurrent, setTarget } = useDifferentialStore();
+  const [isInstrumentMode, setInstrumentMode] = useState(false);
+  const [resetSnapshot, setResetSnapshot] = useState<DifferentialCell[] | null>(null);
+  const { exportPdf, retryExport, canRetry, isExporting, message, exportStatus } = usePdfExport();
+  const { cells, savedCounts, target, increment, decrement, reset, restoreCells, saveCurrent, setTarget } = useDifferentialStore();
   const total = cells.reduce((sum, cell) => sum + cell.count, 0);
   const done = total >= target;
   const latestCounts = savedCounts.slice(0, 3);
+
+  useEffect(() => {
+    if (!resetSnapshot) return undefined;
+
+    const timeout = setTimeout(() => setResetSnapshot(null), 8000);
+    return () => clearTimeout(timeout);
+  }, [resetSnapshot]);
 
   async function exportCount(count: DifferentialCountSnapshot) {
     await exportPdf(() => shareDifferentialCountPdf(count));
   }
 
+  function resetWithUndo() {
+    if (!total) {
+      reset();
+      return;
+    }
+
+    setResetSnapshot(cells.map((cell) => ({ ...cell })));
+    reset();
+    haptics.warning();
+  }
+
+  function undoReset() {
+    if (!resetSnapshot) return;
+    restoreCells(resetSnapshot);
+    setResetSnapshot(null);
+    haptics.selection();
+  }
+
   return (
     <Screen>
-      <View style={styles.header}>
-        <AppText variant="h1">Diff-BB</AppText>
-        <AppText variant="callout" muted>Zaehlt bis {target} Zellen und berechnet Prozentanteile live.</AppText>
-      </View>
+      {isInstrumentMode ? (
+        <View style={[styles.instrumentBar, { backgroundColor: theme.backgroundElev, borderColor: theme.border }]}> 
+          <View style={styles.instrumentCopy}>
+            <AppText variant="caption" style={{ color: theme.area.haema }}>Differential</AppText>
+            <AppText variant="h3">Arbeitsmodus</AppText>
+          </View>
+          <Button label="Details" icon="fullscreen-exit" variant="secondary" onPress={() => setInstrumentMode(false)} />
+        </View>
+      ) : (
+        <ScreenHeader
+          eyebrow="Zaehler"
+          title="Diff-BB"
+          description={`Zaehlt bis ${target} Zellen und berechnet Prozentanteile live. Im Arbeitsmodus bleibt die Zaehlflaeche dominant.`}
+          action={<Button label="Arbeitsmodus" icon="fullscreen" variant="secondary" onPress={() => setInstrumentMode(true)} />}
+          chips={
+            <>
+              <StatusChip label={`${total}/${target} Zellen`} tone={done ? 'success' : 'info'} icon="adjust" />
+              <StatusChip label={`${Math.round((total / target) * 100)}%`} tone="neutral" icon="percent" />
+            </>
+          }
+        />
+      )}
       <View style={styles.metrics}>
         <NumericDisplay value={`${total}/${target}`} label="Zellen" />
         <NumericDisplay value={`${Math.round((total / target) * 100)}%`} label="Fortschritt" />
       </View>
       {done ? <AppText variant="bodyEmph" style={{ color: theme.success }}>Zielzellzahl erreicht.</AppText> : null}
-      <Card>
-        <TextField label="Name / Praeparat" value={name} onChangeText={setName} placeholder="z. B. Diff-BB Kontrolle" />
-        <TextField label="Zielzellzahl" value={String(target)} keyboardType="number-pad" onChangeText={(value) => setTarget(Number(value) || 100)} helpText="Mindestens 20 Zellen; Standard sind 100." />
-      </Card>
+      {!isInstrumentMode ? (
+        <Card>
+          <TextField label="Name / Praeparat" value={name} onChangeText={setName} placeholder="z. B. Diff-BB Kontrolle" helpText="Keine direkt identifizierenden Patientendaten eintragen." />
+          <TextField label="Zielzellzahl" value={String(target)} keyboardType="number-pad" onChangeText={(value) => setTarget(Number(value) || 100)} helpText="Mindestens 20 Zellen; Standard sind 100." />
+        </Card>
+      ) : null}
       <View style={styles.cellGrid}>
         {cells.map((cell) => {
           const percentage = total ? Math.round((cell.count / total) * 100) : 0;
@@ -84,18 +134,28 @@ export default function DifferentialScreen() {
             }
           }}
         />
-        <Button label="Zuruecksetzen" icon="restart-alt" variant="secondary" onPress={reset} />
+        <Button label="Zuruecksetzen" icon="restart-alt" variant="secondary" onPress={resetWithUndo} />
       </View>
-      {latestCounts.length ? (
+      {resetSnapshot ? (
+        <NoticeBanner
+          title="Zaehlung zurueckgesetzt"
+          description="Die vorherigen Werte bleiben kurz verfuegbar."
+          tone="warning"
+          icon="undo"
+          action={<Button label="Rueckgaengig" icon="undo" variant="secondary" onPress={undoReset} />}
+        />
+      ) : null}
+      {!isInstrumentMode && latestCounts.length ? (
         <Section title="Letzte Zaehlungen">
-          <ExportMessageCard message={message} />
+          <ExportMessageCard message={message} status={exportStatus} onRetry={canRetry ? () => void retryExport() : undefined} />
           {latestCounts.map((count) => (
             <ListRow
               key={count.id}
               icon="picture-as-pdf"
               title={count.name ?? 'Differentialzaehlung'}
-              subtitle={`${count.totalCells}/${count.target} Zellen · ${new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(count.createdAt))} · ${isExporting ? 'Export laeuft' : 'PDF exportieren'}`}
+              subtitle={`${count.totalCells}/${count.target} Zellen · ${new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(count.createdAt))} · ${isExporting ? 'PDF wird erstellt' : 'PDF exportieren'}`}
               accentColor={theme.area.haema}
+              actionLabel="Export"
               onPress={() => void exportCount(count)}
               disabled={isExporting}
             />
@@ -107,8 +167,20 @@ export default function DifferentialScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    gap: spacing.sm,
+  instrumentBar: {
+    minHeight: 64,
+    borderWidth: 1,
+    borderRadius: 20,
+    padding: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+  },
+  instrumentCopy: {
+    flex: 1,
+    minWidth: 0,
+    gap: spacing.xxs,
   },
   metrics: {
     flexDirection: 'row',

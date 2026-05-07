@@ -16,16 +16,21 @@ export function TimerRow({ timer }: { timer: ActiveTimer }) {
       accessibilityRole="button"
       accessibilityLabel={`${timer.name}, ${formatDuration(remaining)} verbleibend`}
       onPress={() => router.push(`/(tabs)/timer/${timer.id}`)}
-      style={({ pressed }) => [
-        styles.row,
-        {
-          backgroundColor: pressed ? theme.backgroundElev : theme.card,
-          borderColor: theme.border,
-          borderTopColor: theme.area[timer.bereich],
-        },
-      ]}>
+      focusable
+      style={(state) => {
+        const focused = 'focused' in state && Boolean(state.focused);
+
+        return [
+          styles.row,
+          {
+            backgroundColor: state.pressed ? theme.backgroundElev : theme.card,
+            borderColor: focused ? theme.focus : theme.border,
+          },
+          focused && styles.focused,
+        ];
+      }}>
       <View style={styles.copy}>
-        <AppText variant="caption" muted>
+        <AppText variant="caption" style={{ color: theme.area[timer.bereich] }}>
           {areaLabels[timer.bereich]}
         </AppText>
         <AppText variant="bodyEmph" numberOfLines={2}>{timer.name}</AppText>
@@ -39,7 +44,6 @@ const styles = StyleSheet.create({
   row: {
     minHeight: 84,
     borderWidth: 1,
-    borderTopWidth: 4,
     borderRadius: radius.md,
     padding: spacing.md,
     flexDirection: 'row',
@@ -50,5 +54,8 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 0,
     gap: spacing.xxs,
+  },
+  focused: {
+    borderWidth: 2,
   },
 });

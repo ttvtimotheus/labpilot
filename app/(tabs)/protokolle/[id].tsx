@@ -41,6 +41,7 @@ export default function ProtokollDetailScreen() {
             key={step.id}
             title={`${step.order}. ${step.name}`}
             subtitle={step.durationSeconds ? `${formatDuration(step.durationSeconds)} · ${step.instructions}` : step.instructions}
+            accessibilityLabel={`${step.order}. ${step.name}`}
           />
         ))}
       </Section>

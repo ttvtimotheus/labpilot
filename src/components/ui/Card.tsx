@@ -18,9 +18,7 @@ export function Card({ bereich, elevated, style, ...props }: CardProps) {
         styles.card,
         {
           backgroundColor: theme.card,
-          borderColor: theme.border,
-          borderLeftColor: bereich ? theme.area[bereich] : theme.border,
-          borderLeftWidth: bereich ? 4 : 1,
+          borderColor: bereich ? theme.area[bereich] : theme.border,
         },
         elevated && styles.elevated,
         style,

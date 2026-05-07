@@ -1,22 +1,108 @@
 import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { TimerRow } from '@/src/components/domain/TimerRow';
 import { Screen } from '@/src/components/layout/Screen';
 import { ScreenHeader } from '@/src/components/layout/ScreenHeader';
-import { Section } from '@/src/components/layout/Section';
-import { ActionTile } from '@/src/components/ui/ActionTile';
+import { AppIcon } from '@/src/components/ui/AppIcon';
+import { AppText } from '@/src/components/ui/AppText';
 import { Button } from '@/src/components/ui/Button';
-import { EmptyState } from '@/src/components/ui/EmptyState';
 import { NoticeBanner } from '@/src/components/ui/NoticeBanner';
-import { ResourceRow } from '@/src/components/ui/ResourceRow';
 import { StatusChip } from '@/src/components/ui/StatusChip';
 import { protokolle } from '@/src/features/protokolle/data';
 import { useTimerStore } from '@/src/features/timer/store';
 import { useNow } from '@/src/hooks/useNow';
 import { useAuth } from '@/src/lib/auth/AuthProvider';
-import { areaLabels, spacing, useAppTheme } from '@/src/lib/theme/tokens';
+import { areaLabels, radius, spacing, useAppTheme } from '@/src/lib/theme/tokens';
 import { formatDuration } from '@/src/lib/utils/time';
+
+type IconName = React.ComponentProps<typeof AppIcon>['name'];
+
+interface CommandButtonProps {
+  icon: IconName;
+  title: string;
+  subtitle: string;
+  accentColor: string;
+  onPress: () => void;
+}
+
+function CommandButton({ icon, title, subtitle, accentColor, onPress }: CommandButtonProps) {
+  const theme = useAppTheme();
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      focusable
+      onPress={onPress}
+      style={(state) => {
+        const focused = 'focused' in state && Boolean(state.focused);
+
+        return [
+          styles.commandButton,
+          {
+            backgroundColor: state.pressed ? theme.backgroundSunk : theme.card,
+            borderColor: focused ? theme.focus : theme.border,
+          },
+          focused && styles.focused,
+        ];
+      }}>
+      <View style={[styles.commandIcon, { backgroundColor: theme.backgroundElev, borderColor: accentColor }]}> 
+        <AppIcon name={icon} size={19} color={accentColor} />
+      </View>
+      <View style={styles.commandCopy}>
+        <AppText variant="bodyEmph" numberOfLines={1}>{title}</AppText>
+        <AppText variant="caption" muted numberOfLines={1}>{subtitle}</AppText>
+      </View>
+    </Pressable>
+  );
+}
+
+interface LibraryCellProps {
+  icon: IconName;
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  accentColor: string;
+  actionLabel: string;
+  onPress: () => void;
+}
+
+function LibraryCell({ icon, eyebrow, title, subtitle, accentColor, actionLabel, onPress }: LibraryCellProps) {
+  const theme = useAppTheme();
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      focusable
+      onPress={onPress}
+      style={(state) => {
+        const focused = 'focused' in state && Boolean(state.focused);
+
+        return [
+          styles.libraryCell,
+          {
+            backgroundColor: state.pressed ? theme.backgroundSunk : theme.card,
+            borderColor: focused ? theme.focus : theme.border,
+          },
+          focused && styles.focused,
+        ];
+      }}>
+      <View style={styles.libraryTopRow}>
+        <View style={[styles.libraryIcon, { backgroundColor: theme.backgroundElev, borderColor: accentColor }]}> 
+          <AppIcon name={icon} size={18} color={accentColor} />
+        </View>
+        <AppText variant="caption" style={{ color: accentColor }} numberOfLines={1}>{actionLabel}</AppText>
+      </View>
+      <View style={styles.libraryCopy}>
+        <AppText variant="caption" muted numberOfLines={1}>{eyebrow}</AppText>
+        <AppText variant="bodyEmph" numberOfLines={2}>{title}</AppText>
+        <AppText variant="footnote" muted numberOfLines={2}>{subtitle}</AppText>
+      </View>
+    </Pressable>
+  );
+}
 
 export default function HomeScreen() {
   useNow();
@@ -31,8 +117,8 @@ export default function HomeScreen() {
     <Screen>
       <ScreenHeader
         eyebrow="LabPilot"
-        title="Laborarbeitsplatz"
-        description="Timer, Protokolle und Referenzwissen in einer klaren Arbeitsoberflaeche fuer Routine, Lehre und Nachschlagen."
+        title="Arbeitsplatz"
+        description="Schneller Zugriff auf Timer, Zaehler, Protokolle und Referenzen."
         action={<Button label="Einstellungen" icon="settings" variant="secondary" onPress={() => router.push('/settings')} />}
         chips={
           <>
@@ -59,62 +145,238 @@ export default function HomeScreen() {
         />
       ) : null}
 
-      <Section title="Direkt einsteigen" description="Die vier wichtigsten Wege fuer die naechste Handlung.">
-        <View style={styles.actionGrid}>
-          <ActionTile style={styles.actionTile} icon="timer" title="Timer" subtitle="Zeitfenster starten und aktiv begleiten" accentColor={theme.area.mibi} onPress={() => router.push('/(tabs)/timer')} />
-          <ActionTile style={styles.actionTile} icon="assignment" title="Protokolle" subtitle="Standardablaeufe aufrufen und dokumentieren" accentColor={theme.area.histo} onPress={() => router.push('/(tabs)/protokolle')} />
-          <ActionTile style={styles.actionTile} icon="menu-book" title="Wissen" subtitle="Referenzen, Themen und Rechner oeffnen" accentColor={theme.area.learn} onPress={() => router.push('/(tabs)/wissen')} />
-          <ActionTile style={styles.actionTile} icon="calculate" title="Zaehler" subtitle="Kolonien und Differentiale erfassen" accentColor={theme.area.haema} onPress={() => router.push('/(tabs)/zaehler')} />
+      <View style={styles.commandGrid}>
+        <CommandButton icon="timer" title="Timer" subtitle="Starten" accentColor={theme.area.mibi} onPress={() => router.push('/(tabs)/timer')} />
+        <CommandButton icon="calculate" title="Zaehler" subtitle="Erfassen" accentColor={theme.area.haema} onPress={() => router.push('/(tabs)/zaehler')} />
+        <CommandButton icon="assignment" title="Protokolle" subtitle="Ablauf" accentColor={theme.area.histo} onPress={() => router.push('/(tabs)/protokolle')} />
+        <CommandButton icon="menu-book" title="Wissen" subtitle="Referenz" accentColor={theme.area.learn} onPress={() => router.push('/(tabs)/wissen')} />
+      </View>
+
+      <View style={[styles.workbench, { backgroundColor: theme.backgroundElev, borderColor: theme.border }]}> 
+        <View style={styles.workbenchHeader}>
+          <View style={styles.workbenchTitleBlock}>
+            <AppText variant="caption" muted>Jetzt</AppText>
+            <AppText variant="h2">Fokus & Schnellstart</AppText>
+          </View>
+          <StatusChip label={activeTimers.length ? `${activeTimers.length} aktiv` : 'Bereit'} tone={activeTimers.length ? 'success' : 'neutral'} icon={activeTimers.length ? 'timer' : 'check-circle'} />
         </View>
-      </Section>
 
-      <Section title="Aktueller Fokus" description="Laufende Arbeit erscheint hier zuerst, bevor du in die Bibliotheken gehst.">
-        {activeTimers.length ? (
-          activeTimers.map((timer) => <TimerRow key={timer.id} timer={timer} />)
-        ) : (
-          <EmptyState icon="timer" title="Kein Timer aktiv" description="Starte einen Zeitabschnitt oder nimm eine Standardvorlage direkt aus der Bibliothek unten." />
-        )}
-      </Section>
+        <View style={styles.workbenchBody}>
+          <View style={styles.focusPane}>
+            {activeTimers.length ? (
+              activeTimers.slice(0, 2).map((timer) => <TimerRow key={timer.id} timer={timer} />)
+            ) : (
+              <View style={[styles.noFocusPane, { backgroundColor: theme.card, borderColor: theme.border }]}> 
+                <AppIcon name="timer" size={22} color={theme.area.mibi} />
+                <View style={styles.noFocusCopy}>
+                  <AppText variant="bodyEmph">Kein Timer aktiv</AppText>
+                  <AppText variant="footnote" muted>Direkt starten oder Arbeitsbereich oeffnen.</AppText>
+                </View>
+              </View>
+            )}
+          </View>
 
-      <Section title="Standardbibliothek" description="Integrierte Startpunkte statt Demo-Daten: Vorlagen, Abläufe und Nachschlagepfade.">
-        {quickTemplate ? (
-          <ResourceRow
-            icon="timer"
-            eyebrow="Timerbibliothek"
-            title={quickTemplate.name}
-            subtitle={`${areaLabels[quickTemplate.bereich]} · ${formatDuration(quickTemplate.durationSeconds)} · Standardvorlage fuer den Schnellstart`}
-            accentColor={theme.area[quickTemplate.bereich]}
-            onPress={() => startTimer(quickTemplate)}
+          {quickTemplate ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={`${quickTemplate.name} starten`}
+              focusable
+              onPress={() => startTimer(quickTemplate)}
+              style={(state) => {
+                const focused = 'focused' in state && Boolean(state.focused);
+
+                return [
+                  styles.quickStart,
+                  {
+                    backgroundColor: state.pressed ? theme.backgroundSunk : theme.card,
+                    borderColor: focused ? theme.focus : theme.border,
+                  },
+                  focused && styles.focused,
+                ];
+              }}>
+              <AppText variant="caption" style={{ color: theme.area[quickTemplate.bereich] }}>Schnellstart</AppText>
+              <AppText variant="h3" numberOfLines={2}>{quickTemplate.name}</AppText>
+              <AppText variant="mono">{formatDuration(quickTemplate.durationSeconds)}</AppText>
+              <AppText variant="footnote" muted numberOfLines={1}>{areaLabels[quickTemplate.bereich]}</AppText>
+            </Pressable>
+          ) : null}
+        </View>
+      </View>
+
+      <View style={styles.libraryBand}>
+        <View style={styles.libraryHeader}>
+          <View style={styles.libraryTitleBlock}>
+            <AppText variant="caption" muted>Bibliothek</AppText>
+            <AppText variant="h3">Standardpfade</AppText>
+          </View>
+          <AppText variant="footnote" muted>{protokolle.length} Protokolle</AppText>
+        </View>
+        <View style={styles.libraryGrid}>
+          <LibraryCell
+            icon="assignment"
+            eyebrow="Protokolle"
+            title="Standardablaeufe"
+            subtitle={`${protokolle.length} integrierte Laborwege`}
+            accentColor={theme.area.histo}
+            actionLabel="Oeffnen"
+            onPress={() => router.push('/(tabs)/protokolle')}
           />
-        ) : null}
-        <ResourceRow
-          icon="assignment"
-          eyebrow="Protokolle"
-          title="Standardablaeufe"
-          subtitle={`${protokolle.length} integrierte Ablaufe fuer wiederkehrende Laborwege`}
-          accentColor={theme.area.histo}
-          onPress={() => router.push('/(tabs)/protokolle')}
-        />
-        <ResourceRow
-          icon="menu-book"
-          eyebrow="Wissensbibliothek"
-          title="Referenzen und Themen"
-          subtitle="Kompakte Fachinhalte, Nachschlagewerte und Rechner fuer den Arbeitsplatz"
-          accentColor={theme.area.learn}
-          onPress={() => router.push('/(tabs)/wissen')}
-        />
-      </Section>
+          <LibraryCell
+            icon="menu-book"
+            eyebrow="Wissen"
+            title="Referenzen"
+            subtitle="Werte, Medien, Rechner"
+            accentColor={theme.area.learn}
+            actionLabel="Oeffnen"
+            onPress={() => router.push('/(tabs)/wissen')}
+          />
+          <LibraryCell
+            icon="science"
+            eyebrow="Zaehler"
+            title="Kolonien"
+            subtitle="CFU/ml und Kategorien"
+            accentColor={theme.area.mibi}
+            actionLabel="Zaehlen"
+            onPress={() => router.push('/(tabs)/zaehler/kolonien')}
+          />
+        </View>
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  actionGrid: {
+  commandGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    gap: spacing.xs,
+  },
+  commandButton: {
+    flexBasis: '48.8%',
+    minHeight: 58,
+    borderWidth: 1,
+    borderRadius: radius.md,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+  },
+  commandIcon: {
+    width: 34,
+    height: 34,
+    borderRadius: radius.full,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  commandCopy: {
+    flex: 1,
+    minWidth: 0,
+    gap: 1,
+  },
+  workbench: {
+    borderWidth: 1,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    gap: spacing.md,
+  },
+  workbenchHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+  },
+  workbenchTitleBlock: {
+    flex: 1,
+    minWidth: 0,
+    gap: spacing.xxs,
+  },
+  workbenchBody: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    gap: spacing.sm,
+    flexWrap: 'wrap',
+  },
+  focusPane: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: '58%',
+    gap: spacing.sm,
+    minWidth: 168,
+  },
+  noFocusPane: {
+    minHeight: 116,
+    borderWidth: 1,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    justifyContent: 'space-between',
     gap: spacing.sm,
   },
-  actionTile: {
-    flexBasis: '48%',
+  noFocusCopy: {
+    gap: spacing.xxs,
+  },
+  quickStart: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: '36%',
+    minWidth: 128,
+    minHeight: 116,
+    borderWidth: 1,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    justifyContent: 'space-between',
+    gap: spacing.xs,
+  },
+  libraryBand: {
+    gap: spacing.sm,
+  },
+  libraryHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+  },
+  libraryTitleBlock: {
+    flex: 1,
+    minWidth: 0,
+    gap: spacing.xxs,
+  },
+  libraryGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+  },
+  libraryCell: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: '31%',
+    minWidth: 100,
+    minHeight: 122,
+    borderWidth: 1,
+    borderRadius: radius.md,
+    padding: spacing.sm,
+    justifyContent: 'space-between',
+    gap: spacing.xs,
+  },
+  libraryTopRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.xs,
+  },
+  libraryIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: radius.full,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  libraryCopy: {
+    gap: spacing.xxs,
+  },
+  focused: {
+    borderWidth: 2,
   },
 });

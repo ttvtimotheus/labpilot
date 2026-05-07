@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import { calculateCfu } from '@/src/features/zaehler/cfu';
+import { createKolonieCountSnapshot } from '@/src/features/zaehler/snapshots';
 import { zustandStorage } from '@/src/lib/storage/zustand';
 import { decrementCountById, incrementCountById, mergeById, prependLimited } from '@/src/lib/utils/collections';
-import { createKolonieCountSnapshot } from '@/src/features/zaehler/snapshots';
 import type { KolonieCategory, KolonieCountSnapshot } from '@/src/types/domain';
-import { calculateCfu } from '@/src/features/zaehler/cfu';
 
 export { calculateCfu };
 
@@ -28,6 +28,7 @@ interface KolonieStore {
   removeSavedCount: (id: string) => void;
   clearSavedCounts: () => void;
   reset: () => void;
+  restoreCategories: (categories: KolonieCategory[]) => void;
   setDilutionFactor: (value: number) => void;
   setPlatedVolumeMl: (value: number) => void;
   hydrateSavedCounts: (counts: KolonieCountSnapshot[]) => void;
@@ -60,6 +61,7 @@ export const useKolonieStore = create<KolonieStore>()(
       removeSavedCount: (id) => set((state) => ({ savedCounts: state.savedCounts.filter((count) => count.id !== id) })),
       clearSavedCounts: () => set({ savedCounts: [] }),
       reset: () => set({ categories: defaultKolonieCategories }),
+      restoreCategories: (categories) => set({ categories }),
       setDilutionFactor: (value) => set({ dilutionFactor: Math.max(1, value) }),
       setPlatedVolumeMl: (value) => set({ platedVolumeMl: Math.max(0.01, value) }),
       hydrateSavedCounts: (counts) => set((state) => ({ savedCounts: mergeById(counts, state.savedCounts, 100) })),

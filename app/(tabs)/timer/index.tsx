@@ -55,6 +55,7 @@ export default function TimerScreen() {
               title={template.name}
               subtitle={`${areaLabels[template.bereich]} · ${formatDuration(template.durationSeconds)}`}
               accentColor={theme.area[template.bereich]}
+              actionLabel="Starten"
               onPress={() => startTimer(template)}
             />
           ))}
@@ -70,6 +71,7 @@ export default function TimerScreen() {
             title={template.name}
             subtitle={`${formatDuration(template.durationSeconds)} · ${template.description ?? 'Standardvorlage fuer die Routine'}`}
             accentColor={theme.area[template.bereich]}
+            actionLabel="Starten"
             onPress={() => startTimer(template)}
           />
         ))}

@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import { createDifferentialCountSnapshot } from '@/src/features/zaehler/snapshots';
 import { zustandStorage } from '@/src/lib/storage/zustand';
 import { decrementCountById, incrementCountById, mergeById, prependLimited, sumCounts } from '@/src/lib/utils/collections';
-import { createDifferentialCountSnapshot } from '@/src/features/zaehler/snapshots';
 import type { DifferentialCell, DifferentialCountSnapshot } from '@/src/types/domain';
 
 export const defaultDifferentialCells: DifferentialCell[] = [
@@ -26,6 +26,7 @@ interface DifferentialStore {
   removeSavedCount: (id: string) => void;
   clearSavedCounts: () => void;
   reset: () => void;
+  restoreCells: (cells: DifferentialCell[]) => void;
   setTarget: (target: number) => void;
   hydrateSavedCounts: (counts: DifferentialCountSnapshot[]) => void;
 }
@@ -60,6 +61,7 @@ export const useDifferentialStore = create<DifferentialStore>()(
       removeSavedCount: (id) => set((state) => ({ savedCounts: state.savedCounts.filter((count) => count.id !== id) })),
       clearSavedCounts: () => set({ savedCounts: [] }),
       reset: () => set({ cells: defaultDifferentialCells }),
+      restoreCells: (cells) => set({ cells }),
       setTarget: (target) => set({ target: Math.max(20, target) }),
       hydrateSavedCounts: (counts) => set((state) => ({ savedCounts: mergeById(counts, state.savedCounts, 100) })),
     }),

@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-06T20:05:16Z",
+  "title": "Design System: LabPilot",
+  "extensions": {
+    "colorMeta": {
+      "background": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "#F4F1EA",
+        "tonalRamp": ["#211D17", "#383228", "#5A5143", "#827768", "#AEA394", "#D1C8BA", "#E7E0D6", "#F4F1EA"]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Reference Sheet",
+        "canonical": "#FFFDF8",
+        "tonalRamp": ["#242019", "#413A2F", "#675F51", "#928878", "#BEB4A4", "#DED6CA", "#FBF8F2", "#FFFDF8"]
+      },
+      "foreground": {
+        "role": "primary",
+        "displayName": "Lab Ink",
+        "canonical": "#18222B",
+        "tonalRamp": ["#101820", "#18222B", "#2B3A47", "#425362", "#657684", "#96A2AB", "#CAD0D5", "#F5F7F8"]
+      },
+      "info": {
+        "role": "primary",
+        "displayName": "Reference Blue",
+        "canonical": "#275D94",
+        "tonalRamp": ["#101B2A", "#183454", "#275D94", "#3E78B3", "#6A9BCB", "#9ABEE0", "#CFE0F0", "#EFF6FB"]
+      },
+      "area-mibi": {
+        "role": "secondary",
+        "displayName": "Microbiology Teal",
+        "canonical": "#2F7A6A",
+        "tonalRamp": ["#10211D", "#1D4139", "#2F7A6A", "#499685", "#76B6A8", "#A9D5CB", "#D4ECE7", "#F0FAF7"]
+      },
+      "area-haema": {
+        "role": "secondary",
+        "displayName": "Hematology Rose",
+        "canonical": "#B44858",
+        "tonalRamp": ["#2B1116", "#57212A", "#873642", "#B44858", "#CF7580", "#E5A8AF", "#F3D4D8", "#FBF0F1"]
+      },
+      "area-learn": {
+        "role": "secondary",
+        "displayName": "Learning Amber",
+        "canonical": "#AD6E24",
+        "tonalRamp": ["#26180A", "#52320F", "#7D4F18", "#AD6E24", "#C88E4B", "#E0B987", "#F0DCC0", "#FBF4EA"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Open screen titles and major task surfaces." },
+      "headline": { "displayName": "Headline", "purpose": "Secondary large headers and older h1 surfaces." },
+      "title": { "displayName": "Title", "purpose": "Detail sections and substantial grouped content." },
+      "body": { "displayName": "Body", "purpose": "Primary explanatory copy, labels, and readable content." },
+      "label": { "displayName": "Label", "purpose": "Eyebrows, chips, numeric labels, and compact metadata." },
+      "mono": { "displayName": "Mono", "purpose": "Timer values, counters, and calculated numeric display panels." }
+    },
+    "shadows": [
+      {
+        "name": "ambient-low",
+        "value": "shadowColor: #121A22; shadowOpacity: 0.06; shadowRadius: 18; shadowOffset: 0 8; elevation: 2",
+        "purpose": "Rare elevated cards only."
+      },
+      {
+        "name": "native-tab-separation",
+        "value": "shadowColor: #C7BDAE",
+        "purpose": "Persistent navigation separation, especially for iOS native tabs."
+      }
+    ],
+    "motion": [
+      {
+        "name": "press-scale",
+        "value": "scale(0.98)",
+        "purpose": "Immediate tactile response for Pressable controls."
+      },
+      {
+        "name": "press-tonal-shift",
+        "value": "background shifts to #E7E0D6 or #FBF8F2",
+        "purpose": "Show action without decorative animation."
+      }
+    ],
+    "breakpoints": [
+      { "name": "compact-mobile", "value": "320px" },
+      { "name": "two-column-action-grid", "value": "48% flexible tiles" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary action button with Lab Ink surface and direct press response.",
+      "html": "<button class=\"ds-btn-primary\">Starten</button>",
+      "css": ".ds-btn-primary { min-height: 46px; border: 1px solid #18222B; border-radius: 14px; padding: 12px 16px; background: #18222B; color: #FFFDF8; font-family: Inter, system-ui, sans-serif; font-size: 16px; font-weight: 500; line-height: 22px; } .ds-btn-primary:hover { background: #275D94; border-color: #275D94; } .ds-btn-primary:active { transform: scale(0.98); } .ds-btn-primary:focus-visible { outline: 3px solid #275D94; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary action button for settings, alternate paths, and non-primary commands.",
+      "html": "<button class=\"ds-btn-secondary\">Einstellungen</button>",
+      "css": ".ds-btn-secondary { min-height: 46px; border: 1px solid #C7BDAE; border-radius: 14px; padding: 12px 16px; background: #FFFDF8; color: #18222B; font-family: Inter, system-ui, sans-serif; font-size: 16px; font-weight: 500; line-height: 22px; } .ds-btn-secondary:hover { background: #FBF8F2; } .ds-btn-secondary:active { transform: scale(0.98); } .ds-btn-secondary:focus-visible { outline: 3px solid #275D94; outline-offset: 2px; }"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "refersTo": "status-chip",
+      "description": "Compact state label for local, sync, readiness, and area metadata.",
+      "html": "<span class=\"ds-status-chip\">Bereit</span>",
+      "css": ".ds-status-chip { min-height: 28px; display: inline-flex; align-items: center; border: 1px solid #7B8790; border-radius: 999px; padding: 0 12px; background: #FBF8F2; color: #56616C; font-family: Inter, system-ui, sans-serif; font-size: 12px; font-weight: 500; line-height: 17px; }"
+    },
+    {
+      "name": "Action Tile",
+      "kind": "custom",
+      "refersTo": "action-tile",
+      "description": "Tactile tile for common app actions and standard timer starts.",
+      "html": "<button class=\"ds-action-tile\"><span class=\"ds-action-icon\">T</span><strong>Timer</strong><small>Zeitfenster starten</small></button>",
+      "css": ".ds-action-tile { min-width: 132px; min-height: 128px; border: 1px solid #C7BDAE; border-top: 4px solid #2F7A6A; border-radius: 14px; padding: 16px; display: grid; gap: 12px; text-align: left; background: #FFFDF8; color: #18222B; font-family: Inter, system-ui, sans-serif; } .ds-action-tile:hover { background: #FBF8F2; } .ds-action-tile:active { background: #E7E0D6; } .ds-action-tile:focus-visible { outline: 3px solid #275D94; outline-offset: 2px; } .ds-action-icon { width: 42px; height: 42px; border: 1px solid #2F7A6A; border-radius: 999px; display: inline-grid; place-items: center; color: #2F7A6A; background: #FBF8F2; } .ds-action-tile strong { font-size: 16px; line-height: 22px; } .ds-action-tile small { color: #56616C; font-size: 12px; line-height: 17px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "text-field",
+      "description": "Visible-label text input for names, dilution factors, and structured local data.",
+      "html": "<label class=\"ds-field\"><span>Name / Platte</span><input value=\"Urin CLED 10^-3\" /></label>",
+      "css": ".ds-field { display: grid; gap: 8px; color: #18222B; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 19px; } .ds-field input { min-height: 48px; border: 1px solid #C7BDAE; border-radius: 14px; padding: 12px 16px; background: #FBF8F2; color: #18222B; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 22px; } .ds-field input:focus { outline: 3px solid #275D94; outline-offset: 2px; }"
+    },
+    {
+      "name": "Numeric Display",
+      "kind": "custom",
+      "refersTo": "numeric-display",
+      "description": "Instrument readout for timers, colony totals, and calculated values.",
+      "html": "<div class=\"ds-numeric\"><span>Restzeit</span><strong>03:20</strong></div>",
+      "css": ".ds-numeric { min-width: 96px; display: grid; place-items: center; gap: 2px; border: 1px solid #C7BDAE; border-radius: 14px; padding: 12px 16px; background: #FFFDF8; color: #18222B; } .ds-numeric span { color: #56616C; font-family: Inter, system-ui, sans-serif; font-size: 12px; font-weight: 500; line-height: 17px; letter-spacing: 0.7px; text-transform: uppercase; } .ds-numeric strong { font-family: JetBrains Mono, ui-monospace, monospace; font-size: 32px; font-weight: 500; line-height: 38px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Editorial Lab Manual",
+    "overview": "LabPilot should feel like a precise working manual that happens to be interactive: dense enough for real laboratory use, calm enough for beginners, and opinionated enough that users never feel they are assembling their own workspace. The system borrows Apple Health's grouped information density, Linear's professional restraint, and Procreate's willingness to remove chrome when the work surface matters.",
+    "keyCharacteristics": [
+      "Warm paper-like light mode as the default physical scene for training rooms and routine labs.",
+      "Dense but readable screen structure with clear sections and immediate actions.",
+      "Tactile, direct controls with visible labels, large tap targets, and minimal confirmation friction.",
+      "Area color as a reference cue, never as decoration or the only state signal.",
+      "Professional restraint: no hype, no playful reward language, no visible setup scaffolding in primary flows."
+    ],
+    "rules": [
+      { "name": "The Warm Paper Rule", "body": "Keep the app light and paper-like unless a screen's physical scene truly calls for dark mode. Dark mode exists, but it is not the product's personality.", "section": "colors" },
+      { "name": "The Accent-As-Index Rule", "body": "Area colors identify discipline, urgency, or state. They do not decorate repeated card grids, and they must always be paired with labels or icons.", "section": "colors" },
+      { "name": "The One Display Rule", "body": "A screen gets one open display title. Do not add native large titles, hero cards, or competing oversized numbers above it.", "section": "typography" },
+      { "name": "The No Text Wall Rule", "body": "Reference content must be grouped and scannable. Avoid long unbroken paragraphs that make Wissen feel like a PDF viewer.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces rest at the same elevation unless the user is pressing them or the surface is persistent navigation.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use Warm Paper (#F4F1EA), Lifted Paper (#FBF8F2), and Reference Sheet (#FFFDF8) as the dominant light-mode stack.",
+      "Do keep tap targets at least 44px and prefer 46px or larger for working controls.",
+      "Do use JetBrains Mono for timer, count, and calculated readouts.",
+      "Do make counters and active timers feel like instruments, with large targets and minimal chrome.",
+      "Do group dense reference information like Apple Health: readable at a glance, expandable by intent, never overwhelming by default.",
+      "Do pair every color-coded area or state with visible text, iconography, or both.",
+      "Do keep setup, store, sync, and entitlement messages quiet unless the user is in a relevant flow."
+    ],
+    "donts": [
+      "Don't use border-left or border-right greater than 1px as a colored accent on cards, rows, callouts, or alerts. Existing side stripes are debt.",
+      "Don't build generic dashboard pages with interchangeable cards, fake metrics, or decorative stats.",
+      "Don't make LabPilot feel like Notion or Obsidian. It is not a blank canvas or configurable workspace.",
+      "Don't add gamification patterns from MyFitnessPal or Lifesum: no streak badges, confetti, playful rewards, or motivational noise.",
+      "Don't make Wissen feel like Medscape, Amboss, or a PDF viewer. Avoid dense text walls and slow encyclopedia browsing.",
+      "Don't use Material-style FABs, loud ripple choreography, or Android-specific visual compromises.",
+      "Don't expose technical setup language such as missing keys, backend configuration, demo data, or placeholder content in primary product surfaces.",
+      "Don't imply LabPilot is a medical device, diagnostic authority, or replacement for validated laboratory processes."
+    ]
+  }
+}

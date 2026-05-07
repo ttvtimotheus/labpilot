@@ -35,6 +35,7 @@ export default function ZaehlerScreen() {
           title="Mibi-Kolonienzaehler"
           subtitle="Kategorien, Gesamtzahl und CFU/ml Berechnung."
           accentColor={theme.area.mibi}
+          actionLabel="Zaehlen"
           onPress={() => router.push('/(tabs)/zaehler/kolonien')}
         />
         <ResourceRow
@@ -43,6 +44,7 @@ export default function ZaehlerScreen() {
           title="Differentialblutbild"
           subtitle="100-Zellen-Tracking mit Prozentanzeige."
           accentColor={theme.area.haema}
+          actionLabel="Zaehlen"
           onPress={() => router.push('/(tabs)/zaehler/differential')}
         />
       </Section>
@@ -55,6 +57,7 @@ export default function ZaehlerScreen() {
               title={lastKolonie.name ?? 'Kolonienzaehlung'}
               subtitle={`${lastKolonie.totalColonies} Kolonien · ${new Intl.NumberFormat('de-DE').format(lastKolonie.totalCfu)} CFU/ml`}
               accentColor={theme.area.mibi}
+              actionLabel="Oeffnen"
               onPress={() => router.push('/(tabs)/zaehler/kolonien')}
             />
           ) : null}
@@ -65,6 +68,7 @@ export default function ZaehlerScreen() {
               title={lastDifferential.name ?? 'Differentialzaehlung'}
               subtitle={`${lastDifferential.totalCells}/${lastDifferential.target} Zellen gespeichert`}
               accentColor={theme.area.haema}
+              actionLabel="Oeffnen"
               onPress={() => router.push('/(tabs)/zaehler/differential')}
             />
           ) : null}
